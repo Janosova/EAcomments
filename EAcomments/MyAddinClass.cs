@@ -176,6 +176,9 @@ namespace EAcomments
 
         public static void refreshDiagram(Repository Repository)
         {
+            // store and refresh diagram
+            Diagram d = Repository.GetCurrentDiagram();
+            Repository.SaveDiagram(d.DiagramID);
             Repository.RefreshOpenDiagrams(true);
         }
 
@@ -198,12 +201,51 @@ namespace EAcomments
         }
 
         // verify if any element in diagram is selected
-        bool IsElementSelected(EA.Repository Repository)
+        bool IsElementSelected(Repository Repository)
         {
             var diagram = Repository.GetCurrentDiagram();
 
             if (diagram != null && diagram.SelectedObjects.Count == 1) { return true; }
             else { return false; }
+        }
+
+        // notifies user when any item in model was clicked
+        //public void EA_OnNotifyContextItemModified(Repository Repository, string GUID, ObjectType ot)
+        //{
+        //    MessageBox.Show("you have updated" + GUID);
+        //}
+
+        // notifies user when any item in model was changed
+        public void EA_OnNotifyContextItemModified(Repository Repository, string GUID, ObjectType ot)
+        {
+            if (GUID != null) MessageBox.Show("GUID: " + GUID); // len vypise GUID ktore sa zmenilo
+            Element changedElement;
+            switch (ot)
+            {
+                case ObjectType.otDiagramObject: // moj komentar moze byt toto?!?!?
+                    changedElement = Repository.GetElementByGuid(GUID);
+                    MessageBox.Show("You have updated DiagramObject -> " + changedElement.Name);
+                    break;
+
+                case ObjectType.otElement: // aleboby mal byt asi toto?!?!?
+                    changedElement = Repository.GetElementByGuid(GUID);
+                    MessageBox.Show("You have updated Element -> " + changedElement.Name);
+                    break;
+                case ObjectType.otProperty: // toto ak spravne chapem je, ze ak sa zmeni nejaka property
+                    changedElement = Repository.GetElementByGuid(GUID); 
+                    MessageBox.Show("You have updated property");
+                    break;
+                case ObjectType.otProperties: // toto je len pokus, ktory nevysiel :(
+                    changedElement = Repository.GetElementByGuid(GUID);
+                    MessageBox.Show("You have updated PROPERTIES");
+                    break;
+                case ObjectType.otDiagram: // jedine toto funguje ostatne case-y to nechce chytit
+                    Diagram d = Repository.GetDiagramByGuid(GUID);
+                    MessageBox.Show("You have updated Diagram ->" + d.Name);
+                    break;
+
+            }
+           
         }
 
         // disconnects from EA repository and cleans mess

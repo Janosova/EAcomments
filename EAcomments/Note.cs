@@ -11,8 +11,9 @@ namespace EAcomments
     {
         public int ID { get; set; }
         public string GUID { get; set; }
-        public string type { get; set; }
+        public string flag { get; set; }
         public string content { get; set; }
+        public string stereotype { get; set; }
         public string diagramGUID { get; set; }
         public string diagramName { get; set; }
         public string packageGUID { get; set; }
@@ -21,9 +22,10 @@ namespace EAcomments
         public string connectedToGUID { get; set; }
         public int connectorID { get; set; }
 
-        public Note(string content)
+        public Note(string content, string stereotype)
         {
             this.content = content;
+            this.stereotype = stereotype;
         }
 
         public void addNote(Repository Repository)
@@ -35,24 +37,25 @@ namespace EAcomments
 
             // create new node
             Element newNote;
-            newNote = package.Elements.AddNew(this.type, "Note");
+            newNote = package.Elements.AddNew(this.stereotype, "Note");
+            newNote.Stereotype = this.stereotype;
             newNote.Notes = this.content;
-            newNote.SetAppearance(1, 0, 15960070);
             newNote.Update();
 
             // connect node from TreeView with Diagram Element
-            DiagramObject o = diagram.DiagramObjects.AddNew(this.type, "Note");
+            DiagramObject o = diagram.DiagramObjects.AddNew(this.stereotype, "Note");
             o.ElementID = newNote.ElementID;
             o.Update();
 
             // add connector between two Diagram Elements
-            Connector connector = newNote.Connectors.AddNew("", "Note-link");
+            Connector connector = newNote.Connectors.AddNew("", "NoteLink");
             connector.SupplierID = selectedItem.ElementID;
             connector.Update();
 
             // store other information about Note
-            this.ID = o.InstanceID;
-            this.GUID = o.InstanceGUID;
+            this.ID = newNote.ElementID;
+            this.GUID = newNote.ElementGUID;
+            this.flag = this.addFlag(this.stereotype);
             this.diagramGUID = diagram.DiagramGUID;
             this.diagramName = diagram.Name;
             this.packageGUID = package.PackageGUID;
@@ -60,6 +63,29 @@ namespace EAcomments
             this.connectorID = connector.ConnectorID;
             this.connectedToID = selectedItem.ElementID;
             this.connectedToGUID = selectedItem.InstanceGUID;
+        }
+
+        private string addFlag(string type)
+        {
+            string flag = "";
+
+            switch (type)
+            {
+                case "question":
+                    flag = "Q";
+                    break;
+                case "warning":
+                    flag = "W";
+                    break;
+                case "error":
+                    flag = "E";
+                    break;
+                default:
+                    flag = "-";
+                    break;
+            }
+
+            return flag;
         }
     }
 }

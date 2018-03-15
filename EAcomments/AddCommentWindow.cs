@@ -24,14 +24,16 @@ namespace EAcomments
 
         private void btnAddComment_click(object sender, EventArgs e)
         {
-            //get text from textarae and verify it
+            //get text from textarea and verify it
             string content = txtareaCommentText.Text;
+            string stereotype = comboBox1.Text;
+
             if(content != null && content != "")
             {
                 this.Visible = false;
 
                 // create new Note and store it
-                Note note = new Note(content);
+                Note note = new Note(content, stereotype);
                 note.addNote(repository);
 
                 // add new note into the comment browser window
@@ -46,9 +48,9 @@ namespace EAcomments
 
         private void initComboBox()
         {
-            comboBox1.Items.Add("Question");
-            comboBox1.Items.Add("Warning");
-            comboBox1.Items.Add("Error");
+            comboBox1.Items.Add("question");
+            comboBox1.Items.Add("warning");
+            comboBox1.Items.Add("error");
 
             comboBox1.SelectedIndex = 0;
         }

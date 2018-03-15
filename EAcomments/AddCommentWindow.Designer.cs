@@ -67,7 +67,7 @@
             // 
             // comboBox1
             // 
-            this.comboBox1.Enabled = false;
+            this.comboBox1.AllowDrop = true;
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(144, 33);
             this.comboBox1.Name = "comboBox1";
@@ -85,6 +85,7 @@
             // 
             // AddCommentWindow
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(515, 314);
