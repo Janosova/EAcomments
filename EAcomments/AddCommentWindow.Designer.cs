@@ -33,6 +33,7 @@
             this.btnAddComment = new System.Windows.Forms.Button();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.SuspendLayout();
             // 
             // label1
@@ -109,6 +110,6 @@
         private System.Windows.Forms.RichTextBox txtareaCommentText;
         private System.Windows.Forms.Button btnAddComment;
         private System.Windows.Forms.ComboBox comboBox1;
-
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }

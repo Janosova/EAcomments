@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Collections.Generic;
 using EA;
+using Newtonsoft.Json;
+using System.Web.Script.Serialization;
+using System.Xml;
 
 namespace EAcomments
 {
@@ -14,7 +18,8 @@ namespace EAcomments
         const string menuRemoveCommentToElement = "&Remove comment";
 
         const string menuShowCommentWindow = "&Show Comment Browser";
-        const string test2 = "&Text2";
+        const string menuDebugComments = "&DEBUG";
+        const string menuExportComments = "&Export";
 
         // define submenu for treeview location
         const string menuAddCommentToDiagram = "&Add comment to Diagram";
@@ -43,7 +48,7 @@ namespace EAcomments
                     break;
                 case "MainMenu":
                     if (MenuName == menuHeader)
-                        return new string[] { menuShowCommentWindow };
+                        return new string[] { menuShowCommentWindow, menuDebugComments, menuExportComments };
                     break;
                 case "TreeView":
                     if (MenuName == menuHeader)
@@ -58,7 +63,7 @@ namespace EAcomments
         {
             try
             {
-                EA.Collection c = Repository.Models;
+                Collection c = Repository.Models;
                 return true;
             }
             catch
@@ -102,6 +107,12 @@ namespace EAcomments
                     case menuShowCommentWindow:
                         IsEnabled = true;
                         break;
+                    case menuDebugComments:
+                        IsEnabled = true;
+                        break;
+                    case menuExportComments:
+                        IsEnabled = true;
+                        break;
 
                     // if there is any other option, just disable it by default
                     default:
@@ -134,45 +145,15 @@ namespace EAcomments
                 case menuShowCommentWindow:
                     this.showCommentWindow(Repository);
                     break;
+                case menuDebugComments:
+                    this.exportComments(Repository);
+                    break;
+                case menuExportComments:
+                    ExportWindow exportWindow = new ExportWindow();
+                    exportWindow.Show();
+                    break;
             }
         }
-
-/* add comment old method
-        public static void addComment(Repository Repository, string commentText)
-        {
-            // get current Diagram, Package and selected Item
-            Diagram diagram = Repository.GetCurrentDiagram();
-            Package pack = Repository.GetTreeSelectedPackage();
-            DiagramObject selectedItem = diagram.SelectedObjects.GetAt(0);
-
-            // get selected item coordinates
-            int l = selectedItem.left;
-            int b = selectedItem.bottom;
-
-            // create new node
-            Element newNote;
-            newNote = pack.Elements.AddNew("Note type", "Note");
-            newNote.Notes = commentText;
-            newNote.SetAppearance(1, 0, 15960070);
-            newNote.Update();
-
-            // connect node from TreeView with Diagram Element
-            DiagramObject obj = diagram.DiagramObjects.AddNew("Neznamy nazov", "Note");
-            obj.ElementID = newNote.ElementID;
-            obj.Update();
-
-            // add connector between two Diagram Elements
-            Connector connector = newNote.Connectors.AddNew("", "Association");
-            connector.SupplierID = selectedItem.ElementID;
-            connector.Update();
-
-            // add new Comment to commentWindow
-            //uc_commentWindow.ListBox2.Items.Add(new Note(1, commentText));
-
-            // update repository to see changes
-            Repository.RefreshOpenDiagrams(true);
-        }
-*/
 
         public static void refreshDiagram(Repository Repository)
         {
@@ -180,6 +161,49 @@ namespace EAcomments
             Diagram d = Repository.GetCurrentDiagram();
             Repository.SaveDiagram(d.DiagramID);
             Repository.RefreshOpenDiagrams(true);
+        }
+
+        private void exportComments(Repository Repository)
+        {
+            // SQL query gets Collection of Elements with specified stereotype from EA.Model
+            List<Note> notes = new List<Note>();
+
+            Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
+
+            // loop through each element and get all required information about it
+            foreach (Element e in collection)
+            {
+                string e_id = e.ElementID.ToString();
+                string diagramData = Repository.SQLQuery("SELECT t_diagram.name, t_diagram.ea_guid FROM t_diagram, t_diagramobjects WHERE t_diagramobjects.diagram_id = t_diagram.diagram_id AND t_diagramobjects.Object_ID =" + e_id);
+
+                // get diagram Info
+                string diagramName = XMLParser.parseXML("name", diagramData);
+                string diagramGUID = XMLParser.parseXML("ea_guid", diagramData);
+                Diagram parentDiagram = Repository.GetDiagramByGuid(diagramGUID);
+
+                // get parent Info
+                int parentID = parentDiagram.ParentID;
+                Element parentElement = null;
+                string parentElementName = "";
+                string parentElementGUID = "";
+                if(parentID != 0) {
+                    parentElement = Repository.GetElementByID(parentID);
+                    parentElementName = parentElement.Name;
+                    parentElementGUID = parentElement.ElementGUID;
+                }
+
+                // get package Info
+                int packageID = parentDiagram.PackageID;
+                Package package = Repository.GetPackageByID(packageID);
+                string packageName = package.Name;
+                string packageGUID = package.PackageGUID;
+
+                Note note = new Note(e.ElementID, e.ElementGUID, e.Notes, e.Stereotype, diagramGUID, diagramName, parentElementGUID, parentElementName, packageGUID, packageName);
+                notes.Add(note);
+            }
+            string json = JsonConvert.SerializeObject(notes, Newtonsoft.Json.Formatting.Indented);
+
+            System.IO.File.WriteAllText(@"C:\Users\patom\Desktop\path.txt", json);
         }
 
         // shows Comment Window
@@ -216,37 +240,7 @@ namespace EAcomments
         //}
 
         // notifies user when any item in model was changed
-        public void EA_OnNotifyContextItemModified(Repository Repository, string GUID, ObjectType ot)
-        {
-            if (GUID != null) MessageBox.Show("GUID: " + GUID); // len vypise GUID ktore sa zmenilo
-            Element changedElement;
-            switch (ot)
-            {
-                case ObjectType.otDiagramObject: // moj komentar moze byt toto?!?!?
-                    changedElement = Repository.GetElementByGuid(GUID);
-                    MessageBox.Show("You have updated DiagramObject -> " + changedElement.Name);
-                    break;
-
-                case ObjectType.otElement: // aleboby mal byt asi toto?!?!?
-                    changedElement = Repository.GetElementByGuid(GUID);
-                    MessageBox.Show("You have updated Element -> " + changedElement.Name);
-                    break;
-                case ObjectType.otProperty: // toto ak spravne chapem je, ze ak sa zmeni nejaka property
-                    changedElement = Repository.GetElementByGuid(GUID); 
-                    MessageBox.Show("You have updated property");
-                    break;
-                case ObjectType.otProperties: // toto je len pokus, ktory nevysiel :(
-                    changedElement = Repository.GetElementByGuid(GUID);
-                    MessageBox.Show("You have updated PROPERTIES");
-                    break;
-                case ObjectType.otDiagram: // jedine toto funguje ostatne case-y to nechce chytit
-                    Diagram d = Repository.GetDiagramByGuid(GUID);
-                    MessageBox.Show("You have updated Diagram ->" + d.Name);
-                    break;
-
-            }
-           
-        }
+        public void EA_OnNotifyContextItemModified(Repository Repository, string GUID, ObjectType ot){}
 
         // disconnects from EA repository and cleans mess
         public void EA_Disconnect()

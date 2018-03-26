@@ -14,6 +14,8 @@ namespace EAcomments
         public string flag { get; set; }
         public string content { get; set; }
         public string stereotype { get; set; }
+        public string parentGUID { get; set; }
+        public string parentName { get; set; }
         public string diagramGUID { get; set; }
         public string diagramName { get; set; }
         public string packageGUID { get; set; }
@@ -26,6 +28,32 @@ namespace EAcomments
         {
             this.content = content;
             this.stereotype = stereotype;
+        }
+
+        public Note(int ID, string GUID, string flag, string content, string stereotype, string diagramGUID, string diagramName, string packageGUID, string packageName)
+        {
+            this.ID = ID;
+            this.GUID = GUID;
+            this.flag = flag;
+            this.content = content;
+            this.stereotype = stereotype;
+            this.diagramGUID = diagramGUID;
+            this.diagramName = diagramName;
+            this.packageGUID = packageGUID;
+            this.packageName = packageName;
+        }
+        //export
+        public Note(int ID, string GUID, string content, string stereotype, string diagramGUID, string diagramName, string parentGUID, string parentName, string packageGUID, string packageName)
+        {
+            this.ID = ID;
+            this.GUID = GUID;
+            this.flag = flag;
+            this.content = content;
+            this.stereotype = stereotype;
+            this.diagramGUID = diagramGUID;
+            this.diagramName = diagramName;
+            this.packageGUID = packageGUID;
+            this.packageName = packageName;
         }
 
         public void addNote(Repository Repository)
