@@ -13,6 +13,7 @@ namespace EAcomments
 {
     public partial class ExportWindow : Form
     {
+        public string filePath { get; set; }
         public ExportWindow()
         {
             InitializeComponent();
@@ -30,7 +31,15 @@ namespace EAcomments
         {
             if(this.filePathField.Text != "" && this.fileNameField.Text != "")
             {
-                MessageBox.Show(this.filePathField.Text + "/" + this.fileNameField.Text);
+                this.filePath = this.filePathField.Text + ".json";
+
+                //Close Window
+                this.Visible = false;
+                this.Close();
+            }
+            else
+            {
+                MessageBox.Show("Please specify file name and path");
             }
         }
 
@@ -39,6 +48,12 @@ namespace EAcomments
             string fileName = Path.GetFileNameWithoutExtension(saveFileBrowser.FileName);
             this.fileNameField.Text = fileName;
             this.filePathField.Text = saveFileBrowser.FileName;
+        }
+
+        // add eventListener on Window Close
+        private void ExportWindow_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            ExportService.writeFile();
         }
     }
 }

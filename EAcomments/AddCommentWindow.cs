@@ -31,6 +31,7 @@ namespace EAcomments
             if(content != null && content != "")
             {
                 this.Visible = false;
+                this.Close();
 
                 // create new Note and store it
                 Note note = new Note(content, stereotype);
@@ -41,7 +42,6 @@ namespace EAcomments
                 {
                     MyAddinClass.uc_commentBrowser.addItem(note);
                 }
-                
                 MyAddinClass.refreshDiagram(repository);
             }
         }

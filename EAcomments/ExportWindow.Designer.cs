@@ -82,7 +82,7 @@
             // 
             // exportButton
             // 
-            this.exportButton.Location = new System.Drawing.Point(401, 179);
+            this.exportButton.Location = new System.Drawing.Point(401, 144);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(75, 23);
             this.exportButton.TabIndex = 5;
@@ -98,7 +98,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(499, 214);
+            this.ClientSize = new System.Drawing.Size(499, 179);
             this.Controls.Add(this.exportButton);
             this.Controls.Add(this.filePathLabel);
             this.Controls.Add(this.fileNameLabel);
@@ -107,6 +107,7 @@
             this.Controls.Add(this.browseButton);
             this.Name = "ExportWindow";
             this.Text = "ExportWindow";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ExportWindow_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

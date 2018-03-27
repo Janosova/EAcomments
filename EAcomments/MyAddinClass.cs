@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Collections.Generic;
 using EA;
-using Newtonsoft.Json;
-using System.Web.Script.Serialization;
-using System.Xml;
 
 namespace EAcomments
 {
@@ -18,8 +14,8 @@ namespace EAcomments
         const string menuRemoveCommentToElement = "&Remove comment";
 
         const string menuShowCommentWindow = "&Show Comment Browser";
-        const string menuDebugComments = "&DEBUG";
-        const string menuExportComments = "&Export";
+        const string menuImportComments = "&Import Comments";
+        const string menuExportComments = "&Export Comments";
 
         // define submenu for treeview location
         const string menuAddCommentToDiagram = "&Add comment to Diagram";
@@ -48,7 +44,7 @@ namespace EAcomments
                     break;
                 case "MainMenu":
                     if (MenuName == menuHeader)
-                        return new string[] { menuShowCommentWindow, menuDebugComments, menuExportComments };
+                        return new string[] { menuShowCommentWindow, menuImportComments, menuExportComments };
                     break;
                 case "TreeView":
                     if (MenuName == menuHeader)
@@ -107,7 +103,7 @@ namespace EAcomments
                     case menuShowCommentWindow:
                         IsEnabled = true;
                         break;
-                    case menuDebugComments:
+                    case menuImportComments:
                         IsEnabled = true;
                         break;
                     case menuExportComments:
@@ -145,12 +141,11 @@ namespace EAcomments
                 case menuShowCommentWindow:
                     this.showCommentWindow(Repository);
                     break;
-                case menuDebugComments:
-                    this.exportComments(Repository);
+                case menuImportComments:
+                    ImportService.ImportFromJSON();
                     break;
                 case menuExportComments:
-                    ExportWindow exportWindow = new ExportWindow();
-                    exportWindow.Show();
+                    ExportService.exportToJson(Repository);
                     break;
             }
         }
@@ -161,49 +156,6 @@ namespace EAcomments
             Diagram d = Repository.GetCurrentDiagram();
             Repository.SaveDiagram(d.DiagramID);
             Repository.RefreshOpenDiagrams(true);
-        }
-
-        private void exportComments(Repository Repository)
-        {
-            // SQL query gets Collection of Elements with specified stereotype from EA.Model
-            List<Note> notes = new List<Note>();
-
-            Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
-
-            // loop through each element and get all required information about it
-            foreach (Element e in collection)
-            {
-                string e_id = e.ElementID.ToString();
-                string diagramData = Repository.SQLQuery("SELECT t_diagram.name, t_diagram.ea_guid FROM t_diagram, t_diagramobjects WHERE t_diagramobjects.diagram_id = t_diagram.diagram_id AND t_diagramobjects.Object_ID =" + e_id);
-
-                // get diagram Info
-                string diagramName = XMLParser.parseXML("name", diagramData);
-                string diagramGUID = XMLParser.parseXML("ea_guid", diagramData);
-                Diagram parentDiagram = Repository.GetDiagramByGuid(diagramGUID);
-
-                // get parent Info
-                int parentID = parentDiagram.ParentID;
-                Element parentElement = null;
-                string parentElementName = "";
-                string parentElementGUID = "";
-                if(parentID != 0) {
-                    parentElement = Repository.GetElementByID(parentID);
-                    parentElementName = parentElement.Name;
-                    parentElementGUID = parentElement.ElementGUID;
-                }
-
-                // get package Info
-                int packageID = parentDiagram.PackageID;
-                Package package = Repository.GetPackageByID(packageID);
-                string packageName = package.Name;
-                string packageGUID = package.PackageGUID;
-
-                Note note = new Note(e.ElementID, e.ElementGUID, e.Notes, e.Stereotype, diagramGUID, diagramName, parentElementGUID, parentElementName, packageGUID, packageName);
-                notes.Add(note);
-            }
-            string json = JsonConvert.SerializeObject(notes, Newtonsoft.Json.Formatting.Indented);
-
-            System.IO.File.WriteAllText(@"C:\Users\patom\Desktop\path.txt", json);
         }
 
         // shows Comment Window
