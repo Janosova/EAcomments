@@ -142,7 +142,7 @@ namespace EAcomments
                     this.showCommentWindow(Repository);
                     break;
                 case menuImportComments:
-                    ImportService.ImportFromJSON();
+                    ImportService.ImportFromJSON(Repository);
                     break;
                 case menuExportComments:
                     ExportService.exportToJson(Repository);
@@ -150,10 +150,9 @@ namespace EAcomments
             }
         }
 
-        public static void refreshDiagram(Repository Repository)
+        public static void refreshDiagram(Repository Repository, Diagram d)
         {
             // store and refresh diagram
-            Diagram d = Repository.GetCurrentDiagram();
             Repository.SaveDiagram(d.DiagramID);
             Repository.RefreshOpenDiagrams(true);
         }

@@ -9,7 +9,6 @@ C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.AddCommen
 C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.CommentBrowserControl.resources
 C:\Users\patom\source\repos\EAcomments\EAcomments\bin\Debug\Newtonsoft.Json.dll
 C:\Users\patom\source\repos\EAcomments\EAcomments\bin\Debug\Newtonsoft.Json.xml
-C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.csprojResolveAssemblyReference.cache
 C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.csproj.CopyComplete
 C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.ExportWindow.resources
 C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.ImportWindow.resources

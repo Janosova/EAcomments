@@ -27,6 +27,7 @@ namespace EAcomments
                 // get diagram Info
                 string diagramName = XMLParser.parseXML("name", diagramData);
                 string diagramGUID = XMLParser.parseXML("ea_guid", diagramData);
+                MessageBox.Show(e.Notes + " sa nachadza v " + diagramName + " ktory ma " + diagramGUID);
                 Diagram parentDiagram = Repository.GetDiagramByGuid(diagramGUID);
 
                 // get parent Info
