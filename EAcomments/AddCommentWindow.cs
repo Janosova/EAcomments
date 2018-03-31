@@ -18,13 +18,12 @@ namespace EAcomments
         {
             InitializeComponent();
             this.repository = Repository;
-
             this.initComboBox();
         }
 
         private void btnAddComment_click(object sender, EventArgs e)
         {
-            //get text from textarea and verify it
+            //get text from Textarea and verify it
             string content = txtareaCommentText.Text;
             string stereotype = comboBox1.Text;
 
@@ -34,19 +33,19 @@ namespace EAcomments
                 this.Close();
 
                 // create new Note and store it
-                Note note = new Note(content, stereotype);
-                note.addNote(repository);
+                Note note = new Note(stereotype, content, repository);
                 
-                // add new note into the comment browser window
-                if(MyAddinClass.uc_commentBrowser != null)
+                // add new Note into the comment browser window
+                if(CommentBrowserController.uc_commentBrowser != null)
                 {
-                    MyAddinClass.uc_commentBrowser.addItem(note);
+                    CommentBrowserController.uc_commentBrowser.addItem(note);
                 }
                 Diagram diagram = repository.GetCurrentDiagram();
                 MyAddinClass.refreshDiagram(repository, diagram);
             }
         }
 
+        // Initialization of ComboBox in Add Comment Window
         private void initComboBox()
         {
             comboBox1.Items.Add("question");

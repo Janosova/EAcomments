@@ -1,6 +1,6 @@
 ﻿namespace EAcomments
 {
-    partial class CommentBrowserControl
+    partial class CommentBrowserWindow
     {
         /// <summary> 
         /// Required designer variable.
@@ -30,8 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.flag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.flag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gUIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.contentDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.stereotypeDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -69,7 +69,6 @@
             this.connectedToGUIDDataGridViewTextBoxColumn,
             this.connectorIDDataGridViewTextBoxColumn});
             this.dataGridView1.DataSource = this.noteBindingSource;
-            this.dataGridView1.Enabled = false;
             this.dataGridView1.Location = new System.Drawing.Point(3, 3);
             this.dataGridView1.MultiSelect = false;
             this.dataGridView1.Name = "dataGridView1";
@@ -80,14 +79,7 @@
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView1.Size = new System.Drawing.Size(494, 296);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // flag
-            // 
-            this.flag.DataPropertyName = "flag";
-            this.flag.HeaderText = "Type";
-            this.flag.Name = "flag";
-            this.flag.ReadOnly = true;
-            this.flag.Width = 50;
+            this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -96,6 +88,14 @@
             this.iDDataGridViewTextBoxColumn.Name = "iDDataGridViewTextBoxColumn";
             this.iDDataGridViewTextBoxColumn.ReadOnly = true;
             this.iDDataGridViewTextBoxColumn.Visible = false;
+            // 
+            // flag
+            // 
+            this.flag.DataPropertyName = "flag";
+            this.flag.HeaderText = "Type";
+            this.flag.Name = "flag";
+            this.flag.ReadOnly = true;
+            this.flag.Width = 50;
             // 
             // gUIDDataGridViewTextBoxColumn
             // 
@@ -182,11 +182,12 @@
             // 
             this.noteBindingSource.DataSource = typeof(EAcomments.Note);
             // 
-            // CommentBrowserControl
+            // CommentBrowserWindow
             // 
             this.Controls.Add(this.dataGridView1);
-            this.Name = "CommentBrowserControl";
+            this.Name = "CommentBrowserWindow";
             this.Size = new System.Drawing.Size(500, 302);
+            this.VisibleChanged += new System.EventHandler(this.CommentBrowserControl_VisibleChanged);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.noteBindingSource)).EndInit();
             this.ResumeLayout(false);

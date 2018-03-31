@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Windows.Forms;
 using EA;
 using Newtonsoft.Json;
 
@@ -34,10 +36,13 @@ namespace EAcomments
         public string connectedToGUID { get; set; }
         [JsonProperty("connectorID")]
         public int connectorID { get; set; }
+        [JsonProperty("tagValues")]
+        public List<TagValue> tagValues { get; set; }
+
 
         //empty constructor for JSONdeserialization
         public Note() {}
-
+/*
         public Note(string content, string stereotype)
         {
             this.content = content;
@@ -56,38 +61,49 @@ namespace EAcomments
             this.packageGUID = packageGUID;
             this.packageName = packageName;
         }
-
-        // Constructor used for Export 
-        public Note(int ID, string GUID, string content, string stereotype, string diagramGUID, string diagramName, string parentGUID, string parentName, string packageGUID, string packageName, int connectorID, int connectedToID, string connectedToGUID)
+*/
+        // default Note contstructor used by creating new Note in diagram
+        public Note(string stereotype, string content, Repository Repository)
         {
-            this.ID = ID;
-            this.GUID = GUID;
+
             this.content = content;
             this.stereotype = stereotype;
-            this.parentGUID = parentGUID;
-            this.parentName = parentName;
-            this.diagramGUID = diagramGUID;
-            this.diagramName = diagramName;
-            this.packageGUID = packageGUID;
-            this.packageName = packageName;
-            this.connectorID = connectorID;
-            this.connectedToID = connectedToID;
-            this.connectedToGUID = connectedToGUID;
-            this.flag = addFlag(this.stereotype);
-        }
 
-        public void addNote(Repository Repository)
-        {
             // get current Diagram, Package and selected Item
             Diagram diagram = Repository.GetCurrentDiagram();
             Package package = Repository.GetTreeSelectedPackage();
             DiagramObject selectedItem = diagram.SelectedObjects.GetAt(0);
 
-            // create new node
+            // create new Note
             Element newNote;
             newNote = package.Elements.AddNew(this.stereotype, "Note");
             newNote.Stereotype = this.stereotype;
             newNote.Notes = this.content;
+            newNote.Update();
+
+            // set new Note Tagged values
+            this.tagValues = new List<TagValue>();
+            if (newNote.Stereotype == "question")
+            {
+                foreach (TaggedValue taggedValue in newNote.TaggedValues)
+                {
+                    switch (taggedValue.Name)
+                    {
+                        default:
+                            break;
+                        case "origin":
+                            taggedValue.Value = newNote.ElementGUID;
+                            break;
+                        case "state":
+                            taggedValue.Value = "unresolved";
+                            break;
+                    }
+                    TagValue tv = new TagValue(taggedValue.Name, taggedValue.Value);
+                    this.tagValues.Add(tv);
+                    MessageBox.Show("Vytvoril s taggedValue " + taggedValue.Name + " s hodnotou " + taggedValue.Value);
+                    taggedValue.Update();
+                }
+            }
             newNote.Update();
 
             // connect node from TreeView with Diagram Element
@@ -111,6 +127,79 @@ namespace EAcomments
             this.connectorID = connector.ConnectorID;
             this.connectedToID = selectedItem.ElementID;
             this.connectedToGUID = selectedItem.InstanceGUID;
+        }
+
+        // Note constructor used by exporting
+        public Note(Element e, Repository Repository)
+        {
+            // SQL query gets Collection of Elements with specified stereotype from EA.Model
+            string e_id = e.ElementID.ToString();
+            string diagramData = Repository.SQLQuery("SELECT t_diagram.name, t_diagram.ea_guid FROM t_diagram, t_diagramobjects WHERE t_diagramobjects.diagram_id = t_diagram.diagram_id AND t_diagramobjects.Object_ID =" + e_id);
+            
+            // get diagram Info
+            string diagramName = XMLParser.parseXML("name", diagramData);
+            string diagramGUID = XMLParser.parseXML("ea_guid", diagramData);
+            Diagram parentDiagram = null;
+            parentDiagram = Repository.GetDiagramByGuid(diagramGUID);
+
+            // get parent Info
+            int parentID = parentDiagram.ParentID;
+            Element parentElement = null;
+            string parentElementName = "";
+            string parentElementGUID = "";
+            if (parentID != 0)
+            {
+                parentElement = Repository.GetElementByID(parentID);
+                parentElementName = parentElement.Name;
+                parentElementGUID = parentElement.ElementGUID;
+            }
+
+            // get package Info
+            int packageID = parentDiagram.PackageID;
+            Package package = Repository.GetPackageByID(packageID);
+            string packageName = package.Name;
+            string packageGUID = package.PackageGUID;
+
+            // get connector Info
+            int connectorID = 0;
+            int supplierID = 0;
+            Element connectedElement = null;
+            int connectedToID = 0;
+            string connectedToGUID = null;
+            Collection connectors = e.Connectors;
+            foreach (Connector c in connectors)
+            {
+                // get Info about Connector element to note
+                connectorID = c.ConnectorID;
+                supplierID = c.SupplierID;
+                connectedElement = Repository.GetElementByID(supplierID);
+                connectedElement = Repository.GetElementByID(supplierID);
+                connectedToID = connectedElement.ElementID;
+                connectedToGUID = connectedElement.ElementGUID;
+            }
+
+            this.tagValues = new List<TagValue>();
+
+            foreach (TaggedValue taggedValue in e.TaggedValues)
+            {
+                TagValue tv = new TagValue(taggedValue.Name, taggedValue.Value);
+                this.tagValues.Add(tv);
+            }
+
+            this.ID = e.ElementID;
+            this.GUID = e.ElementGUID;
+            this.content = e.Notes;
+            this.stereotype = e.Stereotype;
+            this.parentGUID = parentElementGUID;
+            this.parentName = parentElementName;
+            this.diagramGUID = diagramGUID;
+            this.diagramName = diagramName;
+            this.packageGUID = packageGUID;
+            this.packageName = packageName;
+            this.connectorID = connectorID;
+            this.connectedToID = connectedToID;
+            this.connectedToGUID = connectedToGUID;
+            this.flag = addFlag(this.stereotype);
         }
 
         private string addFlag(string type)

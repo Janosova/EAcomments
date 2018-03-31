@@ -20,9 +20,6 @@ namespace EAcomments
         // define submenu for treeview location
         const string menuAddCommentToDiagram = "&Add comment to Diagram";
 
-        // controls
-        public static CommentBrowserControl uc_commentBrowser;
-
         // connects to EA repository each time EA opens
         public String EA_Connect(EA.Repository Repository)
         {
@@ -53,7 +50,7 @@ namespace EAcomments
             }
             return string.Empty;
         }
-        
+
         // verify if EA model is opened
         bool IsProjectOpen(EA.Repository Repository)
         {
@@ -139,7 +136,7 @@ namespace EAcomments
 
                 // Main menu options
                 case menuShowCommentWindow:
-                    this.showCommentWindow(Repository);
+                    CommentBrowserController.initWindow(Repository);
                     break;
                 case menuImportComments:
                     ImportService.ImportFromJSON(Repository);
@@ -157,24 +154,6 @@ namespace EAcomments
             Repository.RefreshOpenDiagrams(true);
         }
 
-        // shows Comment Window
-        private void showCommentWindow(Repository Repository)
-        {
-            if(uc_commentBrowser == null)
-            {
-                try {
-                    uc_commentBrowser = (CommentBrowserControl)Repository.AddTab("Comments Browser", "EAcomments.CommentBrowserControl");
-                }
-                catch {
-                    MessageBox.Show("An error has occured when creating the \"Comments Browser\" Window.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Addin windows is already created!");
-            }
-        }
-
         // verify if any element in diagram is selected
         bool IsElementSelected(Repository Repository)
         {
@@ -184,14 +163,11 @@ namespace EAcomments
             else { return false; }
         }
 
-        // notifies user when any item in model was clicked
-        //public void EA_OnNotifyContextItemModified(Repository Repository, string GUID, ObjectType ot)
-        //{
-        //    MessageBox.Show("you have updated" + GUID);
-        //}
-
         // notifies user when any item in model was changed
-        public void EA_OnNotifyContextItemModified(Repository Repository, string GUID, ObjectType ot){}
+        public virtual void EA_OnContextItemChanged(Repository Repository, string GUID, ObjectType ot) {
+            CommentBrowserController.updateElement(GUID);
+        }
+
 
         // disconnects from EA repository and cleans mess
         public void EA_Disconnect()

@@ -50,21 +50,67 @@ namespace EAcomments
             
             Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='" + n.stereotype + "' ", 2);
 
+            string noteOriginGUID = null;
+            string noteState = null;
+            foreach(TagValue tv in n.tagValues)
+            {
+                if(tv.name.Equals("origin"))
+                {
+                    noteOriginGUID = tv.value;
+                }
+                switch (tv.name)
+                {
+                    case "origin":
+                        noteOriginGUID = tv.value;
+                        break;
+                    case "state":
+                        noteState = tv.value;
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             foreach(Element e in collection)
             {
-                if(e.ElementGUID == n.GUID)
+                string elementOriginGUID = null;
+                foreach(TaggedValue tv in e.TaggedValues)
+                {
+                    if(tv.Name.Equals("origin"))
+                    {
+                        elementOriginGUID = tv.Value;
+                    }
+                }
+                // compare origin GUIDs
+                if(elementOriginGUID == noteOriginGUID)
                 {
                     exist = true;
-                    MessageBox.Show("Element " + n.content + " is already in MODEL");
                     break;
                 }
             }
+            // if Element is not in the Model, add it
             if(!exist)
             {
                 Element note = package.Elements.AddNew(n.stereotype, "Note");
                 note.Stereotype = n.stereotype;
                 note.Notes = n.content;
+                note.Update();
+
+                foreach(TaggedValue taggedValue in note.TaggedValues)
+                {
+                    switch(taggedValue.Name)
+                    {
+                        case "origin":
+                            taggedValue.Value = noteOriginGUID;
+                            break;
+                        case "state":
+                            taggedValue.Value = noteState;
+                            break;
+                        default:
+                            break;
+                    }
+                    taggedValue.Update();
+                }
                 note.Update();
 
                 DiagramObject o = diagram.DiagramObjects.AddNew(n.stereotype, "Note");
@@ -76,7 +122,6 @@ namespace EAcomments
                 connector.Update();
 
                 MyAddinClass.refreshDiagram(Repository, diagram);
-                MessageBox.Show("Note Imported");
             }
             
         }

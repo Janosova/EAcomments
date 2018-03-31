@@ -57,6 +57,7 @@
     <Compile Include="AddCommentWindow.Designer.cs">
       <DependentUpon>AddCommentWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="CommentBrowserController.cs" />
     <Compile Include="ExportService.cs" />
     <Compile Include="ExportWindow.cs">
       <SubType>Form</SubType>
@@ -73,22 +74,22 @@
     </Compile>
     <Compile Include="MyAddinClass.cs" />
     <Compile Include="Note.cs" />
-    <Compile Include="NoteRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CommentBrowserControl.cs">
+    <Compile Include="CommentBrowserWindow.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="CommentBrowserControl.Designer.cs">
-      <DependentUpon>CommentBrowserControl.cs</DependentUpon>
+    <Compile Include="CommentBrowserWindow.Designer.cs">
+      <DependentUpon>CommentBrowserWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="TagValue.cs" />
     <Compile Include="XMLParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="AddCommentWindow.resx">
       <DependentUpon>AddCommentWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="CommentBrowserControl.resx">
-      <DependentUpon>CommentBrowserControl.cs</DependentUpon>
+    <EmbeddedResource Include="CommentBrowserWindow.resx">
+      <DependentUpon>CommentBrowserWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ExportWindow.resx">
       <DependentUpon>ExportWindow.cs</DependentUpon>
