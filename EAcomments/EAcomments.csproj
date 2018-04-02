@@ -81,6 +81,7 @@
     <Compile Include="CommentBrowserWindow.Designer.cs">
       <DependentUpon>CommentBrowserWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="RelatedElement.cs" />
     <Compile Include="TagValue.cs" />
     <Compile Include="XMLParser.cs" />
   </ItemGroup>

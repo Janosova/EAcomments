@@ -37,22 +37,27 @@ namespace EAcomments
             dataGridView1.DataSource = bindingSourse;
         }
         
-        public void updateItem(string GUID, string updatedContent)
+        public void updateItem(string lastElementGUID, string currentElementGUID, string updatedContent)
         {
+            int i = 0;
             foreach(DataGridViewRow row in dataGridView1.Rows)
             {
                 Note n = (Note)row.DataBoundItem;
-                if(n.GUID.Equals(GUID))
+                // update Row in Comment Browser Window
+                if(n.GUID.Equals(lastElementGUID))
                 {
                     n.content = updatedContent;
-                    MessageBox.Show("Porovnavam  " + GUID + " s window object GUID" + n.GUID + " ak ano, upravujem " + n.content + " na " + updatedContent);
                 }
+                // select Row in Comment Browser Window
+                else if (n.GUID.Equals(currentElementGUID))
+                {
+                    dataGridView1.CurrentRow.Selected = true;
+                    dataGridView1.Rows[i].Selected = true;
+                }
+                i++;
             }
-
             dataGridView1.Refresh();
             dataGridView1.Update();
-
-
         }
 
         // initialize all collumns for browser window
@@ -62,6 +67,7 @@ namespace EAcomments
             DataGridViewTextBoxColumn col2 = new DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn col3 = new DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn col4 = new DataGridViewTextBoxColumn();
+            DataGridViewCheckBoxColumn col5 = new DataGridViewCheckBoxColumn();
 
             col1.HeaderText = "Type";
             col1.Name = "noteType";
@@ -75,7 +81,10 @@ namespace EAcomments
             col4.HeaderText = "Package";
             col4.Name = "inPackage";
 
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { col1, col2, col3, col4 });
+            col5.HeaderText = "Resolved";
+            col5.Name = "state";
+
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { col1, col2, col3, col4, col5 });
         }
 
         // Handles events when clicked on specified Row

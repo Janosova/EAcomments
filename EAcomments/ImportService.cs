@@ -46,7 +46,7 @@ namespace EAcomments
             Diagram diagram = Repository.GetDiagramByGuid(n.diagramGUID);
             Package package = Repository.GetPackageByGuid(n.packageGUID);
             Element parentElement = Repository.GetElementByGuid(n.parentGUID);
-            Element connectedToElement = Repository.GetElementByGuid(n.connectedToGUID);
+            //Element connectedToElement = Repository.GetElementByGuid(n.connectedToGUID);
             
             Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='" + n.stereotype + "' ", 2);
 
@@ -113,13 +113,27 @@ namespace EAcomments
                 }
                 note.Update();
 
+                // create new DiagramObject and link it with Element
                 DiagramObject o = diagram.DiagramObjects.AddNew(n.stereotype, "Note");
                 o.ElementID = note.ElementID;
+
+                // set DiagramObject positions
+                o.top = n.positionTop;
+                o.right = n.positionRight;
+                o.bottom = n.positionBottom;
+                o.left = n.positionLeft;
+
                 o.Update();
 
-                Connector connector = note.Connectors.AddNew("", "NoteLink");
-                connector.SupplierID = connectedToElement.ElementID;
-                connector.Update();
+                foreach (RelatedElement relatedElement in n.relatedElements)
+                {
+                    Connector connector = note.Connectors.AddNew("", "NoteLink");
+                    connector.SupplierID = relatedElement.connectedToID;
+                    connector.Update();
+                }
+                //Connector connector = note.Connectors.AddNew("", "NoteLink");
+                //connector.SupplierID = connectedToElement.ElementID;
+                //connector.Update();
 
                 MyAddinClass.refreshDiagram(Repository, diagram);
             }

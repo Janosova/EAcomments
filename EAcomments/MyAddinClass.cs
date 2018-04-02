@@ -65,16 +65,7 @@ namespace EAcomments
             }
         }
 
-        ///
-        /// Called once Menu has been opened to see what menu items should active.
-        ///
-        /// <param name="Repository" />the repository
-        /// <param name="Location" />the location of the menu
-        /// <param name="MenuName" />the name of the menu
-        /// <param name="ItemName" />the name of the menu item
-        /// <param name="IsEnabled" />boolean indicating whether the menu item is enabled
-        /// <param name="IsChecked" />boolean indicating whether the menu is checked
-        /// 
+        // called when menu is being initialized
         public void EA_GetMenuState(EA.Repository Repository, string Location, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
         {
             if (IsProjectOpen(Repository))
@@ -130,7 +121,6 @@ namespace EAcomments
                     AddCommentWindow addCommentWindow = new AddCommentWindow(Repository);
                     addCommentWindow.Show();
                     break;
-
                 case menuRemoveCommentToElement:
                     break;
 
@@ -163,14 +153,58 @@ namespace EAcomments
             else { return false; }
         }
 
-        // notifies user when any item in model was changed
+        // notifies user when any item in model was clicked
         public virtual void EA_OnContextItemChanged(Repository Repository, string GUID, ObjectType ot) {
             CommentBrowserController.updateElement(GUID);
+            if(ObjectType.otDiagramObject == ot || ObjectType.otElement == ot)
+            {
+                Element e = Repository.GetElementByGuid(GUID);
+            }
         }
+/*
+        public bool EA_OnPreDeleteDiagramObject(Repository Repository, EventProperties Info)
+        {
+            EventProperty prop = Info.Get("ID");
+            int elementID = int.Parse(prop.Value.ToString());
+            Element e = Repository.GetElementByID(elementID);
+            Diagram d = Repository.GetCurrentDiagram();
 
+            foreach (Connector c in e.Connectors)
+            {
+                int connectedToID = 0;
+                if (c.SupplierID.Equals(elementID)) connectedToID = c.ClientID;
+                else if (c.ClientID.Equals(elementID)) connectedToID = c.SupplierID;
 
-        // disconnects from EA repository and cleans mess
-        public void EA_Disconnect()
+                Element relatedElement = Repository.GetElementByID(connectedToID);
+                MessageBox.Show("related element stereotype" + relatedElement.Stereotype);
+                if(relatedElement.Stereotype == "question")
+                {
+                    MessageBox.Show("pripojeny element je question");
+                    if (relatedElement.Connectors.Count < 2)
+                    {
+                        for (short i = 0; i < d.DiagramObjects.Count; i++)
+                        {
+                            DiagramObject diagramObject = d.DiagramObjects.GetAt(i);
+                            MessageBox.Show("Porovnavam " + diagramObject.ElementID + " s " + connectedToID);
+                            if (diagramObject.ElementID == connectedToID)
+                            {
+                                Element el = Repository.GetElementByID(connectedToID);
+                                MessageBox.Show("Idem mazat aj " + el.Notes);
+                                d.DiagramObjects.DeleteAt(i, false);
+                            }
+                        }
+                        refreshDiagram(Repository, d);
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+*/
+
+            // disconnects from EA repository and cleans mess
+            public void EA_Disconnect()
         {
             GC.Collect();
             GC.WaitForPendingFinalizers();

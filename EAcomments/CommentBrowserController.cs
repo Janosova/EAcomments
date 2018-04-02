@@ -39,47 +39,26 @@ namespace EAcomments
             repository.OpenDiagram(diagramID);
         }
 
-        public static void updateElement(string GUID)
+        public static void updateElement(string currentElementGUID)
         {
             if(uc_commentBrowser != null)
             {
+                //uc_commentBrowser.selectedClickedElement(currentElementGUID);
+
                 if (lastClicked != null)
                 {
-                    Element currentlyClicked = repository.GetElementByGuid(GUID);
                     if(lastClicked.Stereotype == "question" || lastClicked.Stereotype == "warning" || lastClicked.Stereotype == "error")
                     {
-                        MessageBox.Show("LastClicked has text: " + lastClicked.Notes);
+                        Element e = repository.GetElementByGuid(lastClicked.ElementGUID);
+                        uc_commentBrowser.updateItem(e.ElementGUID, currentElementGUID, e.Notes);
                     }
-
-                    lastClicked = currentlyClicked;
+                    lastClicked = repository.GetElementByGuid(currentElementGUID);
                 }
                 else
                 {
-                    lastClicked = repository.GetElementByGuid(GUID);
+                    lastClicked = repository.GetElementByGuid(currentElementGUID);
                 }
             }
-            //if (uc_commentbrowser != null)
-            //{
-            //    if (lastclicked == null)
-            //    {
-            //        lastclicked = repository.getelementbyguid(guid);
-            //    }
-            //    else
-            //    {
-            //        tu je chyba!!!!!!
-            //       element currentlyclicked = repository.getelementbyguid(guid);
-            //        if (lastclicked.stereotype == "question" || lastclicked.stereotype == "warning" || lastclicked.stereotype == "error")
-            //        {
-            //            messagebox.show("last clicked: " + lastclicked.notes);
-            //            string updatedcontent = lastclicked.notes;
-            //            messagebox.show("lastclicked ma text: " + updatedcontent);
-            //            string lastclickedguid = lastclicked.elementguid;
-            //            uc_commentbrowser.updateitem(lastclickedguid, updatedcontent);
-            //        }
-            //        lastclicked = currentlyclicked;
-            //    }
-            //}
-
         }
 
         public static List<Note> getNotes()
