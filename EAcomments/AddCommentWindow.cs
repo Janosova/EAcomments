@@ -34,12 +34,11 @@ namespace EAcomments
 
                 // create new Note and store it
                 Note note = new Note(stereotype, content, repository);
-                
-                // add new Note into the comment browser window
-                if(CommentBrowserController.uc_commentBrowser != null)
-                {
-                    CommentBrowserController.uc_commentBrowser.addItem(note);
-                }
+
+                // add new Note into the Comment Browser Window
+                CommentBrowserController.addNewElement(note);
+
+                // refresh Diagram after new Note is added to see changes
                 Diagram diagram = repository.GetCurrentDiagram();
                 MyAddinClass.refreshDiagram(repository, diagram);
             }

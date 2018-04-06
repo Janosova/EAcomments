@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="RelatedElement.cs" />
     <Compile Include="TagValue.cs" />
+    <Compile Include="UpdateController.cs" />
     <Compile Include="XMLParser.cs" />
   </ItemGroup>
   <ItemGroup>

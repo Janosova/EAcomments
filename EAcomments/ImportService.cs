@@ -38,6 +38,8 @@ namespace EAcomments
                     importNoteToModel(n);
                 }
             }
+            CommentBrowserController.refreshWindow();
+
         }
 
         private static void importNoteToModel(Note n)
@@ -124,20 +126,34 @@ namespace EAcomments
                 o.left = n.positionLeft;
 
                 o.Update();
-
+                int connectors = 0;
+                // generate all Connectors
                 foreach (RelatedElement relatedElement in n.relatedElements)
                 {
-                    Connector connector = note.Connectors.AddNew("", "NoteLink");
-                    connector.SupplierID = relatedElement.connectedToID;
-                    connector.Update();
+                    for (short i = 0; i < diagram.DiagramObjects.Count; i++)
+                    {
+                        DiagramObject diagramObject = diagram.DiagramObjects.GetAt(i);
+                        MessageBox.Show("Porovnavam " + diagramObject.ElementID + " s " + relatedElement.connectedToID);
+                        if (diagramObject.ElementID == relatedElement.connectedToID)
+                        {
+                            connectors++;
+                        }
+                    }
+                    if(connectors > 0)
+                    {
+                        Connector connector = note.Connectors.AddNew("", "NoteLink");
+                        connector.SupplierID = relatedElement.connectedToID;
+                        connector.Update();
+                        MessageBox.Show("Nasiel som element a spravil som konektor");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nevytvaram konektor, element do paru neexistuje");
+                    }
                 }
-                //Connector connector = note.Connectors.AddNew("", "NoteLink");
-                //connector.SupplierID = connectedToElement.ElementID;
-                //connector.Update();
 
                 MyAddinClass.refreshDiagram(Repository, diagram);
             }
-            
         }
     }
 }

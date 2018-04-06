@@ -14,30 +14,63 @@ namespace EAcomments
     public partial class CommentBrowserWindow : UserControl
     {
         BindingSource bindingSourse;
+        public DataGridView dataGridView { get; set; }
+        public Repository Repository { get; set; }
 
         public CommentBrowserWindow()
         {
             InitializeComponent();
             this.bindingSourse = new BindingSource();
+            this.dataGridView = dataGridView1;
+            this.state.TrueValue = true;
+            this.state.FalseValue = false;
         }
 
-        public void initExistingNotes(List<Note> notes)
+        public void clearWindow()
         {
-            foreach(Note n in notes)
+            //this.dataGridView1.DataSource = null;
+            this.dataGridView1.Rows.Clear();
+            this.dataGridView1.Refresh();
+        }
+
+        public void initExistingNotes(List<Note> notes, Repository Repository)
+        {
+            this.Repository = Repository;
+            foreach (Note n in notes)
             {
                 addItem(n);
             }
+            initCheckBoxes();
         }
 
+        private void initCheckBoxes()
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                Note n = (Note)row.DataBoundItem;
+                foreach(TagValue tv in n.tagValues)
+                {
+                    if(tv.name.Equals("state"))
+                    {
+                        if(tv.value.Equals("resolved"))
+                        {
+                            DataGridViewCheckBoxCell checkbox = (DataGridViewCheckBoxCell)row.Cells[9];
+                            checkbox.TrueValue = true;
+                            checkbox.Value = checkbox.TrueValue;
+                        }
+                    }
+                }
+            }
+        }
 
         // method called when new note is being added into diagram
         public void addItem(Note note)
         {
-            bindingSourse.Add(note);
-            dataGridView1.DataSource = bindingSourse;
+            this.bindingSourse.Add(note);
+            dataGridView1.DataSource = this.bindingSourse;
         }
         
-        public void updateItem(string lastElementGUID, string currentElementGUID, string updatedContent)
+        public void updateContent(string lastElementGUID, string currentElementGUID, string updatedContent)
         {
             int i = 0;
             foreach(DataGridViewRow row in dataGridView1.Rows)
@@ -60,6 +93,21 @@ namespace EAcomments
             dataGridView1.Update();
         }
 
+        public void deleteElement(string elementGUID)
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                Note n = (Note)row.DataBoundItem;
+                if (n.GUID.Equals(elementGUID))
+                {
+                    dataGridView1.Rows.Remove(row);
+                    break;
+                }
+            }
+            dataGridView1.Refresh();
+            dataGridView1.Update();
+        }
+
         // initialize all collumns for browser window
         private void initCols()
         {
@@ -67,7 +115,6 @@ namespace EAcomments
             DataGridViewTextBoxColumn col2 = new DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn col3 = new DataGridViewTextBoxColumn();
             DataGridViewTextBoxColumn col4 = new DataGridViewTextBoxColumn();
-            DataGridViewCheckBoxColumn col5 = new DataGridViewCheckBoxColumn();
 
             col1.HeaderText = "Type";
             col1.Name = "noteType";
@@ -81,10 +128,7 @@ namespace EAcomments
             col4.HeaderText = "Package";
             col4.Name = "inPackage";
 
-            col5.HeaderText = "Resolved";
-            col5.Name = "state";
-
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { col1, col2, col3, col4, col5 });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { col1, col2, col3, col4 });
         }
 
         // Handles events when clicked on specified Row
@@ -100,6 +144,26 @@ namespace EAcomments
             {
                 CommentBrowserController.windowClosed();
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            CommentBrowserController.updateElementState(e, dataGridView1);
+        }
+
+        private void syncButton_Click(object sender, EventArgs e)
+        {
+            UpdateController.sync(this.Repository);
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            ImportService.ImportFromJSON(this.Repository);
+        }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            ExportService.exportToJson(this.Repository);
         }
     }
 }

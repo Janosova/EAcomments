@@ -47,7 +47,7 @@ namespace EAcomments
         //empty constructor for JSONdeserialization
         public Note() {}
 
-        // default Note contstructor used by creating new Note in diagram
+        // default Note contstructor used by creating new Note in diagram via Right-click
         public Note(string stereotype, string content, Repository Repository)
         {
 
@@ -68,7 +68,7 @@ namespace EAcomments
 
             // set new Note Tagged values
             this.tagValues = new List<TagValue>();
-            if (newNote.Stereotype == "question")
+            if(MyAddinClass.isObservedStereotype(newNote))
             {
                 foreach (TaggedValue taggedValue in newNote.TaggedValues)
                 {
@@ -85,7 +85,6 @@ namespace EAcomments
                     }
                     TagValue tv = new TagValue(taggedValue.Name, taggedValue.Value);
                     this.tagValues.Add(tv);
-                    MessageBox.Show("Vytvoril s taggedValue " + taggedValue.Name + " s hodnotou " + taggedValue.Value);
                     taggedValue.Update();
                 }
             }
@@ -153,8 +152,11 @@ namespace EAcomments
             this.relatedElements = new List<RelatedElement>();
             foreach (Connector c in connectors)
             {
-                int supplierID = c.SupplierID;
-                Element connectedElement = Repository.GetElementByID(supplierID);
+                Element connectedElement = Repository.GetElementByID(c.SupplierID);
+                if(connectedElement.ElementGUID.Equals(e.ElementGUID))
+                {
+                    connectedElement = Repository.GetElementByID(c.ClientID);
+                }
                 RelatedElement re = new RelatedElement(c.ConnectorID, connectedElement.ElementID, connectedElement.ElementGUID);
                 relatedElements.Add(re);
             }
