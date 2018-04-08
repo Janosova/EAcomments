@@ -113,68 +113,73 @@ namespace EAcomments
         // Note constructor used by exporting
         public Note(Element e, Repository Repository)
         {
-            // SQL query gets Collection of Elements with specified stereotype from EA.Model
-            string e_id = e.ElementID.ToString();
-            string diagramData = Repository.SQLQuery("SELECT t_diagram.name, t_diagram.ea_guid FROM t_diagram, t_diagramobjects WHERE t_diagramobjects.diagram_id = t_diagram.diagram_id AND t_diagramobjects.Object_ID =" + e_id);
-
-            // get DiagramObject positions
-            string positions = Repository.SQLQuery("SELECT t_diagramobjects.RectTop, t_diagramobjects.RectRight, t_diagramobjects.RectBottom, t_diagramobjects.RectLeft FROM t_diagramobjects WHERE t_diagramobjects.Object_ID =" + e.ElementID);
-            this.positionTop = int.Parse(XMLParser.parseXML("RectTop", positions));
-            this.positionRight = int.Parse(XMLParser.parseXML("RectRight", positions));
-            this.positionBottom = int.Parse(XMLParser.parseXML("RectBottom", positions));
-            this.positionLeft = int.Parse(XMLParser.parseXML("RectLeft", positions));
-            // get Diagram Info
-            this.diagramName = XMLParser.parseXML("name", diagramData);
-            this.diagramGUID = XMLParser.parseXML("ea_guid", diagramData);
-            Diagram parentDiagram = Repository.GetDiagramByGuid(this.diagramGUID);
-
-
-            // get ParentElement Info (if there is any)
-            Element parentElement = null;
-            string parentElementName = "";
-            string parentElementGUID = "";
-            int parentID = parentDiagram.ParentID;
-            if (parentID != 0)
+            try
             {
-                parentElement = Repository.GetElementByID(parentID);
-                this.parentName = parentElement.Name;
-                this.parentGUID = parentElement.ElementGUID;
-            }
+                // SQL query gets Collection of Elements with specified stereotype from EA.Model
+                string e_id = e.ElementID.ToString();
+                string diagramData = Repository.SQLQuery("SELECT t_diagram.name, t_diagram.ea_guid FROM t_diagram, t_diagramobjects WHERE t_diagramobjects.diagram_id = t_diagram.diagram_id AND t_diagramobjects.Object_ID =" + e_id);
 
-            // get Package Info
-            int packageID = parentDiagram.PackageID;
-            Package package = Repository.GetPackageByID(packageID);
-            this.packageName = package.Name;
-            this.packageGUID = package.PackageGUID;
+                // get DiagramObject positions
+                string positions = Repository.SQLQuery("SELECT t_diagramobjects.RectTop, t_diagramobjects.RectRight, t_diagramobjects.RectBottom, t_diagramobjects.RectLeft FROM t_diagramobjects WHERE t_diagramobjects.Object_ID =" + e.ElementID);
+                this.positionTop = int.Parse(XMLParser.parseXML("RectTop", positions));
+                this.positionRight = int.Parse(XMLParser.parseXML("RectRight", positions));
+                this.positionBottom = int.Parse(XMLParser.parseXML("RectBottom", positions));
+                this.positionLeft = int.Parse(XMLParser.parseXML("RectLeft", positions));
+                // get Diagram Info
+                this.diagramName = XMLParser.parseXML("name", diagramData);
+                this.diagramGUID = XMLParser.parseXML("ea_guid", diagramData);
+                Diagram parentDiagram = Repository.GetDiagramByGuid(this.diagramGUID);
 
-            // get Connectors Info
-            Collection connectors = e.Connectors;
-            this.relatedElements = new List<RelatedElement>();
-            foreach (Connector c in connectors)
-            {
-                Element connectedElement = Repository.GetElementByID(c.SupplierID);
-                if (connectedElement.ElementGUID.Equals(e.ElementGUID))
+
+                // get ParentElement Info (if there is any)
+                Element parentElement = null;
+                string parentElementName = "";
+                string parentElementGUID = "";
+                int parentID = parentDiagram.ParentID;
+                if (parentID != 0)
                 {
-                    connectedElement = Repository.GetElementByID(c.ClientID);
+                    parentElement = Repository.GetElementByID(parentID);
+                    this.parentName = parentElement.Name;
+                    this.parentGUID = parentElement.ElementGUID;
                 }
-                RelatedElement re = new RelatedElement(c.ConnectorID, connectedElement.ElementID, connectedElement.ElementGUID);
-                relatedElements.Add(re);
+
+                // get Package Info
+                int packageID = parentDiagram.PackageID;
+                Package package = Repository.GetPackageByID(packageID);
+                this.packageName = package.Name;
+                this.packageGUID = package.PackageGUID;
+
+                // get Connectors Info
+                Collection connectors = e.Connectors;
+                this.relatedElements = new List<RelatedElement>();
+                foreach (Connector c in connectors)
+                {
+                    Element connectedElement = Repository.GetElementByID(c.SupplierID);
+                    if (connectedElement.ElementGUID.Equals(e.ElementGUID))
+                    {
+                        connectedElement = Repository.GetElementByID(c.ClientID);
+                    }
+                    RelatedElement re = new RelatedElement(c.ConnectorID, connectedElement.ElementID, connectedElement.ElementGUID);
+                    relatedElements.Add(re);
+                }
+
+                this.tagValues = new List<TagValue>();
+
+                // get TaggedValues Info
+                foreach (TaggedValue taggedValue in e.TaggedValues)
+                {
+                    TagValue tv = new TagValue(taggedValue.Name, taggedValue.Value);
+                    this.tagValues.Add(tv);
+                }
+
+                this.ID = e.ElementID;
+                this.GUID = e.ElementGUID;
+                this.content = e.Notes;
+                this.stereotype = e.Stereotype;
+                this.flag = addFlag(this.stereotype);
             }
-
-            this.tagValues = new List<TagValue>();
-
-            // get TaggedValues Info
-            foreach (TaggedValue taggedValue in e.TaggedValues)
-            {
-                TagValue tv = new TagValue(taggedValue.Name, taggedValue.Value);
-                this.tagValues.Add(tv);
-            }
-
-            this.ID = e.ElementID;
-            this.GUID = e.ElementGUID;
-            this.content = e.Notes;
-            this.stereotype = e.Stereotype;
-            this.flag = addFlag(this.stereotype);
+            catch (Exception) { }
+            
         }
             
             

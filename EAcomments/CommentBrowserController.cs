@@ -77,18 +77,16 @@ namespace EAcomments
             
         }
 
-        public static void deleteElementsWithinDiagram(string diagramGUID)
+        public static void deleteElementsWithinPackage(Package p)
         {
             if (uc_commentBrowser != null)
             {
-                //uc_commentBrowser.deleteElementsWithingDiagram(elementGUID);
                 DataGridView dgw = uc_commentBrowser.dataGridView;
 
                 foreach (DataGridViewRow row in dgw.Rows)
                 {
                     Note n = (Note)row.DataBoundItem;
-                    // update Row in Comment Browser Window
-                    if (n.diagramGUID.Equals(diagramGUID))
+                    if (n.packageGUID.Equals(p.PackageGUID))
                     {
                         dgw.Rows.Remove(row);
                     }
@@ -96,7 +94,51 @@ namespace EAcomments
                 dgw.Refresh();
                 dgw.Update();
             }
+        }
 
+        public static void deleteElementsWithinDiagram(Diagram d)
+        {
+            if (uc_commentBrowser != null)
+            {
+                DataGridView dgw = uc_commentBrowser.dataGridView;
+
+                foreach (DataGridViewRow row in dgw.Rows)
+                {
+                    Note n = (Note)row.DataBoundItem;
+                    // update Row in Comment Browser Window
+                    if (n.diagramGUID.Equals(d.DiagramGUID))
+                    {
+                        dgw.Rows.Remove(row);
+                    }
+                }
+                dgw.Refresh();
+                dgw.Update();
+            }
+        }
+
+        public static void deleteElementsWithinElement(Element e)
+        {
+            if (uc_commentBrowser != null)
+            {
+                DataGridView dgw = uc_commentBrowser.dataGridView;
+                short i = 0;
+                foreach(Diagram d in e.Diagrams)
+                {
+                    foreach (DataGridViewRow row in dgw.Rows)
+                    {
+                        Note n = (Note)row.DataBoundItem;
+                        // update Row in Comment Browser Window
+                        if (n.diagramGUID.Equals(d.DiagramGUID))
+                        {
+                            dgw.Rows.Remove(row);
+                        }
+                    }
+                    e.Diagrams.DeleteAt(i++, true);
+                }
+                                
+                dgw.Refresh();
+                dgw.Update();
+            }
         }
 
         // Method called when TaggedValue of single Note has been changed

@@ -6,29 +6,29 @@ namespace EAcomments
 {
     public class MyAddinClass
     {
-        // define menu constants
+        // Define menu constants
         const string menuHeader = "-&Comment Plugin";
 
-        // define submenu for diagram location
-        const string menuAddCommentToElement = "&Add comment to Element";
-        const string changeStateToResolved = "&Resolve Comment";
-        const string changeStateToUnresolved = "&Unresolve Comment";
-
-        const string menuCount = "&Show COUNT";
+        // Define Main-menu on EA panel
         const string menuShowCommentWindow = "&Show Comment Browser";
         const string menuImportComments = "&Import Comments";
         const string menuExportComments = "&Export Comments";
 
-        // define submenu for treeview location
-        const string menuAddCommentToDiagram = "&Add comment to Diagram";
+        // Define Sub-menu for Diagram Location
+        const string menuAddCommentToElement = "&Add comment to Element";
+        const string changeStateToResolved = "&Resolve Comment";
+        const string changeStateToUnresolved = "&Unresolve Comment";
 
-        // connects to EA repository each time EA opens
+        // Define Sub-menu for Treeview Location
+        // -- nothing yet -- 
+
+        // Method connects to EA Repository each time EA opens
         public String EA_Connect(EA.Repository Repository)
         {
             return string.Empty;
         }
 
-        // define default menu settings
+        // Define default Menu settings
         public object EA_GetMenuItems(EA.Repository Repository, string Location, string MenuName)
         {
             if (MenuName == "")
@@ -43,17 +43,17 @@ namespace EAcomments
                     break;
                 case "MainMenu":
                     if (MenuName == menuHeader)
-                        return new string[] { menuCount, menuShowCommentWindow, menuImportComments, menuExportComments };
+                        return new string[] { menuShowCommentWindow, menuImportComments, menuExportComments };
                     break;
                 case "TreeView":
                     if (MenuName == menuHeader)
-                        return new string[] { menuAddCommentToDiagram };
+                        return new string[] { /* -- nothing yet -- */ };
                     break;
             }
             return string.Empty;
         }
 
-        // verify if EA model is opened
+        // Method verifies if Model is opened
         bool IsProjectOpen(EA.Repository Repository)
         {
             try
@@ -67,13 +67,24 @@ namespace EAcomments
             }
         }
 
-        // called when menu is being initialized
+        // Method called when menu is being initialized or user tries to use it
         public void EA_GetMenuState(EA.Repository Repository, string Location, string MenuName, string ItemName, ref bool IsEnabled, ref bool IsChecked)
         {
             if (IsProjectOpen(Repository))
             {
                 switch (ItemName)
                 {
+                    // Main menu
+                    case menuShowCommentWindow:
+                        IsEnabled = true;
+                        break;
+                    case menuImportComments:
+                        IsEnabled = true;
+                        break;
+                    case menuExportComments:
+                        IsEnabled = true;
+                        break;
+
                     // Diagram menu
                     case menuAddCommentToElement:
                         if (IsElementSelected(Repository)) { IsEnabled = true; }
@@ -89,25 +100,9 @@ namespace EAcomments
                         break;
 
                     // TreeView menu
-                    case menuAddCommentToDiagram:
-                        IsEnabled = true;
-                        break;
+                    // -- nothing yet --
 
-                    // Main menu
-                    case menuCount:
-                        IsEnabled = true;
-                        break;
-                    case menuShowCommentWindow:
-                        IsEnabled = true;
-                        break;
-                    case menuImportComments:
-                        IsEnabled = true;
-                        break;
-                    case menuExportComments:
-                        IsEnabled = true;
-                        break;
-
-                    // if there is any other option, just disable it by default
+                    // if there is any other option, disable it by default
                     default:
                         IsEnabled = false;
                         break;
@@ -115,28 +110,16 @@ namespace EAcomments
             }
             else
             {
-                // If no open project, disable all menu options
+                // If any Project is not opened, disable all Menu options
                 IsEnabled = false;
             }
         }
 
-        // This method is called when user clicks on one of the menu options
+        // Method called when user clicks on one of the Menu options
         public void EA_MenuClick(EA.Repository Repository, string Location, string MenuName, string ItemName)
         {
             switch (ItemName)
             {
-                // Diagram menu options
-                case menuAddCommentToElement:
-                    AddCommentWindow addCommentWindow = new AddCommentWindow(Repository);
-                    addCommentWindow.Show();
-                    break;
-                case changeStateToResolved:
-                    UpdateController.updateSelectedElementState(Repository, "resolved");
-                    break;
-                case changeStateToUnresolved:
-                    UpdateController.updateSelectedElementState(Repository, "unresolved");
-                    break;
-
                 // Main menu options
                 case menuShowCommentWindow:
                     Repository.SaveAllDiagrams();
@@ -150,14 +133,25 @@ namespace EAcomments
                     Repository.SaveAllDiagrams();
                     ExportService.exportToJson(Repository);
                     break;
-                case menuCount:
-                    Repository.SaveAllDiagrams();
-                
+
+                // Diagram menu options
+                case menuAddCommentToElement:
+                    AddCommentWindow addCommentWindow = new AddCommentWindow(Repository);
+                    addCommentWindow.Show();
                     break;
+                case changeStateToResolved:
+                    UpdateController.updateSelectedElementState(Repository, "resolved");
+                    break;
+                case changeStateToUnresolved:
+                    UpdateController.updateSelectedElementState(Repository, "unresolved");
+                    break;
+
+                // TreeView menu options
+                // -- nothing yet --
             }
         }
         
-        // verify if selected object is Note
+        // Method verifies if selected object is Note Element
         public bool getAndCheckElement(Repository Repository)
         {
             Diagram diagram = Repository.GetCurrentDiagram();
@@ -173,14 +167,15 @@ namespace EAcomments
                 return false;
             }
         }
-        // Method that Save and Refresh Diagram when changes were made
+        
+        // Method Saves and Refreshs Diagram when changes were made
         public static void refreshDiagram(Repository Repository, Diagram d)
         {
             Repository.SaveDiagram(d.DiagramID);
             Repository.RefreshOpenDiagrams(true);
         }
 
-        // verify if any element in diagram is selected
+        // Method verifies if any element in diagram is selected
         bool IsElementSelected(Repository Repository)
         {
             Diagram diagram = Repository.GetCurrentDiagram();
@@ -188,6 +183,24 @@ namespace EAcomments
             else { return false; }
         }
 
+        // Method deletes all Note in Comment Browser Windows those were within specified Package
+        // Method called when Package was deleted
+        public bool EA_OnPreDeletePackage(Repository Repository, EventProperties Info)
+        {
+            try
+            {
+                EventProperty prop = Info.Get("PackageID");
+                int packageID = int.Parse(prop.Value.ToString());
+                Package p = Repository.GetPackageByID(packageID);
+                CommentBrowserController.deleteElementsWithinPackage(p);
+            }
+            catch(Exception) { }
+            
+            return true;
+        }
+
+        // Method deletes all Note in Comment Browser Windows those were within specified Diagram
+        // Method called when Diagram was deleted
         public bool EA_OnPreDeleteDiagram(Repository Repository, EventProperties Info)
         {
             try
@@ -195,14 +208,54 @@ namespace EAcomments
                 EventProperty prop = Info.Get("DiagramID");
                 int diagramID = int.Parse(prop.Value.ToString());
                 Diagram d = Repository.GetDiagramByID(diagramID);
-                CommentBrowserController.deleteElementsWithinDiagram(d.DiagramGUID);
+                CommentBrowserController.deleteElementsWithinDiagram(d);
             }
-            catch (Exception e) { }
+            catch (Exception) { }
 
             return true;
         }
 
-        // notifies Add-in when new DiagramObject is created in Diagram
+        public bool EA_OnPreDeleteElement(Repository Repository, EventProperties Info)
+        {
+            MessageBox.Show("mazem leement");
+            try
+            {
+                EventProperty prop = Info.Get("ElementID");
+                int elementID = int.Parse(prop.Value.ToString());
+                Element e = Repository.GetElementByID(elementID);
+                CommentBrowserController.deleteElementsWithinElement(e);
+
+                foreach (Diagram d in e.Diagrams)
+                {
+                    MessageBox.Show("element " + e.Name + " ma diagram " + d.Name);
+                }
+            }
+            catch (Exception) { }
+
+            return true;
+        }
+
+        // Method deletes all Note in Comment Browser Windows
+        // Method called when Element was deleted in Diagram
+        public bool EA_OnPreDeleteDiagramObject(Repository Repository, EventProperties Info)
+        {
+            try
+            {
+                EventProperty prop = Info.Get("ID");
+                int elementID = int.Parse(prop.Value.ToString());
+                Element e = Repository.GetElementByID(elementID);
+
+                if (isObservedStereotype(e))
+                {
+                    CommentBrowserController.deleteElement(e.ElementGUID);
+                }
+            }
+            catch(Exception) { }
+            
+            return true;
+        }
+
+        // Method notifies Add-in when new DiagramObject is created in Diagram
         public bool EA_OnPostNewDiagramObject(Repository Repository, EventProperties Info)
         {
             try
@@ -221,12 +274,11 @@ namespace EAcomments
                 }
             }
             catch(Exception e) {}
-            
 
             return true;
         }
 
-        // notifies Add-in when any Item in Model is under focus (was clicked)
+        // Method notifies Add-in when any Item in Model is under focus (was clicked)
         public virtual void EA_OnContextItemChanged(Repository Repository, string GUID, ObjectType ot)
         {
             CommentBrowserController.updateElementContent(GUID);
@@ -236,19 +288,7 @@ namespace EAcomments
             }
         }
 
-        public bool EA_OnPreDeleteDiagramObject(Repository Repository, EventProperties Info)
-        {
-            EventProperty prop = Info.Get("ID");
-            int elementID = int.Parse(prop.Value.ToString());
-            Element e = Repository.GetElementByID(elementID);
-
-            if(isObservedStereotype(e))
-            {
-                CommentBrowserController.deleteElement(e.ElementGUID);
-            }
-            return true;
-        }
-
+        // Method check if specified Element has observer Stereotype
         public static bool isObservedStereotype(Element e)
         {
             if (e.Stereotype.Equals("question") || e.Stereotype.Equals("warning") || e.Stereotype.Equals("error"))
@@ -261,7 +301,7 @@ namespace EAcomments
             }
         }
 
-        // disconnects from EA repository and cleans mess
+        // Method disconnects from EA Repository and cleans mess
         public void EA_Disconnect()
         {
             GC.Collect();
