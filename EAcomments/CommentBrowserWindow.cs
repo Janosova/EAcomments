@@ -28,7 +28,6 @@ namespace EAcomments
 
         public void clearWindow()
         {
-            //this.dataGridView1.DataSource = null;
             this.dataGridView1.Rows.Clear();
             this.dataGridView1.Refresh();
         }

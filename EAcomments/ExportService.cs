@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using EA;
 using Newtonsoft.Json;
+using System.Windows.Forms;
 
 namespace EAcomments
 {
@@ -13,6 +14,8 @@ namespace EAcomments
         public static void exportToJson(Repository Repository)
         {
             List<Note> notes = new List<Note>();
+
+            Repository.Models.Refresh();
 
             Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
 

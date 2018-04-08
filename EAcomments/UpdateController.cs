@@ -10,15 +10,17 @@ namespace EAcomments
 {
     static class UpdateController
     {
+        // Method changes TaggedValue of specified Element selected in Comment Browser Window
         public static void assignTaggedValue(Repository Repository, string elementGUID, string taggedValueName, string taggedValueValue)
         {
-            Element el = Repository.GetElementByGuid(elementGUID);
-            TaggedValue taggedValue = el.TaggedValues.GetByName(taggedValueName);
+            Element e = Repository.GetElementByGuid(elementGUID);
+            TaggedValue taggedValue = e.TaggedValues.GetByName(taggedValueName);
             taggedValue.Value = taggedValueValue;
             taggedValue.Update();
-            el.Update();
+            e.Update();
         }
 
+        // Method changed TaggedValue of clicked Element in Diagram
         public static void updateSelectedElementState(Repository Repository, string stateValue)
         {
             Diagram d = Repository.GetCurrentDiagram();
@@ -29,43 +31,20 @@ namespace EAcomments
             CommentBrowserController.updateElementState(e.ElementGUID, stateValue);
         }
 
+        // Method removes all un-connected Notes in Model 
         public static void sync(Repository Repository)
         {
             Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
             
-            foreach(Element e in collection)
+            for(short i = 0; i < collection.Count; i++)
             {
-                MessageBox.Show("element " + e.Notes + "ma " + e.Connectors.Count + " konektorov");
-                if(e.Connectors.Count == 0)
+                Element e = collection.GetAt(i);
+                if (e.Connectors.Count == 0)
                 {
-                    MessageBox.Show("element " + e.Notes + " nema konektory idem ho zmazat");
-                    string diagramData = Repository.SQLQuery("SELECT t_diagram.ea_guid FROM t_diagram, t_diagramobjects WHERE t_diagramobjects.diagram_id = t_diagram.diagram_id AND t_diagramobjects.Object_ID =" + e.ElementID.ToString());
-                    string diagramGUID = XMLParser.parseXML("ea_guid", diagramData);
-                    Diagram d = null;
-                    try
-                    {
-                        d = Repository.GetDiagramByGuid(diagramGUID);
-                    } catch { }
-                    
-
-                    for (short i = 0; i < d.DiagramObjects.Count; i++)
-                    {
-                        DiagramObject diagramObject = d.DiagramObjects.GetAt(i);
-                        MessageBox.Show("Porovnavam " + diagramObject.ElementID + " spolu s " + e.ElementID + " element sa vola " + e.Notes);
-                        if (diagramObject.ElementID == e.ElementID)
-                        {
-                            Element el = Repository.GetElementByID(e.ElementID);
-                            d.DiagramObjects.Delete(i);
-                            d.Update();
-                            Repository.RefreshOpenDiagrams(true);
-                            if (MyAddinClass.isObservedStereotype(e))
-                            {
-                                CommentBrowserController.deleteElement(e.ElementGUID);
-                            }
-                        }
-                    }
-                    
-                }
+                    CommentBrowserController.deleteElement(e.ElementGUID);
+                    collection.DeleteAt(i, false);
+                    collection.Refresh();
+                }                
             }
         }
     }

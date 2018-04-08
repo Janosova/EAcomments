@@ -153,7 +153,7 @@ namespace EAcomments
             foreach (Connector c in connectors)
             {
                 Element connectedElement = Repository.GetElementByID(c.SupplierID);
-                if(connectedElement.ElementGUID.Equals(e.ElementGUID))
+                if (connectedElement.ElementGUID.Equals(e.ElementGUID))
                 {
                     connectedElement = Repository.GetElementByID(c.ClientID);
                 }
@@ -176,6 +176,8 @@ namespace EAcomments
             this.stereotype = e.Stereotype;
             this.flag = addFlag(this.stereotype);
         }
+            
+            
 
         private string addFlag(string type)
         {

@@ -43,13 +43,22 @@ namespace EAcomments
             }
         }
 
+        // Method called on double click event on single row
         public static void openDiagramWithGUID(string diagramGUID)
         {
-            Diagram d = repository.GetDiagramByGuid(diagramGUID);
-            int diagramID = d.DiagramID;
-            repository.OpenDiagram(diagramID);
+            try
+            {
+                Diagram d = repository.GetDiagramByGuid(diagramGUID);
+                repository.OpenDiagram(d.DiagramID);
+            }
+            catch
+            {
+                MessageBox.Show("Could not open Note location, check if location exists");
+            }
+            
         }
 
+        // Method called when new Note is posted into Model
         public static void addNewElement(Note note)
         {
             if (uc_commentBrowser != null)
@@ -58,6 +67,7 @@ namespace EAcomments
             }
         }
 
+        // Method called on sync event
         public static void deleteElement(string elementGUID)
         {
             if(uc_commentBrowser != null)
@@ -67,6 +77,29 @@ namespace EAcomments
             
         }
 
+        public static void deleteElementsWithinDiagram(string diagramGUID)
+        {
+            if (uc_commentBrowser != null)
+            {
+                //uc_commentBrowser.deleteElementsWithingDiagram(elementGUID);
+                DataGridView dgw = uc_commentBrowser.dataGridView;
+
+                foreach (DataGridViewRow row in dgw.Rows)
+                {
+                    Note n = (Note)row.DataBoundItem;
+                    // update Row in Comment Browser Window
+                    if (n.diagramGUID.Equals(diagramGUID))
+                    {
+                        dgw.Rows.Remove(row);
+                    }
+                }
+                dgw.Refresh();
+                dgw.Update();
+            }
+
+        }
+
+        // Method called when TaggedValue of single Note has been changed
         public static void updateElementState(string elementGUID, string stateValue)
         {
             if(uc_commentBrowser != null)
@@ -98,33 +131,33 @@ namespace EAcomments
             
         }
 
+        // Method changes Checkbox Value andcalled when TaggedValue of single Note has been changed
         public static void updateElementState(DataGridViewCellEventArgs e, DataGridView dataGridView1)
         {
             if(uc_commentBrowser != null)
             {
-                // get clicked DataGridViewCell and verify if it's CheckBoxCell
+                // Get clicked DataGridViewCell and verify if it's CheckBoxCell
                 DataGridViewCell dataCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 Type cellType = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].GetType();
                 if (cellType.Name.Equals("DataGridViewCheckBoxCell"))
                 {
-                    // get clicked Checkbox
+                    // Get clicked Checkbox
                     DataGridViewCheckBoxCell checkbox = (DataGridViewCheckBoxCell)dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     checkbox.TrueValue = true;
                     checkbox.FalseValue = false;
 
-                    // get selected Row and get selected Note
+                    // Get selected Row and get selected Note
                     DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
                     Note n = (Note)row.DataBoundItem;
 
+                    // Change state of single Note in Window according its actual Value
                     if (checkbox.Value == checkbox.FalseValue || checkbox.Value == null)
                     {
-                        // update Note state
                         checkbox.Value = checkbox.TrueValue;
                         UpdateController.assignTaggedValue(repository, n.GUID, "state", "resolved");
                     }
                     else
                     {
-                        // update Note state
                         checkbox.Value = null;
                         UpdateController.assignTaggedValue(repository, n.GUID, "state", "unresolved");
                     }
@@ -132,6 +165,7 @@ namespace EAcomments
             }
         }
 
+        // Method called when Note content has been changed in Model
         public static void updateElementContent(string currentElementGUID)
         {
             if(uc_commentBrowser != null)
@@ -152,15 +186,16 @@ namespace EAcomments
             }
         }
 
+        // Method called when window is being initialized
         public static List<Note> getNotes()
         {
             List<Note> notes = new List<Note>();
 
+            // get Collection of Notes and loop through it and add every Note DataGridView's DataSource
             Collection collection = repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
 
             foreach (Element e in collection)
             {
-                // create Note
                 Note note = new Note(e, repository);
                 notes.Add(note);
             }

@@ -14,6 +14,7 @@ namespace EAcomments
         const string changeStateToResolved = "&Resolve Comment";
         const string changeStateToUnresolved = "&Unresolve Comment";
 
+        const string menuCount = "&Show COUNT";
         const string menuShowCommentWindow = "&Show Comment Browser";
         const string menuImportComments = "&Import Comments";
         const string menuExportComments = "&Export Comments";
@@ -42,7 +43,7 @@ namespace EAcomments
                     break;
                 case "MainMenu":
                     if (MenuName == menuHeader)
-                        return new string[] { menuShowCommentWindow, menuImportComments, menuExportComments };
+                        return new string[] { menuCount, menuShowCommentWindow, menuImportComments, menuExportComments };
                     break;
                 case "TreeView":
                     if (MenuName == menuHeader)
@@ -93,6 +94,9 @@ namespace EAcomments
                         break;
 
                     // Main menu
+                    case menuCount:
+                        IsEnabled = true;
+                        break;
                     case menuShowCommentWindow:
                         IsEnabled = true;
                         break;
@@ -135,13 +139,20 @@ namespace EAcomments
 
                 // Main menu options
                 case menuShowCommentWindow:
+                    Repository.SaveAllDiagrams();
                     CommentBrowserController.initWindow(Repository);
                     break;
                 case menuImportComments:
+                    Repository.SaveAllDiagrams();
                     ImportService.ImportFromJSON(Repository);
                     break;
                 case menuExportComments:
+                    Repository.SaveAllDiagrams();
                     ExportService.exportToJson(Repository);
+                    break;
+                case menuCount:
+                    Repository.SaveAllDiagrams();
+                
                     break;
             }
         }
@@ -162,10 +173,9 @@ namespace EAcomments
                 return false;
             }
         }
-
+        // Method that Save and Refresh Diagram when changes were made
         public static void refreshDiagram(Repository Repository, Diagram d)
         {
-            // store and refresh diagram
             Repository.SaveDiagram(d.DiagramID);
             Repository.RefreshOpenDiagrams(true);
         }
@@ -178,21 +188,40 @@ namespace EAcomments
             else { return false; }
         }
 
+        public bool EA_OnPreDeleteDiagram(Repository Repository, EventProperties Info)
+        {
+            try
+            {
+                EventProperty prop = Info.Get("DiagramID");
+                int diagramID = int.Parse(prop.Value.ToString());
+                Diagram d = Repository.GetDiagramByID(diagramID);
+                CommentBrowserController.deleteElementsWithinDiagram(d.DiagramGUID);
+            }
+            catch (Exception e) { }
+
+            return true;
+        }
+
         // notifies Add-in when new DiagramObject is created in Diagram
         public bool EA_OnPostNewDiagramObject(Repository Repository, EventProperties Info)
         {
-            EventProperty prop = Info.Get("ID");
-            int elementID = int.Parse(prop.Value.ToString());
-            Element e = Repository.GetElementByID(elementID);
-
-            if (isObservedStereotype(e))
+            try
             {
-                // when new Note is created with Drag & Drop ToolboxPanel, update State and GUID
-                UpdateController.assignTaggedValue(Repository, e.ElementGUID, "state", "unresolved");
-                UpdateController.assignTaggedValue(Repository, e.ElementGUID, "origin", e.ElementGUID);
-                Note n = new Note(e, Repository);
-                CommentBrowserController.addNewElement(n);
+                EventProperty prop = Info.Get("ID");
+                int elementID = int.Parse(prop.Value.ToString());
+                Element e = Repository.GetElementByID(elementID);
+
+                if (isObservedStereotype(e))
+                {
+                    // when new Note is created with Drag & Drop ToolboxPanel, update State and GUID
+                    UpdateController.assignTaggedValue(Repository, e.ElementGUID, "state", "unresolved");
+                    UpdateController.assignTaggedValue(Repository, e.ElementGUID, "origin", e.ElementGUID);
+                    Note n = new Note(e, Repository);
+                    CommentBrowserController.addNewElement(n);
+                }
             }
+            catch(Exception e) {}
+            
 
             return true;
         }
@@ -219,48 +248,6 @@ namespace EAcomments
             }
             return true;
         }
-
-        /*
-                public bool EA_OnPreDeleteDiagramObject(Repository Repository, EventProperties Info)
-                {}
-                    EventProperty prop = Info.Get("ID");
-                    int elementID = int.Parse(prop.Value.ToString());
-                    Element e = Repository.GetElementByID(elementID);
-                    Diagram d = Repository.GetCurrentDiagram();
-
-                    foreach (Connector c in e.Connectors)
-                    {
-                        int connectedToID = 0;
-                        if (c.SupplierID.Equals(elementID)) connectedToID = c.ClientID;
-                        else if (c.ClientID.Equals(elementID)) connectedToID = c.SupplierID;
-
-                        Element relatedElement = Repository.GetElementByID(connectedToID);
-                        MessageBox.Show("related element stereotype" + relatedElement.Stereotype);
-                        if(relatedElement.Stereotype == "question")
-                        {   
-                            MessageBox.Show("pripojeny element je question");
-                            if (relatedElement.Connectors.Count < 2)
-                            {
-                                for (short i = 0; i < d.DiagramObjects.Count; i++)
-                                {
-                                    DiagramObject diagramObject = d.DiagramObjects.GetAt(i);
-                                    MessageBox.Show("Porovnavam " + diagramObject.ElementID + " s " + connectedToID);
-                                    if (diagramObject.ElementID == connectedToID)
-                                    {
-                                        Element el = Repository.GetElementByID(connectedToID);
-                                        MessageBox.Show("Idem mazat aj " + el.Notes);
-                                        d.DiagramObjects.DeleteAt(i, false);
-                                    }
-                                }
-                                refreshDiagram(Repository, d);
-                                return false;
-                            }
-                        }
-                    }
-
-                    return true;
-                }
-        */
 
         public static bool isObservedStereotype(Element e)
         {
