@@ -13,7 +13,8 @@ namespace EAcomments
 {
     public partial class ExportWindow : Form
     {
-        public string filePath { get; set; }
+        public string FilePath { get; set; }
+
         public ExportWindow()
         {
             InitializeComponent();
@@ -23,24 +24,8 @@ namespace EAcomments
         private void browseButton_Click(object sender, EventArgs e)
         {
             saveFileBrowser.FileName = this.fileNameField.Text;
-            saveFileBrowser.Filter = "JSON (*.json) | *.json*";
+            saveFileBrowser.Filter = "JSON (*.json) | *.json*"; 
             saveFileBrowser.ShowDialog();
-        }
-
-        private void exportButton_Click(object sender, EventArgs e)
-        {
-            if(this.filePathField.Text != "" && this.fileNameField.Text != "")
-            {
-                this.filePath = this.filePathField.Text + ".json";
-
-                //Close Window
-                this.Visible = false;
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Please specify file name and path");
-            }
         }
 
         private void saveFileBrowser_FileOk(object sender, CancelEventArgs e)
@@ -50,10 +35,12 @@ namespace EAcomments
             this.filePathField.Text = saveFileBrowser.FileName;
         }
 
-        // add eventListener on Window Close
-        private void ExportWindow_FormClosed(object sender, FormClosedEventArgs e)
+        private void FileFieldsChanged(object sender, EventArgs e)
         {
-            ExportService.writeFile();
+            exportButton.Enabled = !string.IsNullOrWhiteSpace(this.filePathField.Text) 
+                                    && !string.IsNullOrWhiteSpace(this.fileNameField.Text);
+
+            this.FilePath = this.filePathField.Text + ".json";
         }
     }
 }

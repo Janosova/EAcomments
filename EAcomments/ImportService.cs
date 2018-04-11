@@ -10,52 +10,54 @@ using EA;
 
 namespace EAcomments
 {
-    public static class ImportService
+    public class ImportService
     {
-        public static ImportWindow importWindow;
-        public static string JSONcontent;
-        public static Repository Repository;
+        private Repository Repository = null;
+        private ImportWindow importWindow = null;
 
-        public static void ImportFromJSON(Repository repository)
+        public ImportService(Repository Repository)
         {
-            Repository = repository;
-            importWindow = new ImportWindow();
-            importWindow.Show();
+            this.Repository = Repository;
+            MyAddinClass.commentBrowserController = new CommentBrowserController(this.Repository);
+            this.importWindow = new ImportWindow();
         }
 
-        public static void readFile()
+        public void ImportFromJSON()
         {
-            string filePath = importWindow.filePath;
-            using (StreamReader r = new StreamReader(filePath))
+            if (this.importWindow.ShowDialog() == DialogResult.OK)
             {
-                // Read file and deserialize from JSON to Note type array
-                JSONcontent = r.ReadToEnd();
-                List<Note> notes = JsonConvert.DeserializeObject<List<Note>>(JSONcontent);
-
-                // Loop through each imported Note and 
-                foreach(Note n in notes)
+                string filePath = this.importWindow.FilePath;
+                using (StreamReader r = new StreamReader(filePath))
                 {
-                    importNoteToModel(n);
-                }
-            }
-            CommentBrowserController.refreshWindow();
+                    // Read file and deserialize from JSON to Note type array
+                    var JSONcontent = r.ReadToEnd();
+                    List<Note> notes = JsonConvert.DeserializeObject<List<Note>>(JSONcontent);
 
+                    // Loop through each imported Note and 
+                    foreach (Note n in notes)
+                    {
+                        this.importNoteToModel(n);
+                    }
+                }
+                MyAddinClass.commentBrowserController.refreshWindow();
+            }
         }
 
-        private static void importNoteToModel(Note n)
+        private void importNoteToModel(Note n)
         {
             Boolean exist = false;
             Diagram diagram = null;
             Package package = null;
             Element parentElement = null;
+            Collection collection = null;
 
             try
             {
-                package = Repository.GetPackageByGuid(n.packageGUID);
-                diagram = Repository.GetDiagramByGuid(n.diagramGUID);
-                parentElement = Repository.GetElementByGuid(n.parentGUID);
+                package = this.Repository.GetPackageByGuid(n.packageGUID);
+                diagram = this.Repository.GetDiagramByGuid(n.diagramGUID);
+                parentElement = this.Repository.GetElementByGuid(n.parentGUID);
 
-                Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='" + n.stereotype + "' ", 2);
+                collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='" + n.stereotype + "' ", 2);
                 string noteOriginGUID = null;
                 string noteState = null;
                 foreach (TagValue tv in n.tagValues)

@@ -13,3 +13,18 @@ C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.ExportWin
 C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.ImportWindow.resources
 C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.csprojResolveAssemblyReference.cache
 C:\Users\patom\source\repos\EAcomments\EAcomments\obj\Debug\EAcomments.CommentBrowserWindow.resources
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\bin\Debug\EAcomments.dll
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\bin\Debug\EAcomments.pdb
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\bin\Debug\EAcomments.tlb
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\bin\Debug\Newtonsoft.Json.dll
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\bin\Debug\Newtonsoft.Json.xml
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.csprojResolveAssemblyReference.cache
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.AddCommentWindow.resources
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.CommentBrowserWindow.resources
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.ExportWindow.resources
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.ImportWindow.resources
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.csproj.GenerateResource.cache
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.csproj.CoreCompileInputs.cache
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.csproj.CopyComplete
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.dll
+C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.pdb

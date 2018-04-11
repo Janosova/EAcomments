@@ -13,9 +13,9 @@ namespace EAcomments
 {
     public partial class CommentBrowserWindow : UserControl
     {
-        BindingSource bindingSourse;
         public DataGridView dataGridView { get; set; }
         public Repository Repository { get; set; }
+        public BindingSource bindingSourse { get; set; }
 
         public CommentBrowserWindow()
         {
@@ -100,7 +100,6 @@ namespace EAcomments
                 if (n.GUID.Equals(elementGUID))
                 {
                     dataGridView1.Rows.Remove(row);
-                    break;
                 }
             }
             dataGridView1.Refresh();
@@ -134,20 +133,20 @@ namespace EAcomments
         private void dataGridView1_DoubleClick(object sender, EventArgs e)
         {
             Note n = (Note)dataGridView1.CurrentRow.DataBoundItem;
-            CommentBrowserController.openDiagramWithGUID(n.diagramGUID);
+            MyAddinClass.commentBrowserController.openDiagramWithGUID(n.diagramGUID);
         }
 
         private void CommentBrowserControl_VisibleChanged(object sender, EventArgs e)
         {
             if(!this.Visible)
             {
-                CommentBrowserController.windowClosed();
+                MyAddinClass.commentBrowserController.windowClosed();
             }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            CommentBrowserController.updateElementState(e, dataGridView1);
+            MyAddinClass.commentBrowserController.updateElementState(e, dataGridView1);
         }
 
         private void syncButton_Click(object sender, EventArgs e)
@@ -157,12 +156,12 @@ namespace EAcomments
 
         private void importButton_Click(object sender, EventArgs e)
         {
-            ImportService.ImportFromJSON(this.Repository);
+            MyAddinClass.importService.ImportFromJSON();
         }
 
         private void exportButton_Click(object sender, EventArgs e)
         {
-            ExportService.exportToJson(this.Repository);
+            MyAddinClass.exportService.exportToJSON();
         }
     }
 }

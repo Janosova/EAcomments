@@ -8,8 +8,9 @@ using System.Windows.Forms;
 
 namespace EAcomments
 {
-    static class UpdateController
+    public static class UpdateController
     {
+
         // Method changes TaggedValue of specified Element selected in Comment Browser Window
         public static void assignTaggedValue(Repository Repository, string elementGUID, string taggedValueName, string taggedValueValue)
         {
@@ -28,7 +29,7 @@ namespace EAcomments
             Element e = Repository.GetElementByID(diagramObject.ElementID);
 
             assignTaggedValue(Repository, e.ElementGUID, "state", stateValue);
-            CommentBrowserController.updateElementState(e.ElementGUID, stateValue);
+            MyAddinClass.commentBrowserController.updateElementState(e.ElementGUID, stateValue);
         }
 
         // Method removes all un-connected Notes in Model 
@@ -41,11 +42,11 @@ namespace EAcomments
                 Element e = collection.GetAt(i);
                 if (e.Connectors.Count == 0)
                 {
-                    CommentBrowserController.deleteElement(e.ElementGUID);
+                    MyAddinClass.commentBrowserController.deleteElement(e.ElementGUID);
                     collection.DeleteAt(i, false);
-                    collection.Refresh();
                 }                
             }
+            collection.Refresh();
         }
     }
 }

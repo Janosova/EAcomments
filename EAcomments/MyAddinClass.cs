@@ -2,6 +2,9 @@
 using System.Windows.Forms;
 using EA;
 
+// Enterprise Architect simple team review Add-in 
+// using Comments to point out questions, warning, errors
+
 namespace EAcomments
 {
     public class MyAddinClass
@@ -19,12 +22,25 @@ namespace EAcomments
         const string changeStateToResolved = "&Resolve Comment";
         const string changeStateToUnresolved = "&Unresolve Comment";
 
+        // Controllers
+        public static CommentBrowserController commentBrowserController = null;
+
+        // Services
+        public static ImportService importService = null;
+        public static ExportService exportService = null;
+
+        // Windows
+        AddCommentWindow addCommentWindow = null;
+
         // Define Sub-menu for Treeview Location
         // -- nothing yet -- 
 
         // Method connects to EA Repository each time EA opens
         public String EA_Connect(EA.Repository Repository)
         {
+            commentBrowserController = new CommentBrowserController(Repository);
+            importService = new ImportService(Repository);
+            exportService = new ExportService(Repository);
             return string.Empty;
         }
 
@@ -123,21 +139,21 @@ namespace EAcomments
                 // Main menu options
                 case menuShowCommentWindow:
                     Repository.SaveAllDiagrams();
-                    CommentBrowserController.initWindow(Repository);
+                    commentBrowserController.initWindow();
                     break;
                 case menuImportComments:
                     Repository.SaveAllDiagrams();
-                    ImportService.ImportFromJSON(Repository);
+                    importService.ImportFromJSON();
                     break;
                 case menuExportComments:
                     Repository.SaveAllDiagrams();
-                    ExportService.exportToJson(Repository);
+                    exportService.exportToJSON();
                     break;
 
                 // Diagram menu options
                 case menuAddCommentToElement:
-                    AddCommentWindow addCommentWindow = new AddCommentWindow(Repository);
-                    addCommentWindow.Show();
+                    this.addCommentWindow = new AddCommentWindow(Repository);
+                    this.addCommentWindow.ShowDialog();
                     break;
                 case changeStateToResolved:
                     UpdateController.updateSelectedElementState(Repository, "resolved");
@@ -192,7 +208,9 @@ namespace EAcomments
                 EventProperty prop = Info.Get("PackageID");
                 int packageID = int.Parse(prop.Value.ToString());
                 Package p = Repository.GetPackageByID(packageID);
-                CommentBrowserController.deleteElementsWithinPackage(p);
+
+                commentBrowserController.deleteElementsWithinPackage(p);
+
             }
             catch(Exception) { }
             
@@ -208,7 +226,8 @@ namespace EAcomments
                 EventProperty prop = Info.Get("DiagramID");
                 int diagramID = int.Parse(prop.Value.ToString());
                 Diagram d = Repository.GetDiagramByID(diagramID);
-                CommentBrowserController.deleteElementsWithinDiagram(d);
+
+                commentBrowserController.deleteElementsWithinDiagram(d);
             }
             catch (Exception) { }
 
@@ -217,13 +236,13 @@ namespace EAcomments
 
         public bool EA_OnPreDeleteElement(Repository Repository, EventProperties Info)
         {
-            MessageBox.Show("mazem leement");
             try
             {
                 EventProperty prop = Info.Get("ElementID");
                 int elementID = int.Parse(prop.Value.ToString());
                 Element e = Repository.GetElementByID(elementID);
-                CommentBrowserController.deleteElementsWithinElement(e);
+
+                commentBrowserController.deleteElementsWithinElement(e);
 
                 foreach (Diagram d in e.Diagrams)
                 {
@@ -247,7 +266,8 @@ namespace EAcomments
 
                 if (isObservedStereotype(e))
                 {
-                    CommentBrowserController.deleteElement(e.ElementGUID);
+                    MessageBox.Show("Zmazal som elemenet! " + e.Notes);
+                    commentBrowserController.deleteElement(e.ElementGUID);
                 }
             }
             catch(Exception) { }
@@ -270,7 +290,8 @@ namespace EAcomments
                     UpdateController.assignTaggedValue(Repository, e.ElementGUID, "state", "unresolved");
                     UpdateController.assignTaggedValue(Repository, e.ElementGUID, "origin", e.ElementGUID);
                     Note n = new Note(e, Repository);
-                    CommentBrowserController.addNewElement(n);
+
+                    commentBrowserController.addNewElement(n);
                 }
             }
             catch(Exception e) {}
@@ -281,8 +302,12 @@ namespace EAcomments
         // Method notifies Add-in when any Item in Model is under focus (was clicked)
         public virtual void EA_OnContextItemChanged(Repository Repository, string GUID, ObjectType ot)
         {
-            CommentBrowserController.updateElementContent(GUID);
-            if(ObjectType.otDiagramObject == ot || ObjectType.otElement == ot)
+            if(commentBrowserController != null)
+            {
+                commentBrowserController.updateElementContent(GUID);
+            }
+            
+            if (ObjectType.otDiagramObject == ot || ObjectType.otElement == ot)
             {
                 Element e = Repository.GetElementByGuid(GUID);
             }

@@ -30,6 +30,10 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.syncButton = new System.Windows.Forms.Button();
+            this.importButton = new System.Windows.Forms.Button();
+            this.exportButton = new System.Windows.Forms.Button();
+            this.noteBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gUIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,10 +44,6 @@
             this.packageGUIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.packageNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.state = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.noteBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.syncButton = new System.Windows.Forms.Button();
-            this.importButton = new System.Windows.Forms.Button();
-            this.exportButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.noteBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -53,6 +53,9 @@
             this.dataGridView1.AllowUserToAddRows = false;
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataGridView1.AutoGenerateColumns = false;
             this.dataGridView1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -81,6 +84,40 @@
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
             // 
+            // syncButton
+            // 
+            this.syncButton.Location = new System.Drawing.Point(12, 3);
+            this.syncButton.Name = "syncButton";
+            this.syncButton.Size = new System.Drawing.Size(75, 23);
+            this.syncButton.TabIndex = 1;
+            this.syncButton.Text = "Sync";
+            this.syncButton.UseVisualStyleBackColor = true;
+            this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
+            // 
+            // importButton
+            // 
+            this.importButton.Location = new System.Drawing.Point(108, 3);
+            this.importButton.Name = "importButton";
+            this.importButton.Size = new System.Drawing.Size(75, 23);
+            this.importButton.TabIndex = 2;
+            this.importButton.Text = "Import";
+            this.importButton.UseVisualStyleBackColor = true;
+            this.importButton.Click += new System.EventHandler(this.importButton_Click);
+            // 
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(203, 3);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(75, 23);
+            this.exportButton.TabIndex = 3;
+            this.exportButton.Text = "Export";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
+            // 
+            // noteBindingSource
+            // 
+            this.noteBindingSource.DataSource = typeof(EAcomments.Note);
+            // 
             // iDDataGridViewTextBoxColumn
             // 
             this.iDDataGridViewTextBoxColumn.DataPropertyName = "ID";
@@ -107,12 +144,12 @@
             // 
             // contentDataGridViewTextBoxColumn
             // 
+            this.contentDataGridViewTextBoxColumn.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.contentDataGridViewTextBoxColumn.DataPropertyName = "content";
             this.contentDataGridViewTextBoxColumn.HeaderText = "Content";
-            this.contentDataGridViewTextBoxColumn.MinimumWidth = 50;
+            this.contentDataGridViewTextBoxColumn.MinimumWidth = 200;
             this.contentDataGridViewTextBoxColumn.Name = "contentDataGridViewTextBoxColumn";
             this.contentDataGridViewTextBoxColumn.ReadOnly = true;
-            this.contentDataGridViewTextBoxColumn.Width = 200;
             // 
             // stereotypeDataGridViewTextBoxColumn
             // 
@@ -160,40 +197,6 @@
             this.state.Name = "state";
             this.state.ReadOnly = true;
             // 
-            // noteBindingSource
-            // 
-            this.noteBindingSource.DataSource = typeof(EAcomments.Note);
-            // 
-            // syncButton
-            // 
-            this.syncButton.Location = new System.Drawing.Point(12, 3);
-            this.syncButton.Name = "syncButton";
-            this.syncButton.Size = new System.Drawing.Size(75, 23);
-            this.syncButton.TabIndex = 1;
-            this.syncButton.Text = "Sync";
-            this.syncButton.UseVisualStyleBackColor = true;
-            this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
-            // 
-            // importButton
-            // 
-            this.importButton.Location = new System.Drawing.Point(108, 3);
-            this.importButton.Name = "importButton";
-            this.importButton.Size = new System.Drawing.Size(75, 23);
-            this.importButton.TabIndex = 2;
-            this.importButton.Text = "Import";
-            this.importButton.UseVisualStyleBackColor = true;
-            this.importButton.Click += new System.EventHandler(this.importButton_Click);
-            // 
-            // exportButton
-            // 
-            this.exportButton.Location = new System.Drawing.Point(203, 3);
-            this.exportButton.Name = "exportButton";
-            this.exportButton.Size = new System.Drawing.Size(75, 23);
-            this.exportButton.TabIndex = 3;
-            this.exportButton.Text = "Export";
-            this.exportButton.UseVisualStyleBackColor = true;
-            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
-            // 
             // CommentBrowserWindow
             // 
             this.Controls.Add(this.exportButton);
@@ -213,6 +216,12 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource noteBindingSource;
+        private System.Windows.Forms.DataGridViewTextBoxColumn connectedToIDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn connectedToGUIDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn connectorIDDataGridViewTextBoxColumn;
+        private System.Windows.Forms.Button syncButton;
+        private System.Windows.Forms.Button importButton;
+        private System.Windows.Forms.Button exportButton;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn flag;
         private System.Windows.Forms.DataGridViewTextBoxColumn gUIDDataGridViewTextBoxColumn;
@@ -222,12 +231,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn diagramNameDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn packageGUIDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn packageNameDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn connectedToIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn connectedToGUIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn connectorIDDataGridViewTextBoxColumn;
         private System.Windows.Forms.DataGridViewCheckBoxColumn state;
-        private System.Windows.Forms.Button syncButton;
-        private System.Windows.Forms.Button importButton;
-        private System.Windows.Forms.Button exportButton;
     }
 }

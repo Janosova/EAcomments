@@ -50,6 +50,7 @@
             this.filePathField.Name = "filePathField";
             this.filePathField.Size = new System.Drawing.Size(316, 22);
             this.filePathField.TabIndex = 1;
+            this.filePathField.TextChanged += new System.EventHandler(this.fileFieldsChanged);
             // 
             // browseButton
             // 
@@ -63,13 +64,14 @@
             // 
             // importButton
             // 
+            this.importButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.importButton.Enabled = false;
             this.importButton.Location = new System.Drawing.Point(452, 63);
             this.importButton.Name = "importButton";
             this.importButton.Size = new System.Drawing.Size(75, 23);
             this.importButton.TabIndex = 3;
             this.importButton.Text = "Import";
             this.importButton.UseVisualStyleBackColor = true;
-            this.importButton.Click += new System.EventHandler(this.importButton_Click);
             // 
             // openFileBrowser
             // 
@@ -87,7 +89,6 @@
             this.Controls.Add(this.filePathLabel);
             this.Name = "ImportWindow";
             this.Text = "ImportWindow";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ImportWindow_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

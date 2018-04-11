@@ -5,24 +5,28 @@ using EA;
 
 namespace EAcomments
 {
-    static class CommentBrowserController
+    public class CommentBrowserController
     {
-        public static CommentBrowserWindow uc_commentBrowser;
-        private static Repository repository;
-        private static Element lastClicked = null;
+        CommentBrowserWindow uc_commentBrowser;
+        private Repository Repository = null;
+        private Element lastClicked = null;
 
-        public static void initWindow(Repository Repository)
+        public CommentBrowserController(Repository Repository)
         {
-            repository = Repository;
+            this.Repository = Repository;
+        }
+        
+        public void initWindow()
+        {
             if (uc_commentBrowser == null)
             {
                 try
                 {
-                    uc_commentBrowser = (CommentBrowserWindow)repository.AddTab("Comments Browser", "EAcomments.CommentBrowserWindow");
+                    uc_commentBrowser = (CommentBrowserWindow)this.Repository.AddTab("Comments Browser", "EAcomments.CommentBrowserWindow");
                     List<Note> notes = getNotes();
-                    uc_commentBrowser.initExistingNotes(notes, Repository);
+                    uc_commentBrowser.initExistingNotes(notes, this.Repository);
                 }
-                catch
+                catch (Exception)
                 {
                     MessageBox.Show("An error has occured when creating Comment Browser Window.");
                 }
@@ -33,23 +37,23 @@ namespace EAcomments
             }
         }
 
-        public static void refreshWindow()
+        public void refreshWindow()
         {
-            if(uc_commentBrowser != null)
+            if(this.uc_commentBrowser != null)
             {
                 List<Note> notes = getNotes();
-                uc_commentBrowser.clearWindow();
-                uc_commentBrowser.initExistingNotes(notes, repository);
+                this.uc_commentBrowser.clearWindow();
+                this.uc_commentBrowser.initExistingNotes(notes, this.Repository);
             }
         }
 
         // Method called on double click event on single row
-        public static void openDiagramWithGUID(string diagramGUID)
+        public void openDiagramWithGUID(string diagramGUID)
         {
             try
             {
-                Diagram d = repository.GetDiagramByGuid(diagramGUID);
-                repository.OpenDiagram(d.DiagramID);
+                Diagram d = this.Repository.GetDiagramByGuid(diagramGUID);
+                this.Repository.OpenDiagram(d.DiagramID);
             }
             catch
             {
@@ -59,29 +63,41 @@ namespace EAcomments
         }
 
         // Method called when new Note is posted into Model
-        public static void addNewElement(Note note)
+        public void addNewElement(Note note)
         {
-            if (uc_commentBrowser != null)
+            if (this.uc_commentBrowser != null)
             {
-                uc_commentBrowser.addItem(note);
+                //this.uc_commentBrowser.addItem(note);
+                this.uc_commentBrowser.bindingSourse.Add(note);
+                this.uc_commentBrowser.dataGridView.DataSource = this.uc_commentBrowser.bindingSourse;
+
             }
         }
 
         // Method called on sync event
-        public static void deleteElement(string elementGUID)
+        public void deleteElement(string elementGUID)
         {
             if(uc_commentBrowser != null)
             {
-                uc_commentBrowser.deleteElement(elementGUID);
+                //uc_commentBrowser.deleteElement(elementGUID);
+                foreach (DataGridViewRow row in this.uc_commentBrowser.dataGridView.Rows)
+                {
+                    Note n = (Note)row.DataBoundItem;
+                    if (n.GUID.Equals(elementGUID))
+                    {
+                        this.uc_commentBrowser.dataGridView.Rows.Remove(row);
+                    }
+                }
+                this.uc_commentBrowser.dataGridView.Refresh();
+                this.uc_commentBrowser.dataGridView.Update();
             }
-            
         }
 
-        public static void deleteElementsWithinPackage(Package p)
+        public void deleteElementsWithinPackage(Package p)
         {
-            if (uc_commentBrowser != null)
+            if (this.uc_commentBrowser != null)
             {
-                DataGridView dgw = uc_commentBrowser.dataGridView;
+                DataGridView dgw = this.uc_commentBrowser.dataGridView;
 
                 foreach (DataGridViewRow row in dgw.Rows)
                 {
@@ -96,11 +112,11 @@ namespace EAcomments
             }
         }
 
-        public static void deleteElementsWithinDiagram(Diagram d)
+        public void deleteElementsWithinDiagram(Diagram d)
         {
-            if (uc_commentBrowser != null)
+            if (this.uc_commentBrowser != null)
             {
-                DataGridView dgw = uc_commentBrowser.dataGridView;
+                DataGridView dgw = this.uc_commentBrowser.dataGridView;
 
                 foreach (DataGridViewRow row in dgw.Rows)
                 {
@@ -116,12 +132,13 @@ namespace EAcomments
             }
         }
 
-        public static void deleteElementsWithinElement(Element e)
+        public void deleteElementsWithinElement(Element e)
         {
-            if (uc_commentBrowser != null)
+            if (this.uc_commentBrowser != null)
             {
-                DataGridView dgw = uc_commentBrowser.dataGridView;
+                DataGridView dgw = this.uc_commentBrowser.dataGridView;
                 short i = 0;
+
                 foreach(Diagram d in e.Diagrams)
                 {
                     foreach (DataGridViewRow row in dgw.Rows)
@@ -142,11 +159,11 @@ namespace EAcomments
         }
 
         // Method called when TaggedValue of single Note has been changed
-        public static void updateElementState(string elementGUID, string stateValue)
+        public void updateElementState(string elementGUID, string stateValue)
         {
-            if(uc_commentBrowser != null)
+            if (this.uc_commentBrowser != null)
             {
-                DataGridView dgw = uc_commentBrowser.dataGridView;
+                DataGridView dgw = this.uc_commentBrowser.dataGridView;
 
                 foreach (DataGridViewRow row in dgw.Rows)
                 {
@@ -174,13 +191,14 @@ namespace EAcomments
         }
 
         // Method changes Checkbox Value andcalled when TaggedValue of single Note has been changed
-        public static void updateElementState(DataGridViewCellEventArgs e, DataGridView dataGridView1)
+        public void updateElementState(DataGridViewCellEventArgs e, DataGridView dataGridView1)
         {
-            if(uc_commentBrowser != null)
+            if(this.uc_commentBrowser != null)
             {
                 // Get clicked DataGridViewCell and verify if it's CheckBoxCell
                 DataGridViewCell dataCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 Type cellType = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex].GetType();
+
                 if (cellType.Name.Equals("DataGridViewCheckBoxCell"))
                 {
                     // Get clicked Checkbox
@@ -196,58 +214,59 @@ namespace EAcomments
                     if (checkbox.Value == checkbox.FalseValue || checkbox.Value == null)
                     {
                         checkbox.Value = checkbox.TrueValue;
-                        UpdateController.assignTaggedValue(repository, n.GUID, "state", "resolved");
+                        UpdateController.assignTaggedValue(this.Repository, n.GUID, "state", "resolved");
                     }
                     else
                     {
                         checkbox.Value = null;
-                        UpdateController.assignTaggedValue(repository, n.GUID, "state", "unresolved");
+                        UpdateController.assignTaggedValue(this.Repository, n.GUID, "state", "unresolved");
                     }
                 }
             }
         }
 
         // Method called when Note content has been changed in Model
-        public static void updateElementContent(string currentElementGUID)
+        public void updateElementContent(string currentElementGUID)
         {
-            if(uc_commentBrowser != null)
+            if(this.uc_commentBrowser != null)
             {
                 if (lastClicked != null)
                 {
                     if(MyAddinClass.isObservedStereotype(lastClicked))
                     {
-                        Element e = repository.GetElementByGuid(lastClicked.ElementGUID);
-                        uc_commentBrowser.updateContent(e.ElementGUID, currentElementGUID, e.Notes);
+                        Element e = this.Repository.GetElementByGuid(lastClicked.ElementGUID);
+                        this.uc_commentBrowser.updateContent(e.ElementGUID, currentElementGUID, e.Notes);
                     }
-                    lastClicked = repository.GetElementByGuid(currentElementGUID);
+                    lastClicked = this.Repository.GetElementByGuid(currentElementGUID);
                 }
                 else
                 {
-                    lastClicked = repository.GetElementByGuid(currentElementGUID);
+                    lastClicked = this.Repository.GetElementByGuid(currentElementGUID);
                 }
             }
         }
 
         // Method called when window is being initialized
-        public static List<Note> getNotes()
+        public List<Note> getNotes()
         {
+            Collection collection = null;
             List<Note> notes = new List<Note>();
 
             // get Collection of Notes and loop through it and add every Note DataGridView's DataSource
-            Collection collection = repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
+            collection = this.Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
 
             foreach (Element e in collection)
             {
-                Note note = new Note(e, repository);
+                Note note = new Note(e, this.Repository);
                 notes.Add(note);
             }
 
             return notes;
         }
 
-        public static void windowClosed()
+        public void windowClosed()
         {
-            uc_commentBrowser = null;
+            this.uc_commentBrowser = null;
         }
     }
 }

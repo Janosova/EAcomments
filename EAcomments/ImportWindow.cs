@@ -14,7 +14,7 @@ namespace EAcomments
     public partial class ImportWindow : Form
     {
         public string JSONcontent { get; set; }
-        public string filePath { get; set; }
+        public string FilePath { get; set; }
         public ImportWindow()
         {
             InitializeComponent();
@@ -25,26 +25,16 @@ namespace EAcomments
             openFileBrowser.ShowDialog();
         }
 
-        private void importButton_Click(object sender, EventArgs e)
-        {
-            // verify if file exists and if extesion is .json
-            if((File.Exists(this.filePathField.Text)) && (Path.GetExtension(this.filePathField.Text).ToLower() == ".json"))
-            {
-                filePath = this.filePathField.Text;
-                //Close Window
-                this.Visible = false;
-                this.Close();
-            }
-        }
-
         private void openFileBrowser_FileOk(object sender, CancelEventArgs e)
         {
             this.filePathField.Text = openFileBrowser.FileName;
         }
 
-        private void ImportWindow_FormClosed(object sender, FormClosedEventArgs e)
+        private void fileFieldsChanged(object sender, EventArgs e)
         {
-            ImportService.readFile();
+            importButton.Enabled = !string.IsNullOrWhiteSpace(this.filePathField.Text);
+
+            this.FilePath = this.filePathField.Text;
         }
     }
 }

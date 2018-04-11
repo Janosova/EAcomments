@@ -53,6 +53,7 @@
             this.filePathField.Name = "filePathField";
             this.filePathField.Size = new System.Drawing.Size(275, 22);
             this.filePathField.TabIndex = 1;
+            this.filePathField.TextChanged += new System.EventHandler(this.FileFieldsChanged);
             // 
             // fileNameField
             // 
@@ -61,6 +62,7 @@
             this.fileNameField.Name = "fileNameField";
             this.fileNameField.Size = new System.Drawing.Size(376, 22);
             this.fileNameField.TabIndex = 2;
+            this.fileNameField.TextChanged += new System.EventHandler(this.FileFieldsChanged);
             // 
             // fileNameLabel
             // 
@@ -82,13 +84,14 @@
             // 
             // exportButton
             // 
+            this.exportButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.exportButton.Enabled = false;
             this.exportButton.Location = new System.Drawing.Point(401, 144);
             this.exportButton.Name = "exportButton";
             this.exportButton.Size = new System.Drawing.Size(75, 23);
             this.exportButton.TabIndex = 5;
             this.exportButton.Text = "Export";
             this.exportButton.UseVisualStyleBackColor = true;
-            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
             // 
             // saveFileBrowser
             // 
@@ -107,7 +110,6 @@
             this.Controls.Add(this.browseButton);
             this.Name = "ExportWindow";
             this.Text = "ExportWindow";
-            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ExportWindow_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();
 

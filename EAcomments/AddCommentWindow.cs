@@ -13,11 +13,12 @@ namespace EAcomments
 {
     public partial class AddCommentWindow : Form
     {
-        private Repository repository;
+        private Repository Repository = null;
+
         public AddCommentWindow(Repository Repository)
         {
             InitializeComponent();
-            this.repository = Repository;
+            this.Repository = Repository;
             this.initComboBox();
         }
 
@@ -33,14 +34,14 @@ namespace EAcomments
                 this.Close();
 
                 // create new Note and store it
-                Note note = new Note(stereotype, content, repository);
+                Note note = new Note(stereotype, content, this.Repository);
 
                 // add new Note into the Comment Browser Window
-                CommentBrowserController.addNewElement(note);
+                MyAddinClass.commentBrowserController.addNewElement(note);
 
                 // refresh Diagram after new Note is added to see changes
-                Diagram diagram = repository.GetCurrentDiagram();
-                MyAddinClass.refreshDiagram(repository, diagram);
+                Diagram diagram = this.Repository.GetCurrentDiagram();
+                MyAddinClass.refreshDiagram(this.Repository, diagram);
             }
         }
 
