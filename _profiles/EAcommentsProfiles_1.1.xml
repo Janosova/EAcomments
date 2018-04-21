@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<UMLProfile profiletype="uml2">
+	<Documentation id="197EAEDF-4" name="EAcommentsProfile" version="1.0" notes="EAcommentsProfile"/>
+	<Content>
+		<Stereotypes>
+			<Stereotype name="error" notes="" cx="0" cy="0" bgcolor="255" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIAPKBlUzgIL3y3gEAANgHAAAHABEAc3RyLmRhdFVUDQAHnWPbWp1j21qdY9ta
+tVTbSsNAEJ3XCP7Dkr60IGivKF6e/ATfJTZpG0yT0rSKSP/dM7PZXHclFCXspck5Z2bOTjen
+DQW0o4gUbbGLKaVLupDxLbOHNxnlggux+wTyEcOnA+3pCKZP9yXHw7uIlvgWgLemBL+GdENX
+MsaYq3VU8DxRDhHjSG9FJM5oCOUcSpFoZth9yXsfCqrUUjTrqbWERip6PLdVFg0VPVd8Zc1E
+lR55QL4Cm8DBNfSNR8siGjONT4ze4Td7fQAjlewe8AysUQb0hMevZXeeyydnbU1n6lV18xxI
+PzA2x/6vsjoVeZlxjScEfyXRY2jGkqPCvMIcYDxLtAxRg/K74TO3/U1h1ZUywtQYQ28oXuT0
+gnld9h0zTbf5UlsOdkIf2IVS+ajQqPzSvD3mnfA3UKs7tIUC8w9YtTfThhuedFBaIuaCuf0V
+M6ZJ6awbddcDo6Px7MZwvt2szcodFDpqz0WDTzTBwyeRyAnpCqbi8wTR57KbYq2zDY97i//f
+fPtk9A5NWzTT631P9wjV/zhh9rvrut1Z7f6sVbcdq3X5TN0nxfdiF2PH8u3HJ98ntu6ktm47
+P92TbZQdzf3dv3KtrO9udwY6yy7Kjtb1t3vO5qdL77zOr/q96vtFg3tO35/oB1BLAQIXCxQA
+AAAIAPKBlUzgIL3y3gEAANgHAAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAedY9ta
+UEsFBgAAAAABAAEAPgAAABQCAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Note"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="origin" type="string" description="" unit="" values="" default=""/>
+					<Tag name="state" type="enumeration" description="" unit="" values="unresolved,resolved" default="unresolved"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="question" notes="" cx="0" cy="0" bgcolor="65535" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIANKBlUzgIL3y3gEAANgHAAAHABEAc3RyLmRhdFVUDQAHcWPbWnFj21pxY9ta
+tVTbSsNAEJ3XCP7Dkr60IGivKF6e/ATfJTZpG0yT0rSKSP/dM7PZXHclFCXspck5Z2bOTjen
+DQW0o4gUbbGLKaVLupDxLbOHNxnlggux+wTyEcOnA+3pCKZP9yXHw7uIlvgWgLemBL+GdENX
+MsaYq3VU8DxRDhHjSG9FJM5oCOUcSpFoZth9yXsfCqrUUjTrqbWERip6PLdVFg0VPVd8Zc1E
+lR55QL4Cm8DBNfSNR8siGjONT4ze4Td7fQAjlewe8AysUQb0hMevZXeeyydnbU1n6lV18xxI
+PzA2x/6vsjoVeZlxjScEfyXRY2jGkqPCvMIcYDxLtAxRg/K74TO3/U1h1ZUywtQYQ28oXuT0
+gnld9h0zTbf5UlsOdkIf2IVS+ajQqPzSvD3mnfA3UKs7tIUC8w9YtTfThhuedFBaIuaCuf0V
+M6ZJ6awbddcDo6Px7MZwvt2szcodFDpqz0WDTzTBwyeRyAnpCqbi8wTR57KbYq2zDY97i//f
+fPtk9A5NWzTT631P9wjV/zhh9rvrut1Z7f6sVbcdq3X5TN0nxfdiF2PH8u3HJ98ntu6ktm47
+P92TbZQdzf3dv3KtrO9udwY6yy7Kjtb1t3vO5qdL77zOr/q96vtFg3tO35/oB1BLAQIXCxQA
+AAAIANKBlUzgIL3y3gEAANgHAAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAdxY9ta
+UEsFBgAAAAABAAEAPgAAABQCAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Note"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="origin" type="string" description="" unit="" values="" default=""/>
+					<Tag name="state" type="enumeration" description="" unit="" values="unresolved,resolved" default="unresolved"/>
+				</TaggedValues>
+			</Stereotype>
+			<Stereotype name="warning" notes="" cx="0" cy="0" bgcolor="42495" fontcolor="-1" bordercolor="-1" borderwidth="1" hideicon="0">
+				<Image type="EAShapeScript 1.0" xmlns:dt="urn:schemas-microsoft-com:datatypes" dt:dt="bin.base64">UEsDBBQAAAAIANCBlUzgIL3y3gEAANgHAAAHABEAc3RyLmRhdFVUDQAHgGPbWoBj21qAY9ta
+tVTbSsNAEJ3XCP7Dkr60IGivKF6e/ATfJTZpG0yT0rSKSP/dM7PZXHclFCXspck5Z2bOTjen
+DQW0o4gUbbGLKaVLupDxLbOHNxnlggux+wTyEcOnA+3pCKZP9yXHw7uIlvgWgLemBL+GdENX
+MsaYq3VU8DxRDhHjSG9FJM5oCOUcSpFoZth9yXsfCqrUUjTrqbWERip6PLdVFg0VPVd8Zc1E
+lR55QL4Cm8DBNfSNR8siGjONT4ze4Td7fQAjlewe8AysUQb0hMevZXeeyydnbU1n6lV18xxI
+PzA2x/6vsjoVeZlxjScEfyXRY2jGkqPCvMIcYDxLtAxRg/K74TO3/U1h1ZUywtQYQ28oXuT0
+gnld9h0zTbf5UlsOdkIf2IVS+ajQqPzSvD3mnfA3UKs7tIUC8w9YtTfThhuedFBaIuaCuf0V
+M6ZJ6awbddcDo6Px7MZwvt2szcodFDpqz0WDTzTBwyeRyAnpCqbi8wTR57KbYq2zDY97i//f
+fPtk9A5NWzTT631P9wjV/zhh9rvrut1Z7f6sVbcdq3X5TN0nxfdiF2PH8u3HJ98ntu6ktm47
+P92TbZQdzf3dv3KtrO9udwY6yy7Kjtb1t3vO5qdL77zOr/q96vtFg3tO35/oB1BLAQIXCxQA
+AAAIANCBlUzgIL3y3gEAANgHAAAHAAkAAAAAAAAAAAAAgAAAAABzdHIuZGF0VVQFAAeAY9ta
+UEsFBgAAAAABAAEAPgAAABQCAAAAAA==</Image>
+				<AppliesTo>
+					<Apply type="Note"/>
+				</AppliesTo>
+				<TaggedValues>
+					<Tag name="origin" type="string" description="" unit="" values="" default=""/>
+					<Tag name="state" type="enumeration" description="" unit="" values="unresolved,resolved" default="unresolved"/>
+				</TaggedValues>
+			</Stereotype>
+		</Stereotypes>
+		<TaggedValueTypes/>
+	</Content>
+</UMLProfile>

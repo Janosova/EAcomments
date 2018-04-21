@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using EA;
 
@@ -42,6 +44,31 @@ namespace EAcomments
             importService = new ImportService(Repository);
             exportService = new ExportService(Repository);
             return string.Empty;
+        }
+
+        public virtual Object EA_OnInitializeTechnologies(Repository Repository)
+        {
+            string technology = "";
+
+            Assembly assem = this.GetType().Assembly;
+            // EAcomments.Properties.Resources
+            using (Stream stream = assem.GetManifestResourceStream("EAcomments.xml"))
+            {
+                try
+                {
+                    using (StreamReader reader = new StreamReader(stream))
+                    {
+                        technology = reader.ReadToEnd();
+                    }
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Error Initializing Technology");
+                }
+
+            }
+
+            return technology;
         }
 
         // Define default Menu settings

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EAcomments", "EAcomments\EAcomments.csproj", "{819CD267-D989-4F63-A8D8-943433E6BD3C}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EAcommentsSetup", "EAcommentsSetup\EAcommentsSetup.vdproj", "{C33E4BF6-D978-4934-9267-B1F812B1CCA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,8 @@ Global
 		{819CD267-D989-4F63-A8D8-943433E6BD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{819CD267-D989-4F63-A8D8-943433E6BD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{819CD267-D989-4F63-A8D8-943433E6BD3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C33E4BF6-D978-4934-9267-B1F812B1CCA7}.Debug|Any CPU.ActiveCfg = Debug
+		{C33E4BF6-D978-4934-9267-B1F812B1CCA7}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
