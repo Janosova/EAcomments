@@ -19,14 +19,16 @@ namespace EAcomments
         {
             InitializeComponent();
             this.Repository = Repository;
-            this.initComboBox();
+            this.initComboBoxCommentType();
+            this.initComboBoxErrorType();
+            this.authorName();
         }
 
         private void btnAddComment_click(object sender, EventArgs e)
         {
             //get text from Textarea and verify it
-            string content = txtareaCommentText.Text;
-            string stereotype = comboBox1.Text;
+            string content = txtAreaCommentText.Text;
+            string stereotype = commentTypeBox.Text;
 
             if(content != null && content != "")
             {
@@ -46,13 +48,65 @@ namespace EAcomments
         }
 
         // Initialization of ComboBox in Add Comment Window
-        private void initComboBox()
+        private void initComboBoxCommentType()
         {
-            comboBox1.Items.Add("question");
-            comboBox1.Items.Add("warning");
-            comboBox1.Items.Add("error");
+            commentTypeBox.Items.Add("question");
+            commentTypeBox.Items.Add("warning");
+            commentTypeBox.Items.Add("error");
+            commentTypeBox.Items.Add("suggestion");
+            commentTypeBox.SelectedIndex = 0;
+        }
 
-            comboBox1.SelectedIndex = 0;
+        private void initComboBoxErrorType() {
+            errorTypeBox.Items.Add("Wrong description");
+            errorTypeBox.Items.Add("Wrong orientation");
+            errorTypeBox.Items.Add("Missing connector");
+            errorTypeBox.Items.Add("Wrong type of connector");
+            errorTypeBox.Items.Add("Wrong cardinalities");
+            errorTypeBox.Items.Add("Other");
+            errorTypeBox.SelectedIndex = 0;
+
+        }
+        
+        private void authorName() {
+            Collection authorCollection = Repository.GetElementSet("SELECT * FROM t_object", 2);
+            IList<String> authors = new List<String>();
+            foreach (Element e in authorCollection) {
+                authors.Add(e.Author);
+            }
+            authorBox.Items.AddRange(authors.Distinct().ToArray());
+            authorBox.SelectedIndex = 0;
+        }
+
+        //tieto triedy neviem preco sa mi vytvorili zatial zistit
+        private void AddCommentWindow_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+ 
+        }
+
+        private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

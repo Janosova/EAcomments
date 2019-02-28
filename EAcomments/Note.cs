@@ -199,6 +199,9 @@ namespace EAcomments
                 case "error":
                     flag = "E";
                     break;
+                case "suggestion":
+                    flag = "S";
+                    break;
                 default:
                     flag = "-";
                     break;

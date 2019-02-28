@@ -23,7 +23,7 @@ namespace EAcomments
 
             this.Repository.Models.Refresh();
 
-            collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
+            collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error' OR Stereotype='suggestion'", 2);
 
             // loop through each element and get all required information about it
             foreach (Element e in collection)

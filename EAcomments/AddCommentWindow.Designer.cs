@@ -28,76 +28,152 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtareaCommentText = new System.Windows.Forms.RichTextBox();
-            this.btnAddComment = new System.Windows.Forms.Button();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.commentTextLabel = new System.Windows.Forms.Label();
+            this.txtAreaCommentText = new System.Windows.Forms.RichTextBox();
+            this.addCommentButton = new System.Windows.Forms.Button();
+            this.commentTypeBox = new System.Windows.Forms.ComboBox();
+            this.commentTypeLabel = new System.Windows.Forms.Label();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.label3 = new System.Windows.Forms.Label();
+            this.authorNameLabel = new System.Windows.Forms.Label();
+            this.errorTypeLabel = new System.Windows.Forms.Label();
+            this.dateLabel = new System.Windows.Forms.Label();
+            this.errorTypeBox = new System.Windows.Forms.ComboBox();
+            this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
+            this.authorBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
-            // label1
+            // commentTextLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 85);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(126, 17);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Input comment text";
+            this.commentTextLabel.AutoSize = true;
+            this.commentTextLabel.Location = new System.Drawing.Point(9, 126);
+            this.commentTextLabel.Name = "commentTextLabel";
+            this.commentTextLabel.Size = new System.Drawing.Size(100, 13);
+            this.commentTextLabel.TabIndex = 0;
+            this.commentTextLabel.Text = "Input comment text:";
             // 
-            // txtareaCommentText
+            // txtAreaCommentText
             // 
-            this.txtareaCommentText.Location = new System.Drawing.Point(19, 106);
-            this.txtareaCommentText.Margin = new System.Windows.Forms.Padding(4);
-            this.txtareaCommentText.Name = "txtareaCommentText";
-            this.txtareaCommentText.Size = new System.Drawing.Size(479, 139);
-            this.txtareaCommentText.TabIndex = 1;
-            this.txtareaCommentText.Text = "";
+            this.txtAreaCommentText.Location = new System.Drawing.Point(12, 151);
+            this.txtAreaCommentText.Name = "txtAreaCommentText";
+            this.txtAreaCommentText.Size = new System.Drawing.Size(352, 114);
+            this.txtAreaCommentText.TabIndex = 1;
+            this.txtAreaCommentText.Text = "";
             // 
-            // btnAddComment
+            // addCommentButton
             // 
-            this.btnAddComment.Location = new System.Drawing.Point(399, 265);
-            this.btnAddComment.Margin = new System.Windows.Forms.Padding(4);
-            this.btnAddComment.Name = "btnAddComment";
-            this.btnAddComment.Size = new System.Drawing.Size(100, 28);
-            this.btnAddComment.TabIndex = 2;
-            this.btnAddComment.Text = "Add";
-            this.btnAddComment.UseVisualStyleBackColor = true;
-            this.btnAddComment.Click += new System.EventHandler(this.btnAddComment_click);
+            this.addCommentButton.Location = new System.Drawing.Point(289, 285);
+            this.addCommentButton.Name = "addCommentButton";
+            this.addCommentButton.Size = new System.Drawing.Size(75, 23);
+            this.addCommentButton.TabIndex = 2;
+            this.addCommentButton.Text = "Add";
+            this.addCommentButton.UseVisualStyleBackColor = true;
+            this.addCommentButton.Click += new System.EventHandler(this.btnAddComment_click);
             // 
-            // comboBox1
+            // commentTypeBox
             // 
-            this.comboBox1.AllowDrop = true;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(144, 33);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(214, 24);
-            this.comboBox1.TabIndex = 3;
+            this.commentTypeBox.AllowDrop = true;
+            this.commentTypeBox.FormattingEnabled = true;
+            this.commentTypeBox.Location = new System.Drawing.Point(101, 11);
+            this.commentTypeBox.Margin = new System.Windows.Forms.Padding(2);
+            this.commentTypeBox.Name = "commentTypeBox";
+            this.commentTypeBox.Size = new System.Drawing.Size(200, 21);
+            this.commentTypeBox.TabIndex = 3;
+            this.commentTypeBox.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
-            // label2
+            // commentTypeLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(16, 36);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(98, 17);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Comment type";
+            this.commentTypeLabel.AutoSize = true;
+            this.commentTypeLabel.Location = new System.Drawing.Point(9, 14);
+            this.commentTypeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.commentTypeLabel.Name = "commentTypeLabel";
+            this.commentTypeLabel.Size = new System.Drawing.Size(77, 13);
+            this.commentTypeLabel.TabIndex = 4;
+            this.commentTypeLabel.Text = "Comment type:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(12, 41);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(0, 13);
+            this.label3.TabIndex = 5;
+            // 
+            // authorNameLabel
+            // 
+            this.authorNameLabel.AutoSize = true;
+            this.authorNameLabel.Location = new System.Drawing.Point(9, 71);
+            this.authorNameLabel.Name = "authorNameLabel";
+            this.authorNameLabel.Size = new System.Drawing.Size(41, 13);
+            this.authorNameLabel.TabIndex = 6;
+            this.authorNameLabel.Text = "Author:";
+            // 
+            // errorTypeLabel
+            // 
+            this.errorTypeLabel.AutoSize = true;
+            this.errorTypeLabel.Location = new System.Drawing.Point(9, 44);
+            this.errorTypeLabel.Name = "errorTypeLabel";
+            this.errorTypeLabel.Size = new System.Drawing.Size(59, 13);
+            this.errorTypeLabel.TabIndex = 8;
+            this.errorTypeLabel.Text = "Error Type:";
+            // 
+            // dateLabel
+            // 
+            this.dateLabel.AutoSize = true;
+            this.dateLabel.Location = new System.Drawing.Point(9, 102);
+            this.dateLabel.Name = "dateLabel";
+            this.dateLabel.Size = new System.Drawing.Size(33, 13);
+            this.dateLabel.TabIndex = 9;
+            this.dateLabel.Text = "Date:";
+            // 
+            // errorTypeBox
+            // 
+            this.errorTypeBox.FormattingEnabled = true;
+            this.errorTypeBox.Location = new System.Drawing.Point(101, 41);
+            this.errorTypeBox.Name = "errorTypeBox";
+            this.errorTypeBox.Size = new System.Drawing.Size(200, 21);
+            this.errorTypeBox.TabIndex = 10;
+            this.errorTypeBox.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
+            // 
+            // dateTimePicker1
+            // 
+            this.dateTimePicker1.Location = new System.Drawing.Point(101, 102);
+            this.dateTimePicker1.Name = "dateTimePicker1";
+            this.dateTimePicker1.Size = new System.Drawing.Size(200, 20);
+            this.dateTimePicker1.TabIndex = 11;
+            this.dateTimePicker1.ValueChanged += new System.EventHandler(this.dateTimePicker1_ValueChanged);
+            // 
+            // authorBox
+            // 
+            this.authorBox.FormattingEnabled = true;
+            this.authorBox.Location = new System.Drawing.Point(101, 71);
+            this.authorBox.Name = "authorBox";
+            this.authorBox.Size = new System.Drawing.Size(200, 21);
+            this.authorBox.TabIndex = 12;
+            this.authorBox.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
             // AddCommentWindow
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(515, 314);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.comboBox1);
-            this.Controls.Add(this.btnAddComment);
-            this.Controls.Add(this.txtareaCommentText);
-            this.Controls.Add(this.label1);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.ClientSize = new System.Drawing.Size(388, 320);
+            this.Controls.Add(this.authorBox);
+            this.Controls.Add(this.dateTimePicker1);
+            this.Controls.Add(this.errorTypeBox);
+            this.Controls.Add(this.dateLabel);
+            this.Controls.Add(this.errorTypeLabel);
+            this.Controls.Add(this.authorNameLabel);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.commentTypeLabel);
+            this.Controls.Add(this.commentTypeBox);
+            this.Controls.Add(this.addCommentButton);
+            this.Controls.Add(this.txtAreaCommentText);
+            this.Controls.Add(this.commentTextLabel);
             this.Name = "AddCommentWindow";
-            this.Text = "Add comment to Element";
+            this.Text = "Add comment to Element/Connector";
+            this.Load += new System.EventHandler(this.AddCommentWindow_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -105,11 +181,18 @@
 
         #endregion
 
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.RichTextBox txtareaCommentText;
-        private System.Windows.Forms.Button btnAddComment;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Label commentTextLabel;
+        private System.Windows.Forms.Label commentTypeLabel;
+        private System.Windows.Forms.RichTextBox txtAreaCommentText;
+        private System.Windows.Forms.Button addCommentButton;
+        private System.Windows.Forms.ComboBox commentTypeBox;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label authorNameLabel;
+        private System.Windows.Forms.Label errorTypeLabel;
+        private System.Windows.Forms.Label dateLabel;
+        private System.Windows.Forms.ComboBox errorTypeBox;
+        private System.Windows.Forms.DateTimePicker dateTimePicker1;
+        private System.Windows.Forms.ComboBox authorBox;
     }
 }

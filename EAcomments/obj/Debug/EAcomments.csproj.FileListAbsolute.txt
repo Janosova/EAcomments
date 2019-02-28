@@ -28,3 +28,19 @@ C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.cs
 C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.csproj.CopyComplete
 C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.dll
 C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.pdb
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.csprojAssemblyReference.cache
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.AddCommentWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.CommentBrowserWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.ExportWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.ImportWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.Properties.Resources.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.csproj.GenerateResource.cache
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.csproj.CoreCompileInputs.cache
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.dll
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.pdb
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Debug\EAcomments.dll
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Debug\EAcomments.pdb
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Debug\Newtonsoft.Json.dll
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Debug\Newtonsoft.Json.xml
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.csproj.CopyComplete
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Debug\EAcomments.tlb

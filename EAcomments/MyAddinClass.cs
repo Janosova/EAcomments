@@ -193,12 +193,28 @@ namespace EAcomments
                 // -- nothing yet --
             }
         }
+
+        /*public bool getAndCheckConnector(Repository Repository) {
+            Diagram diagram = Repository.GetCurrentDiagram();
+            Connector connectorObject = diagram.SelectedObjects.GetAt(0);
+            try
+            {
+                Connector c = Repository.GetConnectorByID(connectorObject.ConnectorID);
+                bool res = isObservedStereotype(c);
+                return res;
+            }
+            catch {
+                return false;
+            }
+        }*/
         
+        //Potrebujem metodu ktora pracuje s konektorom
         // Method verifies if selected object is Note Element
         public bool getAndCheckElement(Repository Repository)
         {
             Diagram diagram = Repository.GetCurrentDiagram();
             DiagramObject diagramObject = diagram.SelectedObjects.GetAt(0);
+            //Connector con = diagram.SelectedConnector; goood vec pouzit
             try
             {
                 Element e = Repository.GetElementByID(diagramObject.ElementID);
@@ -343,7 +359,7 @@ namespace EAcomments
         // Method check if specified Element has observer Stereotype
         public static bool isObservedStereotype(Element e)
         {
-            if (e.Stereotype.Equals("question") || e.Stereotype.Equals("warning") || e.Stereotype.Equals("error"))
+            if (e.Stereotype.Equals("question") || e.Stereotype.Equals("warning") || e.Stereotype.Equals("error") || e.Stereotype.Equals("suggestion"))
             {
                 return true;
             }

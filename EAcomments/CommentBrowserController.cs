@@ -253,7 +253,7 @@ namespace EAcomments
             List<Note> notes = new List<Note>();
 
             // get Collection of Notes and loop through it and add every Note DataGridView's DataSource
-            collection = this.Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
+            collection = this.Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error' OR Stereotype='suggestion'", 2);
 
             foreach (Element e in collection)
             {
