@@ -54,10 +54,22 @@ namespace EAcomments
             this.content = content;
             this.stereotype = stereotype;
 
-            // get current Diagram, Package and selected Item
+            // get current Diagram and Package 
             Diagram diagram = Repository.GetCurrentDiagram();
             Package package = Repository.GetTreeSelectedPackage();
-            DiagramObject selectedItem = diagram.SelectedObjects.GetAt(0);
+            
+            //get current selected item or selected connector
+            DiagramObject selectedItem = null;
+            Connector selectedConnector = null;
+            try
+            {
+                selectedItem = diagram.SelectedObjects.GetAt(0);
+            }
+            catch
+            {
+                selectedConnector = diagram.SelectedConnector;
+                //MessageBox.Show("" + selectedConnector.Name);
+            }
 
             // create new Note
             Element newNote;
@@ -95,10 +107,25 @@ namespace EAcomments
             o.ElementID = newNote.ElementID;
             o.Update();
 
-            // add connector between two Diagram Elements
-            Connector connector = newNote.Connectors.AddNew("", "NoteLink");
-            connector.SupplierID = selectedItem.ElementID;
-            connector.Update();
+            try
+            {
+                // add connector between two Diagram Elements
+                Connector connector = newNote.Connectors.AddNew("", "NoteLink");
+                connector.SupplierID = selectedItem.ElementID;
+                connector.Update();
+            }
+            catch
+            {
+                // add connector between Diagram Element and Connector
+                Connector c = newNote.Connectors.AddNew("nieco", "NoteLink");
+                c.SupplierID = selectedConnector.ConnectorID;
+                bool result = c.Update();
+                if (!result)
+                {
+                    MessageBox.Show(c.GetLastError());
+                }
+                newNote.Update();
+            }
 
             // store other information about Note
             this.ID = newNote.ElementID;

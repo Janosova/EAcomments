@@ -130,7 +130,7 @@ namespace EAcomments
 
                     // Diagram menu
                     case menuAddCommentToElement:
-                        if (IsElementSelected(Repository)) { IsEnabled = true; }
+                        if (IsElementSelected(Repository) || IsConnectorSelected(Repository)) { IsEnabled = true; }
                         else { IsEnabled = false; }
                         break;
                     case changeStateToResolved:
@@ -193,28 +193,16 @@ namespace EAcomments
                 // -- nothing yet --
             }
         }
-
-        /*public bool getAndCheckConnector(Repository Repository) {
-            Diagram diagram = Repository.GetCurrentDiagram();
-            Connector connectorObject = diagram.SelectedObjects.GetAt(0);
-            try
-            {
-                Connector c = Repository.GetConnectorByID(connectorObject.ConnectorID);
-                bool res = isObservedStereotype(c);
-                return res;
-            }
-            catch {
-                return false;
-            }
-        }*/
         
-        //Potrebujem metodu ktora pracuje s konektorom
         // Method verifies if selected object is Note Element
         public bool getAndCheckElement(Repository Repository)
         {
             Diagram diagram = Repository.GetCurrentDiagram();
+            if (IsConnectorSelected(Repository))
+            {
+                return false;
+            }
             DiagramObject diagramObject = diagram.SelectedObjects.GetAt(0);
-            //Connector con = diagram.SelectedConnector; goood vec pouzit
             try
             {
                 Element e = Repository.GetElementByID(diagramObject.ElementID);
@@ -226,7 +214,7 @@ namespace EAcomments
                 return false;
             }
         }
-        
+
         // Method Saves and Refreshs Diagram when changes were made
         public static void refreshDiagram(Repository Repository, Diagram d)
         {
@@ -240,6 +228,19 @@ namespace EAcomments
             Diagram diagram = Repository.GetCurrentDiagram();
             if (diagram != null && diagram.SelectedObjects.Count == 1) { return true; }
             else { return false; }
+        }
+
+        //Method verifies if any connector in diagram is selected
+        //my new method
+        public static bool IsConnectorSelected(Repository Repository)
+        {
+            Diagram diagram = Repository.GetCurrentDiagram();
+            if (diagram != null && diagram.SelectedConnector != null)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         // Method deletes all Note in Comment Browser Windows those were within specified Package
@@ -360,6 +361,19 @@ namespace EAcomments
         public static bool isObservedStereotype(Element e)
         {
             if (e.Stereotype.Equals("question") || e.Stereotype.Equals("warning") || e.Stereotype.Equals("error") || e.Stereotype.Equals("suggestion"))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //my new method
+        public static bool isObservedConnectorStereotype(Connector c)
+        {
+            if (c.Stereotype.Equals("question") || c.Stereotype.Equals("warning") || c.Stereotype.Equals("error") || c.Stereotype.Equals("suggestion"))
             {
                 return true;
             }
