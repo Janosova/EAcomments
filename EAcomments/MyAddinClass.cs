@@ -23,6 +23,7 @@ namespace EAcomments
         const string menuAddCommentToElement = "&Add comment to Element";
         const string changeStateToResolved = "&Resolve Comment";
         const string changeStateToUnresolved = "&Unresolve Comment";
+        const string viewMoreDetails = "&More details";
 
         // Controllers
         public static CommentBrowserController commentBrowserController = null;
@@ -33,6 +34,7 @@ namespace EAcomments
 
         // Windows
         AddCommentWindow addCommentWindow = null;
+        MoreDetailsWindow addMoreDetailsWindow = null;
 
         // Define Sub-menu for Treeview Location
         // -- nothing yet -- 
@@ -82,7 +84,7 @@ namespace EAcomments
             {
                 case "Diagram":
                     if (MenuName == menuHeader)
-                        return new string[] { menuAddCommentToElement, changeStateToResolved, changeStateToUnresolved };
+                        return new string[] { menuAddCommentToElement, changeStateToResolved, changeStateToUnresolved, viewMoreDetails };
                     break;
                 case "MainMenu":
                     if (MenuName == menuHeader)
@@ -133,6 +135,11 @@ namespace EAcomments
                         if (IsElementSelected(Repository) || IsConnectorSelected(Repository)) { IsEnabled = true; }
                         else { IsEnabled = false; }
                         break;
+                    case viewMoreDetails:
+                        if (!IsConnectorSelected(Repository)) { IsEnabled = true; }
+                        else { IsEnabled = false; }
+                        //zistit ci je to mozne skontrolovat cez isObservedStereotype
+                        break;
                     case changeStateToResolved:
                         if (getAndCheckElement(Repository)) { IsEnabled = true; }
                         else { IsEnabled = false; }
@@ -182,6 +189,10 @@ namespace EAcomments
                     this.addCommentWindow = new AddCommentWindow(Repository);
                     this.addCommentWindow.ShowDialog();
                     break;
+                case viewMoreDetails:
+                    this.addMoreDetailsWindow = new MoreDetailsWindow(Repository);
+                    this.addMoreDetailsWindow.ShowDialog();
+                    break;
                 case changeStateToResolved:
                     UpdateController.updateSelectedElementState(Repository, "resolved");
                     break;
@@ -206,6 +217,8 @@ namespace EAcomments
             try
             {
                 Element e = Repository.GetElementByID(diagramObject.ElementID);
+                var misc4 = e.MiscData[3];
+
                 bool res = isObservedStereotype(e);
                 return res;
             }
@@ -230,8 +243,13 @@ namespace EAcomments
             else { return false; }
         }
 
-        //Method verifies if any connector in diagram is selected
-        //my new method
+        /*bool IsNoteSelected(Repository Repository)
+        {
+            Diagram diagram = Repository.GetCurrentDiagram();
+            if (diagram != null && diagram.SelectedObjects.Equals())
+        }*/
+
+        //Method verifies if any connector in diagram is selected 
         public static bool IsConnectorSelected(Repository Repository)
         {
             Diagram diagram = Repository.GetCurrentDiagram();
@@ -241,6 +259,19 @@ namespace EAcomments
             }
             else
                 return false;
+        }
+
+        public static bool IsNoteElementSelected(Repository Repository)
+        {
+            return true;
+            /*Diagram diagram = Repository.GetCurrentDiagram();
+            EventProperty prop = Info.Get("ElementID");
+            int elementID = int.Parse(prop.Value.ToString());
+            Element selectedElement = Repository.GetElementByID(elementID);
+            if (selectedElement.Stereotype.Equals("question") || selectedElement.Stereotype.Equals("warning") || selectedElement.Stereotype.Equals("error") || selectedElement.Stereotype.Equals("suggestion"))
+                return true;
+            else
+                return false;*/
         }
 
         // Method deletes all Note in Comment Browser Windows those were within specified Package
@@ -310,7 +341,7 @@ namespace EAcomments
 
                 if (isObservedStereotype(e))
                 {
-                    MessageBox.Show("Zmazal som elemenet! " + e.Notes);
+                    MessageBox.Show("Zmazal som elemenet: " + e.Notes + "!");
                     commentBrowserController.deleteElement(e.ElementGUID);
                 }
             }
@@ -361,19 +392,6 @@ namespace EAcomments
         public static bool isObservedStereotype(Element e)
         {
             if (e.Stereotype.Equals("question") || e.Stereotype.Equals("warning") || e.Stereotype.Equals("error") || e.Stereotype.Equals("suggestion"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        //my new method
-        public static bool isObservedConnectorStereotype(Connector c)
-        {
-            if (c.Stereotype.Equals("question") || c.Stereotype.Equals("warning") || c.Stereotype.Equals("error") || c.Stereotype.Equals("suggestion"))
             {
                 return true;
             }

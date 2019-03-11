@@ -72,6 +72,12 @@
     <Compile Include="ImportWindow.Designer.cs">
       <DependentUpon>ImportWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="MoreDetailsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="MoreDetailsWindow.Designer.cs">
+      <DependentUpon>MoreDetailsWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="MyAddinClass.cs" />
     <Compile Include="Note.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -103,6 +109,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ImportWindow.resx">
       <DependentUpon>ImportWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MoreDetailsWindow.resx">
+      <DependentUpon>MoreDetailsWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

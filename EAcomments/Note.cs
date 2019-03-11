@@ -68,7 +68,7 @@ namespace EAcomments
             catch
             {
                 selectedConnector = diagram.SelectedConnector;
-                //MessageBox.Show("" + selectedConnector.Name);
+                //MessageBox.Show("" + selectedConnector.Name); 
             }
 
             // create new Note
@@ -116,15 +116,10 @@ namespace EAcomments
             }
             catch
             {
-                // add connector between Diagram Element and Connector
-                Connector c = newNote.Connectors.AddNew("nieco", "NoteLink");
-                c.SupplierID = selectedConnector.ConnectorID;
-                bool result = c.Update();
-                if (!result)
-                {
-                    MessageBox.Show(c.GetLastError());
-                }
+                newNote.Subtype = 1;
                 newNote.Update();
+                Repository.Execute("UPDATE t_object SET PDATA4 = \"idref1=" + selectedConnector.ConnectorID + ";\" WHERE Object_ID = " + newNote.ElementID);
+                diagram.Update();
             }
 
             // store other information about Note
@@ -207,9 +202,7 @@ namespace EAcomments
             }
             catch (Exception) { }
             
-        }
-            
-            
+        }  
 
         private string addFlag(string type)
         {

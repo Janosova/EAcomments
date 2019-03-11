@@ -36,7 +36,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.label3 = new System.Windows.Forms.Label();
             this.authorNameLabel = new System.Windows.Forms.Label();
-            this.errorTypeLabel = new System.Windows.Forms.Label();
+            this.IssueTypeLabel = new System.Windows.Forms.Label();
             this.dateLabel = new System.Windows.Forms.Label();
             this.errorTypeBox = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
@@ -90,6 +90,7 @@
             this.commentTypeLabel.Size = new System.Drawing.Size(77, 13);
             this.commentTypeLabel.TabIndex = 4;
             this.commentTypeLabel.Text = "Comment type:";
+            this.commentTypeLabel.Click += new System.EventHandler(this.commentTypeLabel_Click);
             // 
             // label3
             // 
@@ -108,14 +109,14 @@
             this.authorNameLabel.TabIndex = 6;
             this.authorNameLabel.Text = "Author:";
             // 
-            // errorTypeLabel
+            // IssueTypeLabel
             // 
-            this.errorTypeLabel.AutoSize = true;
-            this.errorTypeLabel.Location = new System.Drawing.Point(9, 44);
-            this.errorTypeLabel.Name = "errorTypeLabel";
-            this.errorTypeLabel.Size = new System.Drawing.Size(59, 13);
-            this.errorTypeLabel.TabIndex = 8;
-            this.errorTypeLabel.Text = "Error Type:";
+            this.IssueTypeLabel.AutoSize = true;
+            this.IssueTypeLabel.Location = new System.Drawing.Point(9, 44);
+            this.IssueTypeLabel.Name = "IssueTypeLabel";
+            this.IssueTypeLabel.Size = new System.Drawing.Size(62, 13);
+            this.IssueTypeLabel.TabIndex = 8;
+            this.IssueTypeLabel.Text = "Issue Type:";
             // 
             // dateLabel
             // 
@@ -163,7 +164,7 @@
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.errorTypeBox);
             this.Controls.Add(this.dateLabel);
-            this.Controls.Add(this.errorTypeLabel);
+            this.Controls.Add(this.IssueTypeLabel);
             this.Controls.Add(this.authorNameLabel);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.commentTypeLabel);
@@ -189,7 +190,7 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label authorNameLabel;
-        private System.Windows.Forms.Label errorTypeLabel;
+        private System.Windows.Forms.Label IssueTypeLabel;
         private System.Windows.Forms.Label dateLabel;
         private System.Windows.Forms.ComboBox errorTypeBox;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;

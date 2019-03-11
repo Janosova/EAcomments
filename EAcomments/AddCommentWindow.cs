@@ -14,6 +14,7 @@ namespace EAcomments
     public partial class AddCommentWindow : Form
     {
         private Repository Repository = null;
+        public static string passingAuthor;
 
         public AddCommentWindow(Repository Repository)
         {
@@ -24,11 +25,17 @@ namespace EAcomments
             this.authorName();
         }
 
+        //when button add comment is clicked
         private void btnAddComment_click(object sender, EventArgs e)
         {
             //get text from Textarea and verify it
             string content = txtAreaCommentText.Text;
             string stereotype = commentTypeBox.Text;
+
+            //skuska
+            passingAuthor = authorBox.Text;
+            MoreDetailsWindow formular = new MoreDetailsWindow(Repository);
+            formular.Show();
 
             if(content != null && content != "")
             {
@@ -55,6 +62,7 @@ namespace EAcomments
             commentTypeBox.Items.Add("error");
             commentTypeBox.Items.Add("suggestion");
             commentTypeBox.SelectedIndex = 0;
+            
         }
 
         private void initComboBoxErrorType() {
@@ -101,10 +109,15 @@ namespace EAcomments
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void commentTypeLabel_Click(object sender, EventArgs e)
         {
 
         }

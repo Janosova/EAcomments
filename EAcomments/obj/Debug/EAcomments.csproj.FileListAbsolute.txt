@@ -44,3 +44,4 @@ C:\Users\patom\source\repos\EAcomments - Copy\EAcomments\obj\Debug\EAcomments.pd
 \\Mac\Home\Desktop\EAcomments\EAcomments\bin\Debug\Newtonsoft.Json.xml
 \\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.csproj.CopyComplete
 \\Mac\Home\Desktop\EAcomments\EAcomments\bin\Debug\EAcomments.tlb
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Debug\EAcomments.MoreDetailsWindow.resources
