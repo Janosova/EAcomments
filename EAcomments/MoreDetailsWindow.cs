@@ -14,11 +14,13 @@ namespace EAcomments
     public partial class MoreDetailsWindow : Form
     {
         private Repository Repository = null;
-        public MoreDetailsWindow(Repository Repository, String author)
+        public MoreDetailsWindow(Repository Repository, string author, string issueType, string lastModified)
         {
-            InitializeComponent();
+            InitializeComponent(); 
             this.Repository = Repository;
             this.AuthorTextBox.Text = author;
+            this.IssueTypeTextBox.Text = issueType;
+            this.LastModifiedTextBox.Text = lastModified;
         }
 
         private void label1_Click(object sender, EventArgs e)

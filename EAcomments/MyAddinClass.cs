@@ -191,8 +191,29 @@ namespace EAcomments
                     break;
                 case viewMoreDetails:
                     //kto je autor
-                    this.addMoreDetailsWindow = new MoreDetailsWindow(Repository, "");
-                    this.addMoreDetailsWindow.ShowDialog();
+                    //MoreDetailsWindow obj = new MoreDetailsWindow(Repository, AddCommentWindow.authorsName);
+                    Diagram diagram = Repository.GetCurrentDiagram();
+                    DiagramObject diagramObject = diagram.SelectedObjects.GetAt(0);
+                    Element element = Repository.GetElementByID(diagramObject.ElementID);
+                    Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
+
+                    Note n = null;
+                    foreach (Element e in collection)
+                    {
+                        if (e.ElementID.Equals(element.ElementID))
+                        {
+                            MessageBox.Show("rtest");
+                            n = new Note(e, Repository);
+                  
+                            break;
+                        }
+                    }
+                    //string temp = commentBrowserController.getNotes().Find(x => x.ID == element.ElementID).issueType;
+                    string author = element.Author;
+               //     string issueType = temp;
+                    //MessageBox.Show("C" + issueType);
+                    MoreDetailsWindow obj = new MoreDetailsWindow(Repository, n.author, n.issueType, n.lastModified);
+                    obj.Show();
                     break;
                 case changeStateToResolved:
                     UpdateController.updateSelectedElementState(Repository, "resolved");

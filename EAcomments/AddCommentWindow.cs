@@ -14,7 +14,9 @@ namespace EAcomments
     public partial class AddCommentWindow : Form
     {
         private Repository Repository = null;
-        public static string passingAuthor;
+        public static string authorsName;
+        public static string issueType;
+        public static string lastModified;
 
         public AddCommentWindow(Repository Repository)
         {
@@ -34,10 +36,13 @@ namespace EAcomments
             string content = txtAreaCommentText.Text;
             string stereotype = commentTypeBox.Text;
 
-            //skuska
-            //passingAuthor = authorBox.Text;
-            /*MoreDetailsWindow formular = new MoreDetailsWindow(Repository);
-            formular.Show();*/
+            //get authors name, issue type and date of creating the note
+            //authorsName = authorBox.Text;
+            //issueType = errorTypeBox.Text;
+            //lastModified = dateTimePicker1.Text;
+            string author = authorBox.Text;
+            string issueType = errorTypeBox.Text;
+            string lastModified = dateTimePicker1.Text;
 
             if(content != null && content != "")
             {
@@ -45,7 +50,7 @@ namespace EAcomments
                 this.Close();
 
                 // create new Note and store it
-                Note note = new Note(stereotype, content, this.Repository);
+                Note note = new Note(stereotype, content, author, issueType, lastModified, this.Repository);
 
                 // add new Note into the Comment Browser Window
                 MyAddinClass.commentBrowserController.addNewElement(note);

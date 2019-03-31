@@ -18,6 +18,12 @@ namespace EAcomments
         public string content { get; set; }
         [JsonProperty("stereotype")]
         public string stereotype { get; set; }
+        [JsonProperty("author")]
+        public string author { get; set; }
+        [JsonProperty("issueType")]
+        public string issueType { get; set; }
+        [JsonProperty("lastModified")]
+        public string lastModified { get; set; }
         [JsonProperty("parentGUID")]
         public string parentGUID { get; set; }
         [JsonProperty("parentName")]
@@ -48,11 +54,11 @@ namespace EAcomments
         public Note() {}
 
         // default Note contstructor used by creating new Note in diagram via Right-click
-        public Note(string stereotype, string content, Repository Repository)
+        public Note(string stereotype, string content, string author, string issueType, string lastModified, Repository Repository)
         {
-
             this.content = content;
             this.stereotype = stereotype;
+
 
             // get current Diagram and Package 
             Diagram diagram = Repository.GetCurrentDiagram();
@@ -76,6 +82,8 @@ namespace EAcomments
             newNote = package.Elements.AddNew(this.stereotype, "Note");
             newNote.Stereotype = this.stereotype;
             newNote.Notes = this.content;
+            newNote.Author = this.author;
+            
             newNote.Update();
 
             // set new Note Tagged values
@@ -130,6 +138,9 @@ namespace EAcomments
             this.diagramName = diagram.Name;
             this.packageGUID = package.PackageGUID;
             this.packageName = package.Name;
+            this.author = author;
+            this.issueType = issueType;
+            this.lastModified = lastModified;
         }
 
         // Note constructor used by exporting
@@ -198,6 +209,9 @@ namespace EAcomments
                 this.GUID = e.ElementGUID;
                 this.content = e.Notes;
                 this.stereotype = e.Stereotype;
+                this.author = e.Author;
+                this.issueType = e.Priority;
+                //this.lastModified = e.Modified;
                 this.flag = addFlag(this.stereotype);
             }
             catch (Exception) { }
