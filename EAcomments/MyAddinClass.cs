@@ -190,7 +190,8 @@ namespace EAcomments
                     this.addCommentWindow.ShowDialog();
                     break;
                 case viewMoreDetails:
-                    this.addMoreDetailsWindow = new MoreDetailsWindow(Repository);
+                    //kto je autor
+                    this.addMoreDetailsWindow = new MoreDetailsWindow(Repository, "");
                     this.addMoreDetailsWindow.ShowDialog();
                     break;
                 case changeStateToResolved:

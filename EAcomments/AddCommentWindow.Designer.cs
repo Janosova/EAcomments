@@ -41,12 +41,18 @@
             this.errorTypeBox = new System.Windows.Forms.ComboBox();
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.authorBox = new System.Windows.Forms.ComboBox();
+            this.CardinalitiesBox = new System.Windows.Forms.GroupBox();
+            this.sourceLabel = new System.Windows.Forms.Label();
+            this.targetLabel = new System.Windows.Forms.Label();
+            this.sourceComboBox = new System.Windows.Forms.ComboBox();
+            this.targetComboBox = new System.Windows.Forms.ComboBox();
+            this.CardinalitiesBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // commentTextLabel
             // 
             this.commentTextLabel.AutoSize = true;
-            this.commentTextLabel.Location = new System.Drawing.Point(9, 126);
+            this.commentTextLabel.Location = new System.Drawing.Point(9, 205);
             this.commentTextLabel.Name = "commentTextLabel";
             this.commentTextLabel.Size = new System.Drawing.Size(100, 13);
             this.commentTextLabel.TabIndex = 0;
@@ -54,15 +60,16 @@
             // 
             // txtAreaCommentText
             // 
-            this.txtAreaCommentText.Location = new System.Drawing.Point(12, 151);
+            this.txtAreaCommentText.Location = new System.Drawing.Point(12, 230);
             this.txtAreaCommentText.Name = "txtAreaCommentText";
             this.txtAreaCommentText.Size = new System.Drawing.Size(352, 114);
             this.txtAreaCommentText.TabIndex = 1;
             this.txtAreaCommentText.Text = "";
+            this.txtAreaCommentText.TextChanged += new System.EventHandler(this.txtAreaCommentText_TextChanged);
             // 
             // addCommentButton
             // 
-            this.addCommentButton.Location = new System.Drawing.Point(289, 285);
+            this.addCommentButton.Location = new System.Drawing.Point(289, 364);
             this.addCommentButton.Name = "addCommentButton";
             this.addCommentButton.Size = new System.Drawing.Size(75, 23);
             this.addCommentButton.TabIndex = 2;
@@ -153,13 +160,62 @@
             this.authorBox.TabIndex = 12;
             this.authorBox.SelectedIndexChanged += new System.EventHandler(this.comboBox3_SelectedIndexChanged);
             // 
+            // CardinalitiesBox
+            // 
+            this.CardinalitiesBox.Controls.Add(this.targetComboBox);
+            this.CardinalitiesBox.Controls.Add(this.sourceComboBox);
+            this.CardinalitiesBox.Controls.Add(this.targetLabel);
+            this.CardinalitiesBox.Controls.Add(this.sourceLabel);
+            this.CardinalitiesBox.Enabled = false;
+            this.CardinalitiesBox.Location = new System.Drawing.Point(15, 137);
+            this.CardinalitiesBox.Name = "CardinalitiesBox";
+            this.CardinalitiesBox.Size = new System.Drawing.Size(349, 65);
+            this.CardinalitiesBox.TabIndex = 13;
+            this.CardinalitiesBox.TabStop = false;
+            this.CardinalitiesBox.Text = "Cardinalities";
+            // 
+            // sourceLabel
+            // 
+            this.sourceLabel.AutoSize = true;
+            this.sourceLabel.Location = new System.Drawing.Point(28, 25);
+            this.sourceLabel.Name = "sourceLabel";
+            this.sourceLabel.Size = new System.Drawing.Size(52, 13);
+            this.sourceLabel.TabIndex = 0;
+            this.sourceLabel.Text = "SOURCE";
+            // 
+            // targetLabel
+            // 
+            this.targetLabel.AutoSize = true;
+            this.targetLabel.Location = new System.Drawing.Point(173, 25);
+            this.targetLabel.Name = "targetLabel";
+            this.targetLabel.Size = new System.Drawing.Size(51, 13);
+            this.targetLabel.TabIndex = 1;
+            this.targetLabel.Text = "TARGET";
+            // 
+            // sourceComboBox
+            // 
+            this.sourceComboBox.FormattingEnabled = true;
+            this.sourceComboBox.Location = new System.Drawing.Point(86, 22);
+            this.sourceComboBox.Name = "sourceComboBox";
+            this.sourceComboBox.Size = new System.Drawing.Size(58, 21);
+            this.sourceComboBox.TabIndex = 2;
+            // 
+            // targetComboBox
+            // 
+            this.targetComboBox.FormattingEnabled = true;
+            this.targetComboBox.Location = new System.Drawing.Point(230, 22);
+            this.targetComboBox.Name = "targetComboBox";
+            this.targetComboBox.Size = new System.Drawing.Size(58, 21);
+            this.targetComboBox.TabIndex = 3;
+            // 
             // AddCommentWindow
             // 
             this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(388, 320);
+            this.ClientSize = new System.Drawing.Size(388, 399);
+            this.Controls.Add(this.CardinalitiesBox);
             this.Controls.Add(this.authorBox);
             this.Controls.Add(this.dateTimePicker1);
             this.Controls.Add(this.errorTypeBox);
@@ -175,6 +231,8 @@
             this.Name = "AddCommentWindow";
             this.Text = "Add comment to Element/Connector";
             this.Load += new System.EventHandler(this.AddCommentWindow_Load);
+            this.CardinalitiesBox.ResumeLayout(false);
+            this.CardinalitiesBox.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,5 +253,10 @@
         private System.Windows.Forms.ComboBox errorTypeBox;
         private System.Windows.Forms.DateTimePicker dateTimePicker1;
         private System.Windows.Forms.ComboBox authorBox;
+        private System.Windows.Forms.GroupBox CardinalitiesBox;
+        private System.Windows.Forms.ComboBox targetComboBox;
+        private System.Windows.Forms.ComboBox sourceComboBox;
+        private System.Windows.Forms.Label targetLabel;
+        private System.Windows.Forms.Label sourceLabel;
     }
 }

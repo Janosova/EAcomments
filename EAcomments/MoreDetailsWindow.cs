@@ -14,10 +14,11 @@ namespace EAcomments
     public partial class MoreDetailsWindow : Form
     {
         private Repository Repository = null;
-        public MoreDetailsWindow(Repository Repository)
+        public MoreDetailsWindow(Repository Repository, String author)
         {
             InitializeComponent();
             this.Repository = Repository;
+            this.AuthorTextBox.Text = author;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -28,6 +29,12 @@ namespace EAcomments
         private void MoreDetailsWindow_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void OkButton_Click(object sender, EventArgs e)
+        {
+            this.Visible = false;
+            this.Close();
         }
     }
 }

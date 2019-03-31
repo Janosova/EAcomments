@@ -23,6 +23,8 @@ namespace EAcomments
             this.initComboBoxCommentType();
             this.initComboBoxErrorType();
             this.authorName();
+            this.initSource();
+            this.initTarget();
         }
 
         //when button add comment is clicked
@@ -33,9 +35,9 @@ namespace EAcomments
             string stereotype = commentTypeBox.Text;
 
             //skuska
-            passingAuthor = authorBox.Text;
-            MoreDetailsWindow formular = new MoreDetailsWindow(Repository);
-            formular.Show();
+            //passingAuthor = authorBox.Text;
+            /*MoreDetailsWindow formular = new MoreDetailsWindow(Repository);
+            formular.Show();*/
 
             if(content != null && content != "")
             {
@@ -65,18 +67,20 @@ namespace EAcomments
             
         }
 
-        private void initComboBoxErrorType() {
-            errorTypeBox.Items.Add("Wrong description");
-            errorTypeBox.Items.Add("Wrong orientation");
+        private void initComboBoxErrorType()
+        {
+            errorTypeBox.Items.Add("Description");
+            errorTypeBox.Items.Add("Orientation");
             errorTypeBox.Items.Add("Missing connector");
-            errorTypeBox.Items.Add("Wrong type of connector");
-            errorTypeBox.Items.Add("Wrong cardinalities");
+            errorTypeBox.Items.Add("Type of connector");
+            errorTypeBox.Items.Add("Cardinalities");
             errorTypeBox.Items.Add("Other");
             errorTypeBox.SelectedIndex = 0;
 
         }
         
-        private void authorName() {
+        private void authorName()
+        {
             Collection authorCollection = Repository.GetElementSet("SELECT * FROM t_object", 2);
             IList<String> authors = new List<String>();
             foreach (Element e in authorCollection) {
@@ -84,6 +88,28 @@ namespace EAcomments
             }
             authorBox.Items.AddRange(authors.Distinct().ToArray());
             authorBox.SelectedIndex = 0;
+        }
+
+        private void initSource()
+        {
+            sourceComboBox.Items.Add("*");
+            sourceComboBox.Items.Add("0");
+            sourceComboBox.Items.Add("0..*");
+            sourceComboBox.Items.Add("0..1");
+            sourceComboBox.Items.Add("1");
+            sourceComboBox.Items.Add("1..");
+            sourceComboBox.Items.Add("1..*");
+        }
+
+        private void initTarget()
+        {
+            targetComboBox.Items.Add("*");
+            targetComboBox.Items.Add("0");
+            targetComboBox.Items.Add("0..*");
+            targetComboBox.Items.Add("0..1");
+            targetComboBox.Items.Add("1");
+            targetComboBox.Items.Add("1..");
+            targetComboBox.Items.Add("1..*");
         }
 
         //tieto triedy neviem preco sa mi vytvorili zatial zistit
@@ -97,9 +123,21 @@ namespace EAcomments
 
         }
 
+        //issue type combo box
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
- 
+            if (errorTypeBox.SelectedItem.Equals("Cardinalities"))
+            {
+                CardinalitiesBox.Enabled = true;
+
+            }
+            else
+            {
+                sourceComboBox.ResetText();
+                targetComboBox.ResetText();
+                CardinalitiesBox.Enabled = false;
+            }
+            
         }
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
@@ -118,6 +156,11 @@ namespace EAcomments
         }
 
         private void commentTypeLabel_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtAreaCommentText_TextChanged(object sender, EventArgs e)
         {
 
         }

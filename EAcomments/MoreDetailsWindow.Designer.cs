@@ -67,7 +67,6 @@
             // 
             // AuthorTextBox
             // 
-            this.AuthorTextBox.Enabled = false;
             this.AuthorTextBox.Location = new System.Drawing.Point(94, 15);
             this.AuthorTextBox.Name = "AuthorTextBox";
             this.AuthorTextBox.ReadOnly = true;
@@ -98,6 +97,7 @@
             this.OkButton.TabIndex = 6;
             this.OkButton.Text = "Ok";
             this.OkButton.UseVisualStyleBackColor = true;
+            this.OkButton.Click += new System.EventHandler(this.OkButton_Click);
             // 
             // MoreDetailsWindow
             // 
