@@ -79,6 +79,7 @@ namespace EAcomments
                     }
                 }
                 
+                //tu musim popridavat aj nove tagged values
                 // Loop through all Elements in Model and check if Note already exists in Model
                 foreach (Element e in collection)
                 {

@@ -18,12 +18,6 @@ namespace EAcomments
         public string content { get; set; }
         [JsonProperty("stereotype")]
         public string stereotype { get; set; }
-        [JsonProperty("author")]
-        public string author { get; set; }
-        [JsonProperty("issueType")]
-        public string issueType { get; set; }
-        [JsonProperty("lastModified")]
-        public string lastModified { get; set; }
         [JsonProperty("parentGUID")]
         public string parentGUID { get; set; }
         [JsonProperty("parentName")]
@@ -54,11 +48,10 @@ namespace EAcomments
         public Note() {}
 
         // default Note contstructor used by creating new Note in diagram via Right-click
-        public Note(string stereotype, string content, string author, string issueType, string lastModified, Repository Repository)
+        public Note(string stereotype, string content, Repository Repository)
         {
             this.content = content;
             this.stereotype = stereotype;
-
 
             // get current Diagram and Package 
             Diagram diagram = Repository.GetCurrentDiagram();
@@ -73,8 +66,7 @@ namespace EAcomments
             }
             catch
             {
-                selectedConnector = diagram.SelectedConnector;
-                //MessageBox.Show("" + selectedConnector.Name); 
+                selectedConnector = diagram.SelectedConnector; 
             }
 
             // create new Note
@@ -82,8 +74,6 @@ namespace EAcomments
             newNote = package.Elements.AddNew(this.stereotype, "Note");
             newNote.Stereotype = this.stereotype;
             newNote.Notes = this.content;
-            newNote.Author = this.author;
-            
             newNote.Update();
 
             // set new Note Tagged values
@@ -101,6 +91,15 @@ namespace EAcomments
                             break;
                         case "state":
                             taggedValue.Value = "unresolved";
+                            break;
+                        case "authorsName":
+                            taggedValue.Value = AddCommentWindow.author;
+                            break;
+                        case "issueType":
+                            taggedValue.Value = AddCommentWindow.issueType;
+                            break;
+                        case "lastModified":
+                            taggedValue.Value = AddCommentWindow.lastModified;
                             break;
                     }
                     TagValue tv = new TagValue(taggedValue.Name, taggedValue.Value);
@@ -138,9 +137,6 @@ namespace EAcomments
             this.diagramName = diagram.Name;
             this.packageGUID = package.PackageGUID;
             this.packageName = package.Name;
-            this.author = author;
-            this.issueType = issueType;
-            this.lastModified = lastModified;
         }
 
         // Note constructor used by exporting
@@ -163,11 +159,10 @@ namespace EAcomments
                 this.diagramGUID = XMLParser.parseXML("ea_guid", diagramData);
                 Diagram parentDiagram = Repository.GetDiagramByGuid(this.diagramGUID);
 
-
                 // get ParentElement Info (if there is any)
                 Element parentElement = null;
-                string parentElementName = "";
-                string parentElementGUID = "";
+                //string parentElementName = "";
+                //string parentElementGUID = "";
                 int parentID = parentDiagram.ParentID;
                 if (parentID != 0)
                 {
@@ -209,10 +204,9 @@ namespace EAcomments
                 this.GUID = e.ElementGUID;
                 this.content = e.Notes;
                 this.stereotype = e.Stereotype;
-                this.author = e.Author;
-                this.issueType = e.Priority;
-                //this.lastModified = e.Modified;
                 this.flag = addFlag(this.stereotype);
+
+
             }
             catch (Exception) { }
             

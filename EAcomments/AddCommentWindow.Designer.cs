@@ -42,10 +42,10 @@
             this.dateTimePicker1 = new System.Windows.Forms.DateTimePicker();
             this.authorBox = new System.Windows.Forms.ComboBox();
             this.CardinalitiesBox = new System.Windows.Forms.GroupBox();
-            this.sourceLabel = new System.Windows.Forms.Label();
-            this.targetLabel = new System.Windows.Forms.Label();
-            this.sourceComboBox = new System.Windows.Forms.ComboBox();
             this.targetComboBox = new System.Windows.Forms.ComboBox();
+            this.sourceComboBox = new System.Windows.Forms.ComboBox();
+            this.targetLabel = new System.Windows.Forms.Label();
+            this.sourceLabel = new System.Windows.Forms.Label();
             this.CardinalitiesBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -81,7 +81,7 @@
             // 
             this.commentTypeBox.AllowDrop = true;
             this.commentTypeBox.FormattingEnabled = true;
-            this.commentTypeBox.Location = new System.Drawing.Point(101, 11);
+            this.commentTypeBox.Location = new System.Drawing.Point(101, 40);
             this.commentTypeBox.Margin = new System.Windows.Forms.Padding(2);
             this.commentTypeBox.Name = "commentTypeBox";
             this.commentTypeBox.Size = new System.Drawing.Size(200, 21);
@@ -91,7 +91,7 @@
             // commentTypeLabel
             // 
             this.commentTypeLabel.AutoSize = true;
-            this.commentTypeLabel.Location = new System.Drawing.Point(9, 14);
+            this.commentTypeLabel.Location = new System.Drawing.Point(9, 43);
             this.commentTypeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.commentTypeLabel.Name = "commentTypeLabel";
             this.commentTypeLabel.Size = new System.Drawing.Size(77, 13);
@@ -119,7 +119,7 @@
             // IssueTypeLabel
             // 
             this.IssueTypeLabel.AutoSize = true;
-            this.IssueTypeLabel.Location = new System.Drawing.Point(9, 44);
+            this.IssueTypeLabel.Location = new System.Drawing.Point(12, 14);
             this.IssueTypeLabel.Name = "IssueTypeLabel";
             this.IssueTypeLabel.Size = new System.Drawing.Size(62, 13);
             this.IssueTypeLabel.TabIndex = 8;
@@ -137,7 +137,7 @@
             // errorTypeBox
             // 
             this.errorTypeBox.FormattingEnabled = true;
-            this.errorTypeBox.Location = new System.Drawing.Point(101, 41);
+            this.errorTypeBox.Location = new System.Drawing.Point(101, 11);
             this.errorTypeBox.Name = "errorTypeBox";
             this.errorTypeBox.Size = new System.Drawing.Size(200, 21);
             this.errorTypeBox.TabIndex = 10;
@@ -174,14 +174,21 @@
             this.CardinalitiesBox.TabStop = false;
             this.CardinalitiesBox.Text = "Cardinalities";
             // 
-            // sourceLabel
+            // targetComboBox
             // 
-            this.sourceLabel.AutoSize = true;
-            this.sourceLabel.Location = new System.Drawing.Point(28, 25);
-            this.sourceLabel.Name = "sourceLabel";
-            this.sourceLabel.Size = new System.Drawing.Size(52, 13);
-            this.sourceLabel.TabIndex = 0;
-            this.sourceLabel.Text = "SOURCE";
+            this.targetComboBox.FormattingEnabled = true;
+            this.targetComboBox.Location = new System.Drawing.Point(230, 22);
+            this.targetComboBox.Name = "targetComboBox";
+            this.targetComboBox.Size = new System.Drawing.Size(58, 21);
+            this.targetComboBox.TabIndex = 3;
+            // 
+            // sourceComboBox
+            // 
+            this.sourceComboBox.FormattingEnabled = true;
+            this.sourceComboBox.Location = new System.Drawing.Point(86, 22);
+            this.sourceComboBox.Name = "sourceComboBox";
+            this.sourceComboBox.Size = new System.Drawing.Size(58, 21);
+            this.sourceComboBox.TabIndex = 2;
             // 
             // targetLabel
             // 
@@ -192,21 +199,14 @@
             this.targetLabel.TabIndex = 1;
             this.targetLabel.Text = "TARGET";
             // 
-            // sourceComboBox
+            // sourceLabel
             // 
-            this.sourceComboBox.FormattingEnabled = true;
-            this.sourceComboBox.Location = new System.Drawing.Point(86, 22);
-            this.sourceComboBox.Name = "sourceComboBox";
-            this.sourceComboBox.Size = new System.Drawing.Size(58, 21);
-            this.sourceComboBox.TabIndex = 2;
-            // 
-            // targetComboBox
-            // 
-            this.targetComboBox.FormattingEnabled = true;
-            this.targetComboBox.Location = new System.Drawing.Point(230, 22);
-            this.targetComboBox.Name = "targetComboBox";
-            this.targetComboBox.Size = new System.Drawing.Size(58, 21);
-            this.targetComboBox.TabIndex = 3;
+            this.sourceLabel.AutoSize = true;
+            this.sourceLabel.Location = new System.Drawing.Point(28, 25);
+            this.sourceLabel.Name = "sourceLabel";
+            this.sourceLabel.Size = new System.Drawing.Size(52, 13);
+            this.sourceLabel.TabIndex = 0;
+            this.sourceLabel.Text = "SOURCE";
             // 
             // AddCommentWindow
             // 

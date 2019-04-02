@@ -35,7 +35,7 @@ namespace EAcomments
         // Method removes all un-connected Notes in Model 
         public static void sync(Repository Repository)
         {
-            Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error' OR Stereotype='suggestion'", 2);
+            Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error' OR Stereotype='suggestion' OR Stereotype='question Cardinality' OR Stereotype='warning Cardinality' OR Stereotype='error Cardinality' OR Stereotype='suggestion Cardinality'", 2);
             
             for(short i = 0; i < collection.Count; i++)
             {

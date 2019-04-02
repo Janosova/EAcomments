@@ -23,14 +23,15 @@ namespace EAcomments
 
             this.Repository.Models.Refresh();
 
-            collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error' OR Stereotype='suggestion'", 2);
+            collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error' OR Stereotype='suggestion' OR Stereotype='question Cardinality' OR Stereotype='warning Cardinality' OR Stereotype='error Cardinality' OR Stereotype='suggestion Cardinality'", 2);
 
             // loop through each element and get all required information about it
             foreach (Element e in collection)
             {
                 // create Note for export use
                 Note note = new Note(e, Repository);
-                notes.Add(note);
+                if (note.ID != 0 && note.GUID != null)
+                    notes.Add(note);
             }
 
             var JSONcontent = JsonConvert.SerializeObject(notes, Newtonsoft.Json.Formatting.Indented);

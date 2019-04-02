@@ -14,7 +14,7 @@ namespace EAcomments
     public partial class AddCommentWindow : Form
     {
         private Repository Repository = null;
-        public static string authorsName;
+        public static string author;
         public static string issueType;
         public static string lastModified;
 
@@ -36,21 +36,20 @@ namespace EAcomments
             string content = txtAreaCommentText.Text;
             string stereotype = commentTypeBox.Text;
 
-            //get authors name, issue type and date of creating the note
-            //authorsName = authorBox.Text;
-            //issueType = errorTypeBox.Text;
-            //lastModified = dateTimePicker1.Text;
-            string author = authorBox.Text;
-            string issueType = errorTypeBox.Text;
-            string lastModified = dateTimePicker1.Text;
+            author = authorBox.Text;
+            issueType = errorTypeBox.Text;
+            lastModified = dateTimePicker1.Text;
+            string sourceCardinality = sourceComboBox.Text;
+            string targetCardinality = targetComboBox.Text;
 
-            if(content != null && content != "")
+
+            if (content != null && content != "")
             {
                 this.Visible = false;
                 this.Close();
 
                 // create new Note and store it
-                Note note = new Note(stereotype, content, author, issueType, lastModified, this.Repository);
+                Note note = new Note(stereotype, content, this.Repository);
 
                 // add new Note into the Comment Browser Window
                 MyAddinClass.commentBrowserController.addNewElement(note);
@@ -63,13 +62,12 @@ namespace EAcomments
 
         // Initialization of ComboBox in Add Comment Window
         private void initComboBoxCommentType()
-        {
+        {     
             commentTypeBox.Items.Add("question");
             commentTypeBox.Items.Add("warning");
             commentTypeBox.Items.Add("error");
             commentTypeBox.Items.Add("suggestion");
             commentTypeBox.SelectedIndex = 0;
-            
         }
 
         private void initComboBoxErrorType()
@@ -81,7 +79,6 @@ namespace EAcomments
             errorTypeBox.Items.Add("Cardinalities");
             errorTypeBox.Items.Add("Other");
             errorTypeBox.SelectedIndex = 0;
-
         }
         
         private void authorName()
@@ -134,10 +131,17 @@ namespace EAcomments
             if (errorTypeBox.SelectedItem.Equals("Cardinalities"))
             {
                 CardinalitiesBox.Enabled = true;
-
+                commentTypeBox.Items.Clear();
+                commentTypeBox.Items.Add("question Cardinality");
+                commentTypeBox.Items.Add("warning Cardinality");
+                commentTypeBox.Items.Add("error Cardinality");
+                commentTypeBox.Items.Add("suggestion Cardinality");
+                commentTypeBox.SelectedIndex = 0;
             }
             else
             {
+                commentTypeBox.Items.Clear();
+                initComboBoxCommentType();
                 sourceComboBox.ResetText();
                 targetComboBox.ResetText();
                 CardinalitiesBox.Enabled = false;

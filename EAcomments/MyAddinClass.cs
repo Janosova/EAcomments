@@ -165,6 +165,11 @@ namespace EAcomments
             }
         }
 
+        public void getMoreDetailsInfo()
+        {
+
+        }
+
         // Method called when user clicks on one of the Menu options
         public void EA_MenuClick(EA.Repository Repository, string Location, string MenuName, string ItemName)
         {
@@ -190,30 +195,39 @@ namespace EAcomments
                     this.addCommentWindow.ShowDialog();
                     break;
                 case viewMoreDetails:
-                    //kto je autor
-                    //MoreDetailsWindow obj = new MoreDetailsWindow(Repository, AddCommentWindow.authorsName);
                     Diagram diagram = Repository.GetCurrentDiagram();
                     DiagramObject diagramObject = diagram.SelectedObjects.GetAt(0);
                     Element element = Repository.GetElementByID(diagramObject.ElementID);
-                    Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error'", 2);
+                    Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error' OR Stereotype='suggestion' OR Stereotype='question Cardinality' OR Stereotype='warning Cardinality' OR Stereotype='error Cardinality' OR Stereotype='suggestion Cardinality'", 2);
 
-                    Note n = null;
-                    foreach (Element e in collection)
+                    string authorsName = "";
+                    string issueType = "";
+                    string lastModified = "";
+                    foreach (Element ele in collection)
                     {
-                        if (e.ElementID.Equals(element.ElementID))
+                        if (element.ElementID == ele.ElementID)
                         {
-                            MessageBox.Show("rtest");
-                            n = new Note(e, Repository);
-                  
-                            break;
+                            foreach (TaggedValue taggedValue in ele.TaggedValues)
+                            {
+                                switch (taggedValue.Name)
+                                {
+                                    default:
+                                        break;
+                                    case "authorsName":
+                                        authorsName = taggedValue.Value;
+                                        break;
+                                    case "issueType":
+                                        issueType = taggedValue.Value;
+                                        break;
+                                    case "lastModified":
+                                        lastModified = taggedValue.Value;
+                                        break;
+                                }
+                            }
                         }
                     }
-                    //string temp = commentBrowserController.getNotes().Find(x => x.ID == element.ElementID).issueType;
-                    string author = element.Author;
-               //     string issueType = temp;
-                    //MessageBox.Show("C" + issueType);
-                    MoreDetailsWindow obj = new MoreDetailsWindow(Repository, n.author, n.issueType, n.lastModified);
-                    obj.Show();
+                    addMoreDetailsWindow = new MoreDetailsWindow(Repository, authorsName, issueType, lastModified);
+                    addMoreDetailsWindow.Show();
                     break;
                 case changeStateToResolved:
                     UpdateController.updateSelectedElementState(Repository, "resolved");
@@ -235,9 +249,10 @@ namespace EAcomments
             {
                 return false;
             }
-            DiagramObject diagramObject = diagram.SelectedObjects.GetAt(0);
+            
             try
             {
+                DiagramObject diagramObject = diagram.SelectedObjects.GetAt(0);
                 Element e = Repository.GetElementByID(diagramObject.ElementID);
                 var misc4 = e.MiscData[3];
 
@@ -246,6 +261,7 @@ namespace EAcomments
             }
             catch
             {
+                MessageBox.Show("Nie je vybraný žiadny element!");
                 return false;
             }
         }
@@ -281,19 +297,6 @@ namespace EAcomments
             }
             else
                 return false;
-        }
-
-        public static bool IsNoteElementSelected(Repository Repository)
-        {
-            return true;
-            /*Diagram diagram = Repository.GetCurrentDiagram();
-            EventProperty prop = Info.Get("ElementID");
-            int elementID = int.Parse(prop.Value.ToString());
-            Element selectedElement = Repository.GetElementByID(elementID);
-            if (selectedElement.Stereotype.Equals("question") || selectedElement.Stereotype.Equals("warning") || selectedElement.Stereotype.Equals("error") || selectedElement.Stereotype.Equals("suggestion"))
-                return true;
-            else
-                return false;*/
         }
 
         // Method deletes all Note in Comment Browser Windows those were within specified Package
@@ -372,6 +375,7 @@ namespace EAcomments
             return true;
         }
 
+        //tu potrebujem vytvarat asi este jedno okno v ktorom budem zistovat dodatocne info
         // Method notifies Add-in when new DiagramObject is created in Diagram
         public bool EA_OnPostNewDiagramObject(Repository Repository, EventProperties Info)
         {
@@ -413,7 +417,10 @@ namespace EAcomments
         // Method check if specified Element has observer Stereotype
         public static bool isObservedStereotype(Element e)
         {
-            if (e.Stereotype.Equals("question") || e.Stereotype.Equals("warning") || e.Stereotype.Equals("error") || e.Stereotype.Equals("suggestion"))
+            if (e.Stereotype.Equals("question") || e.Stereotype.Equals("warning") || e.Stereotype.Equals("error") || 
+                e.Stereotype.Equals("suggestion") || e.Stereotype.Equals("question Cardinality") || 
+                e.Stereotype.Equals("warning Cardinality") || e.Stereotype.Equals("error Cardinality") || 
+                e.Stereotype.Equals("suggestion Cardinality"))
             {
                 return true;
             }
