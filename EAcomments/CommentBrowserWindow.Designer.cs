@@ -216,9 +216,9 @@
 
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.BindingSource noteBindingSource;
-        private System.Windows.Forms.DataGridViewTextBoxColumn connectedToIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn connectedToGUIDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.DataGridViewTextBoxColumn connectorIDDataGridViewTextBoxColumn;
+        //private System.Windows.Forms.DataGridViewTextBoxColumn connectedToIDDataGridViewTextBoxColumn;
+        //private System.Windows.Forms.DataGridViewTextBoxColumn connectedToGUIDDataGridViewTextBoxColumn;
+        //private System.Windows.Forms.DataGridViewTextBoxColumn connectorIDDataGridViewTextBoxColumn;
         private System.Windows.Forms.Button syncButton;
         private System.Windows.Forms.Button importButton;
         private System.Windows.Forms.Button exportButton;

@@ -60,6 +60,9 @@ namespace EAcomments
                 collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='" + n.stereotype + "' ", 2);
                 string noteOriginGUID = null;
                 string noteState = null;
+                string noteAuthorsName = "";
+                string noteIssueType = "";
+                string noteLastModified = "";
                 foreach (TagValue tv in n.tagValues)
                 {
                     if (tv.name.Equals("origin"))
@@ -74,12 +77,20 @@ namespace EAcomments
                         case "state":
                             noteState = tv.value;
                             break;
+                        case "authorsName":
+                            noteAuthorsName = tv.value;
+                            break;
+                        case "issueType":
+                            noteIssueType = tv.value;
+                            break;
+                        case "lastModified":
+                            noteLastModified = tv.value;
+                            break;
                         default:
                             break;
                     }
                 }
                 
-                //tu musim popridavat aj nove tagged values
                 // Loop through all Elements in Model and check if Note already exists in Model
                 foreach (Element e in collection)
                 {
@@ -115,6 +126,15 @@ namespace EAcomments
                             case "state":
                                 taggedValue.Value = noteState;
                                 break;
+                            case "authorsName":
+                                taggedValue.Value = noteAuthorsName;
+                                break;
+                            case "issueType":
+                                taggedValue.Value = noteIssueType;
+                                break;
+                            case "lastModified":
+                                taggedValue.Value = noteLastModified;
+                                break;
                             default:
                                 break;
                         }
@@ -137,19 +157,29 @@ namespace EAcomments
                     // Generate all Connectors
                     foreach (RelatedElement relatedElement in n.relatedElements)
                     {
-                        for (short i = 0; i < diagram.DiagramObjects.Count; i++)
+                        if (!relatedElement.connectorID.Equals(-1))
                         {
-                            DiagramObject diagramObject = diagram.DiagramObjects.GetAt(i);
-                            if (diagramObject.ElementID == relatedElement.connectedToID)
+                            for (short i = 0; i < diagram.DiagramObjects.Count; i++)
                             {
-                                connectors++;
+                                DiagramObject diagramObject = diagram.DiagramObjects.GetAt(i);
+                                if (diagramObject.ElementID == relatedElement.connectedToID)
+                                {
+                                    connectors++;
+                                }
+                            }
+                            if (connectors > 0)
+                            {
+                                Connector connector = note.Connectors.AddNew("", "NoteLink");
+                                connector.SupplierID = relatedElement.connectedToID;
+                                connector.Update();
                             }
                         }
-                        if (connectors > 0)
+                        else
                         {
-                            Connector connector = note.Connectors.AddNew("", "NoteLink");
-                            connector.SupplierID = relatedElement.connectedToID;
-                            connector.Update();
+                            note.Subtype = 1;
+                            note.Update();
+                            Repository.Execute("UPDATE t_object SET PDATA4 = \"idref1=" + relatedElement.connectedToID + ";\" WHERE Object_ID = " + note.ElementID);
+                            diagram.Update();
                         }
                     }
                 }

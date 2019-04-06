@@ -43,7 +43,6 @@ namespace EAcomments
         [JsonProperty("tagValues")]
         public List<TagValue> tagValues { get; set; }
 
-
         //empty constructor for JSONdeserialization
         public Note() {}
 
@@ -59,14 +58,17 @@ namespace EAcomments
             
             //get current selected item or selected connector
             DiagramObject selectedItem = null;
-            Connector selectedConnector = null;
+            Connector selectedConnector = null;        
             try
             {
                 selectedItem = diagram.SelectedObjects.GetAt(0);
             }
             catch
             {
-                selectedConnector = diagram.SelectedConnector; 
+                selectedConnector = diagram.SelectedConnector;
+                this.relatedElements = new List<RelatedElement>();
+                RelatedElement re = new RelatedElement(0, selectedConnector.ConnectorID, selectedConnector.ConnectorGUID);
+                relatedElements.Add(re);
             }
 
             // create new Note
@@ -123,6 +125,7 @@ namespace EAcomments
             }
             catch
             {
+                // add connector between Diagram Element and Connector
                 newNote.Subtype = 1;
                 newNote.Update();
                 Repository.Execute("UPDATE t_object SET PDATA4 = \"idref1=" + selectedConnector.ConnectorID + ";\" WHERE Object_ID = " + newNote.ElementID);
@@ -161,8 +164,6 @@ namespace EAcomments
 
                 // get ParentElement Info (if there is any)
                 Element parentElement = null;
-                //string parentElementName = "";
-                //string parentElementGUID = "";
                 int parentID = parentDiagram.ParentID;
                 if (parentID != 0)
                 {
@@ -177,17 +178,31 @@ namespace EAcomments
                 this.packageName = package.Name;
                 this.packageGUID = package.PackageGUID;
 
+                //ked sa jedna o pridanie pozn ku konektoru tak Coll connectors vrati 0, lebo to nie je konektor co ich spaja
                 // get Connectors Info
                 Collection connectors = e.Connectors;
-                this.relatedElements = new List<RelatedElement>();
-                foreach (Connector c in connectors)
-                {
-                    Element connectedElement = Repository.GetElementByID(c.SupplierID);
-                    if (connectedElement.ElementGUID.Equals(e.ElementGUID))
+                // Note is connected to element
+                if (!connectors.Count.Equals(0))
+                {    
+                    this.relatedElements = new List<RelatedElement>();
+                    foreach (Connector c in connectors)
                     {
-                        connectedElement = Repository.GetElementByID(c.ClientID);
+                        Element connectedElement = Repository.GetElementByID(c.SupplierID);
+                        if (connectedElement.ElementGUID.Equals(e.ElementGUID))
+                        {
+                            connectedElement = Repository.GetElementByID(c.ClientID);
+                        }
+                        RelatedElement re = new RelatedElement(c.ConnectorID, connectedElement.ElementID, connectedElement.ElementGUID);
+                        relatedElements.Add(re);
                     }
-                    RelatedElement re = new RelatedElement(c.ConnectorID, connectedElement.ElementID, connectedElement.ElementGUID);
+                }
+                // Note is connected to connector
+                else
+                {
+                    this.relatedElements = new List<RelatedElement>();
+                    int connectorID = int.Parse(stringParser(e.MiscData[3]));
+                    Connector connectedConnector = Repository.GetConnectorByID(connectorID);
+                    RelatedElement re = new RelatedElement(-1, connectedConnector.ConnectorID, connectedConnector.ConnectorGUID);
                     relatedElements.Add(re);
                 }
 
@@ -210,7 +225,14 @@ namespace EAcomments
             }
             catch (Exception) { }
             
-        }  
+        }
+
+        private string stringParser(string originalString)
+        {
+            string[] separators = { "=", ";" };
+            string[] parsedString = originalString.Split(separators, System.StringSplitOptions.RemoveEmptyEntries);
+            return parsedString[1];
+        }
 
         private string addFlag(string type)
         {

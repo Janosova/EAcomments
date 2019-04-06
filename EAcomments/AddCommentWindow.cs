@@ -17,6 +17,8 @@ namespace EAcomments
         public static string author;
         public static string issueType;
         public static string lastModified;
+        public static string sourceCardinality;
+        public static string targetCardinality;
 
         public AddCommentWindow(Repository Repository)
         {
@@ -33,20 +35,25 @@ namespace EAcomments
         private void btnAddComment_click(object sender, EventArgs e)
         {
             //get text from Textarea and verify it
-            string content = txtAreaCommentText.Text;
             string stereotype = commentTypeBox.Text;
+            string content = txtAreaCommentText.Text;
 
             author = authorBox.Text;
             issueType = errorTypeBox.Text;
             lastModified = dateTimePicker1.Text;
-            string sourceCardinality = sourceComboBox.Text;
-            string targetCardinality = targetComboBox.Text;
+            sourceCardinality = sourceComboBox.Text;
+            targetCardinality = targetComboBox.Text;
 
-
-            if (content != null && content != "")
+            if (content != null && content != "" || sourceCardinality != null && 
+                sourceCardinality != "" || targetCardinality != null && targetCardinality != "")
             {
                 this.Visible = false;
                 this.Close();
+
+                if (MyAddinClass.isObservedCardinalityStereotype(stereotype))
+                    content = "SOURCE: " + sourceCardinality + "\tTARGET: " + targetCardinality + "\n" + txtAreaCommentText.Text;
+                else
+                    content = txtAreaCommentText.Text;
 
                 // create new Note and store it
                 Note note = new Note(stereotype, content, this.Repository);

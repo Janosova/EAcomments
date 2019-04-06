@@ -63,7 +63,7 @@ namespace EAcomments
                         technology = reader.ReadToEnd();
                     }
                 }
-                catch (Exception e)
+                catch
                 {
                     MessageBox.Show("Error Initializing Technology");
                 }
@@ -281,12 +281,6 @@ namespace EAcomments
             else { return false; }
         }
 
-        /*bool IsNoteSelected(Repository Repository)
-        {
-            Diagram diagram = Repository.GetCurrentDiagram();
-            if (diagram != null && diagram.SelectedObjects.Equals())
-        }*/
-
         //Method verifies if any connector in diagram is selected 
         public static bool IsConnectorSelected(Repository Repository)
         {
@@ -395,7 +389,7 @@ namespace EAcomments
                     commentBrowserController.addNewElement(n);
                 }
             }
-            catch(Exception e) {}
+            catch {}
 
             return true;
         }
@@ -428,6 +422,15 @@ namespace EAcomments
             {
                 return false;
             }
+        }
+
+        public static bool isObservedCardinalityStereotype(string stereotype)
+        {
+            if (stereotype == "question Cardinality" || stereotype == "warning Cardinality" ||
+                stereotype == "error Cardinality" || stereotype == "suggestion Cardinality")
+                return true;
+            else
+                return false;
         }
 
         // Method disconnects from EA Repository and cleans mess
