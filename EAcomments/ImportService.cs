@@ -63,6 +63,8 @@ namespace EAcomments
                 string noteAuthorsName = "";
                 string noteIssueType = "";
                 string noteLastModified = "";
+                string noteSourceCardinality = "";
+                string noteTargetCardinality = "";
                 foreach (TagValue tv in n.tagValues)
                 {
                     if (tv.name.Equals("origin"))
@@ -85,6 +87,12 @@ namespace EAcomments
                             break;
                         case "lastModified":
                             noteLastModified = tv.value;
+                            break;
+                        case "sourceCardinality":
+                            noteSourceCardinality = tv.value;
+                            break;
+                        case "targetCardinality":
+                            noteTargetCardinality = tv.value;
                             break;
                         default:
                             break;
@@ -135,6 +143,12 @@ namespace EAcomments
                             case "lastModified":
                                 taggedValue.Value = noteLastModified;
                                 break;
+                            case "sourceCardinality":
+                                taggedValue.Value = noteSourceCardinality;
+                                break;
+                            case "targetCardinality":
+                                taggedValue.Value = noteTargetCardinality;
+                                break;
                             default:
                                 break;
                         }
@@ -157,6 +171,7 @@ namespace EAcomments
                     // Generate all Connectors
                     foreach (RelatedElement relatedElement in n.relatedElements)
                     {
+                        // Generate connectors Note to element
                         if (!relatedElement.connectorID.Equals(-1))
                         {
                             for (short i = 0; i < diagram.DiagramObjects.Count; i++)
@@ -174,6 +189,7 @@ namespace EAcomments
                                 connector.Update();
                             }
                         }
+                        // Generate connector Note to connector
                         else
                         {
                             note.Subtype = 1;

@@ -50,13 +50,15 @@ namespace EAcomments
                 this.Visible = false;
                 this.Close();
 
-                if (MyAddinClass.isObservedCardinalityStereotype(stereotype))
-                    content = "SOURCE: " + sourceCardinality + "\tTARGET: " + targetCardinality + "\n" + txtAreaCommentText.Text;
-                else
-                    content = txtAreaCommentText.Text;
-
                 // create new Note and store it
                 Note note = new Note(stereotype, content, this.Repository);
+
+                // set source and target cardinality to show in the shape script
+                if (sourceCardinality != null && sourceCardinality != "" || targetCardinality != null && targetCardinality != "")
+                {
+                    UpdateController.assignTaggedValue(Repository, note.GUID, "sourceCardinality", sourceCardinality);
+                    UpdateController.assignTaggedValue(Repository, note.GUID, "targetCardinality", targetCardinality);
+                }
 
                 // add new Note into the Comment Browser Window
                 MyAddinClass.commentBrowserController.addNewElement(note);

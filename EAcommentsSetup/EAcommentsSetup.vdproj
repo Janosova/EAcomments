@@ -15,19 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_16806DD03F55917C35B1D675D87D556E"
-        "OwnerKey" = "8:_D41FC85549C24FD1A1BEAB71C00646F9"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_4CA2340F70FD8E5684366A995DE44A60"
         "OwnerKey" = "8:_D41FC85549C24FD1A1BEAB71C00646F9"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_518E0FF288DCF2C97F8F2ECC79169071"
+        "MsmKey" = "8:_B98DA033C077161E430B6EBE24A261D5"
         "OwnerKey" = "8:_D41FC85549C24FD1A1BEAB71C00646F9"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -40,7 +34,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_4CA2340F70FD8E5684366A995DE44A60"
+        "OwnerKey" = "8:_B98DA033C077161E430B6EBE24A261D5"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -52,7 +46,7 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_518E0FF288DCF2C97F8F2ECC79169071"
+        "OwnerKey" = "8:_4CA2340F70FD8E5684366A995DE44A60"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -73,6 +67,14 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+            }
         }
         "Release"
         {
@@ -89,6 +91,22 @@
         "PrivateKeyFile" = "8:"
         "TimeStampServer" = "8:"
         "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.6.1"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.6.1 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.6.1"
+                    }
+                }
+            }
         }
     }
     "Deployable"
@@ -118,26 +136,6 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_16806DD03F55917C35B1D675D87D556E"
-            {
-            "SourcePath" = "8:EAcomments.tlb"
-            "TargetName" = "8:EAcomments.tlb"
-            "Tag" = "8:"
-            "Folder" = "8:_24763F0A29D64391A4098BB56C80AC1B"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:2"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_4CA2340F70FD8E5684366A995DE44A60"
             {
             "AssemblyRegister" = "3:1"
@@ -169,14 +167,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_518E0FF288DCF2C97F8F2ECC79169071"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_B98DA033C077161E430B6EBE24A261D5"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_518E0FF288DCF2C97F8F2ECC79169071"
+                    "_B98DA033C077161E430B6EBE24A261D5"
                     {
                     "Name" = "8:Newtonsoft.Json.dll"
                     "Attributes" = "3:512"
@@ -267,21 +265,21 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:EAcommentsSetup"
-        "ProductCode" = "8:{E69DD2C1-37EF-4E33-A1F0-3AD15CC9A5F4}"
-        "PackageCode" = "8:{D041CFDF-68DD-4C5C-BEA4-1304DBA4767E}"
+        "ProductCode" = "8:{EB730ABC-31B6-4708-BC42-BC722D19BCA9}"
+        "PackageCode" = "8:{79125968-EB9C-425C-A3F2-EA60192D5D26}"
         "UpgradeCode" = "8:{CBEC9BB8-089A-48F6-8114-D1171EEA0B32}"
         "AspNetVersion" = "8:2.0.50727.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:FALSE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:FALSE"
-        "ProductVersion" = "8:1.0.0"
-        "Manufacturer" = "8:Patrik Melicherik"
+        "ProductVersion" = "8:1.1.0"
+        "Manufacturer" = "8:Patrik Melicherik, Katarína Jánošová"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:EAcommentsSetup"
         "Subject" = "8:"
-        "ARPCONTACT" = "8:Patrik Melicherik"
+        "ARPCONTACT" = "8:Patrik Melicherik, Katarína Jánošová"
         "Keywords" = "8:"
         "ARPCOMMENTS" = "8:Enterprise Architect 13.x+ reviewing and commenting plugin"
         "ARPURLINFOABOUT" = "8:"
@@ -839,7 +837,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_D41FC85549C24FD1A1BEAB71C00646F9"
             {
-            "SourcePath" = "8:..\\EAcomments\\obj\\Debug\\EAcomments.dll"
+            "SourcePath" = "8:\\\\Mac\\Home\\Desktop\\EAcomments\\EAcomments\\obj\\Release\\EAcomments.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_24763F0A29D64391A4098BB56C80AC1B"

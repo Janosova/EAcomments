@@ -103,6 +103,12 @@ namespace EAcomments
                         case "lastModified":
                             taggedValue.Value = AddCommentWindow.lastModified;
                             break;
+                        case "sourceCardinality":
+                            taggedValue.Value = AddCommentWindow.sourceCardinality;
+                            break;
+                        case "targetCardinality":
+                            taggedValue.Value = AddCommentWindow.targetCardinality;
+                            break;
                     }
                     TagValue tv = new TagValue(taggedValue.Name, taggedValue.Value);
                     this.tagValues.Add(tv);

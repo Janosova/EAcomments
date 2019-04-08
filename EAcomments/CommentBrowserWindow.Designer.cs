@@ -30,10 +30,6 @@
         {
             this.components = new System.ComponentModel.Container();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.syncButton = new System.Windows.Forms.Button();
-            this.importButton = new System.Windows.Forms.Button();
-            this.exportButton = new System.Windows.Forms.Button();
-            this.noteBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.flag = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gUIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -44,6 +40,10 @@
             this.packageGUIDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.packageNameDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.state = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.noteBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.syncButton = new System.Windows.Forms.Button();
+            this.importButton = new System.Windows.Forms.Button();
+            this.exportButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.noteBindingSource)).BeginInit();
             this.SuspendLayout();
@@ -79,44 +79,10 @@
             this.dataGridView1.RowTemplate.Height = 24;
             this.dataGridView1.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(594, 267);
+            this.dataGridView1.Size = new System.Drawing.Size(596, 267);
             this.dataGridView1.TabIndex = 0;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             this.dataGridView1.DoubleClick += new System.EventHandler(this.dataGridView1_DoubleClick);
-            // 
-            // syncButton
-            // 
-            this.syncButton.Location = new System.Drawing.Point(12, 3);
-            this.syncButton.Name = "syncButton";
-            this.syncButton.Size = new System.Drawing.Size(75, 23);
-            this.syncButton.TabIndex = 1;
-            this.syncButton.Text = "Sync";
-            this.syncButton.UseVisualStyleBackColor = true;
-            this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
-            // 
-            // importButton
-            // 
-            this.importButton.Location = new System.Drawing.Point(108, 3);
-            this.importButton.Name = "importButton";
-            this.importButton.Size = new System.Drawing.Size(75, 23);
-            this.importButton.TabIndex = 2;
-            this.importButton.Text = "Import";
-            this.importButton.UseVisualStyleBackColor = true;
-            this.importButton.Click += new System.EventHandler(this.importButton_Click);
-            // 
-            // exportButton
-            // 
-            this.exportButton.Location = new System.Drawing.Point(203, 3);
-            this.exportButton.Name = "exportButton";
-            this.exportButton.Size = new System.Drawing.Size(75, 23);
-            this.exportButton.TabIndex = 3;
-            this.exportButton.Text = "Export";
-            this.exportButton.UseVisualStyleBackColor = true;
-            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
-            // 
-            // noteBindingSource
-            // 
-            this.noteBindingSource.DataSource = typeof(EAcomments.Note);
             // 
             // iDDataGridViewTextBoxColumn
             // 
@@ -196,6 +162,40 @@
             this.state.HeaderText = "State";
             this.state.Name = "state";
             this.state.ReadOnly = true;
+            // 
+            // noteBindingSource
+            // 
+            this.noteBindingSource.DataSource = typeof(EAcomments.Note);
+            // 
+            // syncButton
+            // 
+            this.syncButton.Location = new System.Drawing.Point(12, 3);
+            this.syncButton.Name = "syncButton";
+            this.syncButton.Size = new System.Drawing.Size(75, 23);
+            this.syncButton.TabIndex = 1;
+            this.syncButton.Text = "Sync";
+            this.syncButton.UseVisualStyleBackColor = true;
+            this.syncButton.Click += new System.EventHandler(this.syncButton_Click);
+            // 
+            // importButton
+            // 
+            this.importButton.Location = new System.Drawing.Point(108, 3);
+            this.importButton.Name = "importButton";
+            this.importButton.Size = new System.Drawing.Size(75, 23);
+            this.importButton.TabIndex = 2;
+            this.importButton.Text = "Import";
+            this.importButton.UseVisualStyleBackColor = true;
+            this.importButton.Click += new System.EventHandler(this.importButton_Click);
+            // 
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(203, 3);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(75, 23);
+            this.exportButton.TabIndex = 3;
+            this.exportButton.Text = "Export";
+            this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
             // 
             // CommentBrowserWindow
             // 

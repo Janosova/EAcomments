@@ -1,0 +1,16 @@
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Release\EAcomments.dll
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Release\EAcomments.pdb
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Release\Newtonsoft.Json.dll
+\\Mac\Home\Desktop\EAcomments\EAcomments\bin\Release\Newtonsoft.Json.xml
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.csprojAssemblyReference.cache
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.AddCommentWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.CommentBrowserWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.ExportWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.ImportWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.MoreDetailsWindow.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.Properties.Resources.resources
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.csproj.GenerateResource.cache
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.csproj.CoreCompileInputs.cache
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.csproj.CopyComplete
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.dll
+\\Mac\Home\Desktop\EAcomments\EAcomments\obj\Release\EAcomments.pdb

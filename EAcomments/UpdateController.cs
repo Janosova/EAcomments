@@ -32,6 +32,16 @@ namespace EAcomments
             MyAddinClass.commentBrowserController.updateElementState(e.ElementGUID, stateValue);
         }
 
+        /*public static void updateCardinalities(Repository Repository, string sourceC, string targetC)
+        {
+            Diagram d = Repository.GetCurrentDiagram();
+            DiagramObject diagramObject = d.SelectedObjects.GetAt(0);
+            Element e = Repository.GetElementByID(diagramObject.ElementID);
+
+            assignTaggedValue(Repository, e.ElementGUID, "sourceCardinality", sourceC);
+            assignTaggedValue(Repository, e.ElementGUID, "targetCardinality", targetC);
+        }*/
+
         // Method removes all un-connected Notes in Model 
         public static void sync(Repository Repository)
         {
