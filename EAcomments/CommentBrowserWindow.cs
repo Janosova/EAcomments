@@ -32,6 +32,7 @@ namespace EAcomments
             this.dataGridView1.Refresh();
         }
 
+        // adding existing notes in diagram to comment browser window
         public void initExistingNotes(List<Note> notes, Repository Repository)
         {
             this.Repository = Repository;
@@ -42,6 +43,7 @@ namespace EAcomments
             initCheckBoxes();
         }
 
+        //inicialization of check boxes
         private void initCheckBoxes()
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)

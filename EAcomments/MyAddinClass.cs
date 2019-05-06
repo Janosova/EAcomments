@@ -136,16 +136,15 @@ namespace EAcomments
                         else { IsEnabled = false; }
                         break;
                     case viewMoreDetails:
-                        if (!IsConnectorSelected(Repository)) { IsEnabled = true; }
+                        if (isNoteSelected(Repository)) { IsEnabled = true; }
                         else { IsEnabled = false; }
-                        //zistit ci je to mozne skontrolovat cez isObservedStereotype
                         break;
                     case changeStateToResolved:
-                        if (getAndCheckElement(Repository)) { IsEnabled = true; }
+                        if (getAndCheckElement(Repository) && !isCommentResolved(Repository)) { IsEnabled = true; }
                         else { IsEnabled = false; }
                         break;
                     case changeStateToUnresolved:
-                        if (getAndCheckElement(Repository)) { IsEnabled = true; }
+                        if (getAndCheckElement(Repository) && isCommentResolved(Repository)) { IsEnabled = true; }
                         else { IsEnabled = false; }
                         break;
 
@@ -265,6 +264,41 @@ namespace EAcomments
                 return false;
             }
         }
+        
+        // Method verifies if selected comment is resolved
+        public bool isCommentResolved(Repository Repository)
+        {
+            Diagram diagram = Repository.GetCurrentDiagram();
+            DiagramObject diagramObject = diagram.SelectedObjects.GetAt(0);
+            Element e = Repository.GetElementByID(diagramObject.ElementID);
+            foreach (TaggedValue taggedValue in e.TaggedValues)
+                if (taggedValue.Name.Equals("state"))
+                {
+                    if (taggedValue.Value.Equals("resolved"))
+                        return true;
+                    else
+                        return false;
+                }
+                else
+                    continue;
+            return false;
+        }
+
+        // Method verifies if selected object is Note, with required stereotype
+        public bool isNoteSelected(Repository Repository)
+        {
+            Diagram diagram = Repository.GetCurrentDiagram();
+            if (IsConnectorSelected(Repository))
+            {
+                return false;
+            }
+            DiagramObject diagramObject = diagram.SelectedObjects.GetAt(0);
+            Element e = Repository.GetElementByID(diagramObject.ElementID);
+            if (isObservedStereotype(e))
+                return true;
+            else
+                return false;
+        }
 
         // Method Saves and Refreshs Diagram when changes were made
         public static void refreshDiagram(Repository Repository, Diagram d)
@@ -360,7 +394,7 @@ namespace EAcomments
 
                 if (isObservedStereotype(e))
                 {
-                    MessageBox.Show("Zmazal som elemenet: " + e.Notes + "!");
+                    MessageBox.Show("Bol odstránený komentár: " + e.Notes + "!");
                     commentBrowserController.deleteElement(e.ElementGUID);
                 }
             }
@@ -408,7 +442,7 @@ namespace EAcomments
             }
         }
 
-        // Method check if specified Element has observer Stereotype
+        // Method check if specified Element has observed Stereotype
         public static bool isObservedStereotype(Element e)
         {
             if (e.Stereotype.Equals("question") || e.Stereotype.Equals("warning") || e.Stereotype.Equals("error") || 
@@ -424,6 +458,7 @@ namespace EAcomments
             }
         }
 
+        // Method check if specified Element has observed cardinality Stereotype 
         public static bool isObservedCardinalityStereotype(string stereotype)
         {
             if (stereotype == "question Cardinality" || stereotype == "warning Cardinality" ||

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="EAcomments.AddCommentWindow">
+    <Position X="4.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QCEAAAIAACggARYCglGARIgaAMIAAgEAAAAgAACOSAA=</HashCode>
+      <FileName>AddCommentWindow.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EAcomments.ExportService">
+    <Position X="6" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAA=</HashCode>
+      <FileName>ExportService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EAcomments.ImportService">
+    <Position X="0.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAgAQAA=</HashCode>
+      <FileName>ImportService.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EAcomments.MyAddinClass">
+    <Position X="8.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AZBABEEAQABAgiEBAAJBgEIEGBCEDAAAAYQAgAAAQIA=</HashCode>
+      <FileName>MyAddinClass.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EAcomments.TagValue">
+    <Position X="1" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAEAAAAEACAAAAAAAAAAAAA=</HashCode>
+      <FileName>TagValue.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EAcomments.RelatedElement">
+    <Position X="2.75" Y="1" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>RelatedElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EAcomments.Note">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABCIBBAAIQAgAAAAIAAkBAEAAAAAAwAAAABAAHAAAA=</HashCode>
+      <FileName>Note.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

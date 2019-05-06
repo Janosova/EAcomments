@@ -134,7 +134,8 @@ namespace EAcomments
                 // add connector between Diagram Element and Connector
                 newNote.Subtype = 1;
                 newNote.Update();
-                Repository.Execute("UPDATE t_object SET PDATA4 = \"idref1=" + selectedConnector.ConnectorID + ";\" WHERE Object_ID = " + newNote.ElementID);
+                Repository.Execute("UPDATE t_object SET PDATA4 = \"idref1=" +
+                    selectedConnector.ConnectorID + ";\" WHERE Object_ID = " + newNote.ElementID);
                 diagram.Update();
             }
 
@@ -184,7 +185,6 @@ namespace EAcomments
                 this.packageName = package.Name;
                 this.packageGUID = package.PackageGUID;
 
-                //ked sa jedna o pridanie pozn ku konektoru tak Coll connectors vrati 0, lebo to nie je konektor co ich spaja
                 // get Connectors Info
                 Collection connectors = e.Connectors;
                 // Note is connected to element
@@ -244,7 +244,7 @@ namespace EAcomments
         {
             string flag = "";
 
-            switch (type)
+            switch (type.Trim().ToLower())
             {
                 case "question":
                     flag = "Q";
@@ -257,6 +257,18 @@ namespace EAcomments
                     break;
                 case "suggestion":
                     flag = "S";
+                    break;
+                case "question cardinality":
+                    flag = "QC";
+                    break;
+                case "warning cardinality":
+                    flag = "WC";
+                    break;
+                case "error cardinality":
+                    flag = "EC";
+                    break;
+                case "suggestion cardinality":
+                    flag = "SC";
                     break;
                 default:
                     flag = "-";

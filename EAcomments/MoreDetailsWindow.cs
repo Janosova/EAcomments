@@ -14,6 +14,8 @@ namespace EAcomments
     public partial class MoreDetailsWindow : Form
     {
         private Repository Repository = null;
+
+        // inicialize the informations about the comment
         public MoreDetailsWindow(Repository Repository, string author, string issueType, string lastModified)
         {
             InitializeComponent(); 

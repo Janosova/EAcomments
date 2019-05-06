@@ -60,9 +60,9 @@
             this.LastModifiedLabel.AutoSize = true;
             this.LastModifiedLabel.Location = new System.Drawing.Point(12, 87);
             this.LastModifiedLabel.Name = "LastModifiedLabel";
-            this.LastModifiedLabel.Size = new System.Drawing.Size(73, 13);
+            this.LastModifiedLabel.Size = new System.Drawing.Size(60, 13);
             this.LastModifiedLabel.TabIndex = 2;
-            this.LastModifiedLabel.Text = "Last Modified:";
+            this.LastModifiedLabel.Text = "Created At:";
             this.LastModifiedLabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // AuthorTextBox

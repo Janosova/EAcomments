@@ -69,16 +69,17 @@ namespace EAcomments
             }
         }
 
-        // Initialization of ComboBox in Add Comment Window
+        // Initialization of stereotype ComboBox in Add Comment Window
         private void initComboBoxCommentType()
         {     
-            commentTypeBox.Items.Add("question");
-            commentTypeBox.Items.Add("warning");
-            commentTypeBox.Items.Add("error");
-            commentTypeBox.Items.Add("suggestion");
+            commentTypeBox.Items.Add("Question");
+            commentTypeBox.Items.Add("Warning");
+            commentTypeBox.Items.Add("Error");
+            commentTypeBox.Items.Add("Suggestion");
             commentTypeBox.SelectedIndex = 0;
         }
 
+        // Initialization of issueType ComboBox in Add Comment Window
         private void initComboBoxErrorType()
         {
             errorTypeBox.Items.Add("Description");
@@ -90,6 +91,7 @@ namespace EAcomments
             errorTypeBox.SelectedIndex = 0;
         }
         
+        // Get the names of all authors of the project
         private void authorName()
         {
             Collection authorCollection = Repository.GetElementSet("SELECT * FROM t_object", 2);
@@ -101,6 +103,7 @@ namespace EAcomments
             authorBox.SelectedIndex = 0;
         }
 
+        // Initialization of source ComboBox in Add Comment Window
         private void initSource()
         {
             sourceComboBox.Items.Add("*");
@@ -112,6 +115,7 @@ namespace EAcomments
             sourceComboBox.Items.Add("1..*");
         }
 
+        // Initialization of target ComboBox in Add Comment Window
         private void initTarget()
         {
             targetComboBox.Items.Add("*");
@@ -123,7 +127,6 @@ namespace EAcomments
             targetComboBox.Items.Add("1..*");
         }
 
-        //tieto triedy neviem preco sa mi vytvorili zatial zistit
         private void AddCommentWindow_Load(object sender, EventArgs e)
         {
 
@@ -134,17 +137,17 @@ namespace EAcomments
 
         }
 
-        //issue type combo box
+        // When isuueType Cardinality is choose
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (errorTypeBox.SelectedItem.Equals("Cardinalities"))
             {
                 CardinalitiesBox.Enabled = true;
                 commentTypeBox.Items.Clear();
-                commentTypeBox.Items.Add("question Cardinality");
-                commentTypeBox.Items.Add("warning Cardinality");
-                commentTypeBox.Items.Add("error Cardinality");
-                commentTypeBox.Items.Add("suggestion Cardinality");
+                commentTypeBox.Items.Add("Question Cardinality");
+                commentTypeBox.Items.Add("Warning Cardinality");
+                commentTypeBox.Items.Add("Error Cardinality");
+                commentTypeBox.Items.Add("Suggestion Cardinality");
                 commentTypeBox.SelectedIndex = 0;
             }
             else

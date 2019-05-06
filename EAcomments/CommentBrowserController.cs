@@ -65,9 +65,8 @@ namespace EAcomments
         // Method called when new Note is posted into Model
         public void addNewElement(Note note)
         {
-            if (this.uc_commentBrowser != null)
+            if (this.uc_commentBrowser != null && note != null)
             {
-                //this.uc_commentBrowser.addItem(note);
                 this.uc_commentBrowser.bindingSourse.Add(note);
                 this.uc_commentBrowser.dataGridView.DataSource = this.uc_commentBrowser.bindingSourse;
 
@@ -79,7 +78,6 @@ namespace EAcomments
         {
             if(uc_commentBrowser != null)
             {
-                //uc_commentBrowser.deleteElement(elementGUID);
                 foreach (DataGridViewRow row in this.uc_commentBrowser.dataGridView.Rows)
                 {
                     Note n = (Note)row.DataBoundItem;
@@ -258,7 +256,10 @@ namespace EAcomments
             foreach (Element e in collection)
             {
                 Note note = new Note(e, this.Repository);
-                notes.Add(note);
+                if (note.stereotype != null && note.stereotype.Trim().Length != 0)
+                {
+                    notes.Add(note);
+                }
             }
 
             return notes;

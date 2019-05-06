@@ -32,27 +32,18 @@ namespace EAcomments
             MyAddinClass.commentBrowserController.updateElementState(e.ElementGUID, stateValue);
         }
 
-        /*public static void updateCardinalities(Repository Repository, string sourceC, string targetC)
-        {
-            Diagram d = Repository.GetCurrentDiagram();
-            DiagramObject diagramObject = d.SelectedObjects.GetAt(0);
-            Element e = Repository.GetElementByID(diagramObject.ElementID);
-
-            assignTaggedValue(Repository, e.ElementGUID, "sourceCardinality", sourceC);
-            assignTaggedValue(Repository, e.ElementGUID, "targetCardinality", targetC);
-        }*/
-
         // Method removes all un-connected Notes in Model 
         public static void sync(Repository Repository)
         {
             Collection collection = Repository.GetElementSet("SELECT Object_ID FROM t_object WHERE Stereotype='question' OR Stereotype='warning' OR Stereotype='error' OR Stereotype='suggestion' OR Stereotype='question Cardinality' OR Stereotype='warning Cardinality' OR Stereotype='error Cardinality' OR Stereotype='suggestion Cardinality'", 2);
-            
-            for(short i = 0; i < collection.Count; i++)
+
+            for (short i = 0; i < collection.Count; i++)
             {
-                Element e = collection.GetAt(i);
-                if (e.Connectors.Count == 0)
+                Element noteElement = collection.GetAt(i);
+
+                if ( noteElement.MiscData[3] == null && noteElement.Connectors.Count == 0)
                 {
-                    MyAddinClass.commentBrowserController.deleteElement(e.ElementGUID);
+                    MyAddinClass.commentBrowserController.deleteElement(noteElement.ElementGUID);
                     collection.DeleteAt(i, false);
                 }                
             }
